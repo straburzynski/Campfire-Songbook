@@ -11,7 +11,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import pl.straburzynski.campfiresongs.model.TextMessageDTO;
+import pl.straburzynski.campfiresongs.model.SongDTO;
 
 @RestController
 @Slf4j
@@ -25,9 +25,9 @@ public class WebSocketTextController {
     }
 
     @PostMapping("/send")
-    public ResponseEntity<?> sendMessage(@RequestBody TextMessageDTO textMessageDTO) {
-        log.info(textMessageDTO.toString());
-        template.convertAndSend("/topic/message", textMessageDTO);
+    public ResponseEntity<?> sendMessage(@RequestBody SongDTO songDTO) {
+        log.info(songDTO.toString());
+        template.convertAndSend("/topic/message", songDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -35,15 +35,15 @@ public class WebSocketTextController {
     // client will send message to /app/sendMessage
     // "app" prefix from destination prefix
     @MessageMapping("/sendMessage")
-    public void receiveMessage(@Payload TextMessageDTO textMessageDTO) {
-        log.info(textMessageDTO.toString());
+    public void receiveMessage(@Payload SongDTO songDTO) {
+        log.info(songDTO.toString());
         // receive message from client
     }
 
 
     @SendTo("/topic/message")
-    public TextMessageDTO broadcastMessage(@Payload TextMessageDTO textMessageDTO) {
-        log.info(textMessageDTO.toString());
-        return textMessageDTO;
+    public SongDTO broadcastMessage(@Payload SongDTO songDTO) {
+        log.info(songDTO.toString());
+        return songDTO;
     }
 }
