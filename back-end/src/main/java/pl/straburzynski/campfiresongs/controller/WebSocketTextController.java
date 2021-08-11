@@ -11,23 +11,35 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import pl.straburzynski.campfiresongs.model.SongDTO;
+import pl.straburzynski.campfiresongs.model.Song;
+import pl.straburzynski.campfiresongs.repository.SongRepository;
+
+import java.util.UUID;
 
 @RestController
 @Slf4j
 public class WebSocketTextController {
 
     private final SimpMessagingTemplate template;
+    private final SongRepository songRepository;
 
     @Autowired
-    public WebSocketTextController(SimpMessagingTemplate template) {
+    public WebSocketTextController(SimpMessagingTemplate template, SongRepository songRepository) {
         this.template = template;
+        this.songRepository = songRepository;
+    }
+
+    @PostMapping("/sendTest")
+    public ResponseEntity<?> sendTestMessage() {
+        Song song = songRepository.findAll().stream().findFirst().orElse(new Song(UUID.randomUUID(), "author", "title", "lyrics"));
+        template.convertAndSend("/topic/message", song);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/send")
-    public ResponseEntity<?> sendMessage(@RequestBody SongDTO songDTO) {
-        log.info(songDTO.toString());
-        template.convertAndSend("/topic/message", songDTO);
+    public ResponseEntity<?> sendMessage(@RequestBody Song song) {
+        log.info(song.toString());
+        template.convertAndSend("/topic/message", song);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -35,15 +47,15 @@ public class WebSocketTextController {
     // client will send message to /app/sendMessage
     // "app" prefix from destination prefix
     @MessageMapping("/sendMessage")
-    public void receiveMessage(@Payload SongDTO songDTO) {
-        log.info(songDTO.toString());
+    public void receiveMessage(@Payload Song song) {
+        log.info(song.toString());
         // receive message from client
     }
 
 
     @SendTo("/topic/message")
-    public SongDTO broadcastMessage(@Payload SongDTO songDTO) {
-        log.info(songDTO.toString());
-        return songDTO;
+    public Song broadcastMessage(@Payload Song song) {
+        log.info(song.toString());
+        return song;
     }
 }
