@@ -11,3 +11,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+p {
+  display: block;
+  position: relative;
+  white-space: pre;
+}
+
+.chord {
+  font-weight: bold;
+  color: red;
+  position: absolute;
+  top: -1em;
+}
