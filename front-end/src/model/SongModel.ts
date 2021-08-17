@@ -1,5 +1,6 @@
 export interface SongModel {
-    author: String,
-    title: String,
-    lyrics: String
+    id: string;
+    author: string,
+    title: string,
+    lyrics: string
 }
