@@ -1,3 +1,5 @@
-export const SOCKET_URL = 'http://localhost:8080/ws-message';
+import EnvConfig from './EnvConfig';
+
+export const SOCKET_URL = EnvConfig.url + 'ws-message';
 export const TOPICS = ['/topic/message'];
 export const DEBUG = true;

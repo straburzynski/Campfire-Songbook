@@ -3,13 +3,8 @@ import '../../index.css'
 import { SongModel } from '../../model/SongModel';
 
 const SongList = () => {
+
     const [songs, setSongs] = useState<SongModel[]>([])
-
-    useEffect(() => {
-        console.log('useEffect fire');
-
-        getSongs().then(r => console.log(r));
-    }, [])
 
     const getSongs = async () => {
         const response = await fetch("http://localhost:8080/songs");
@@ -17,16 +12,26 @@ const SongList = () => {
         setSongs(data);
     }
 
-    return <div>
+    useEffect(() => {
+        console.log("mount");
+        getSongs();
+    }, []);
+    useEffect(() => console.log("will update song"), [songs]);
+    useEffect(() => console.log("will update any"));
+    useEffect(() => () => console.log("will update song or unmount"), [songs]);
+    useEffect(() => () => console.log("unmount"), []);
+
+
+    return <>
         <ul>
             {songs.map(song => {
                     return <li key={song.id}>
-                        {song.author ? song.author : `--- - ${song.title}`}
+                        {song.author ? song.author : `---`} - {song.title}
                     </li>
                 }
             )}
         </ul>
-    </div>
+    </>
 }
 
 export default SongList
