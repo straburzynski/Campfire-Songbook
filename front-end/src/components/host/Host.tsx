@@ -1,25 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SongList from '../songList/SongList';
-import { SongModel } from '../../model/SongModel';
 import { SessionModel } from '../../model/SessionModel';
-import LyricsComponent from '../LyricsComponent';
+import LyricsComponent from '../lyrics/LyricsComponent';
 import API from '../../config/ApiConfig';
+import AppContext from '../../context/AppContext';
 
 export default function Host(props) {
 
     const [session, setSession] = useState<SessionModel>()
-    const [song, setSong] = useState<SongModel>()
+    const appContext = useContext(AppContext);
 
     useEffect(() => {
-        console.log('host use effect fire');
+        console.log('host - use effect fire');
         if (props.sessionName != null) {
-            // set session name to local storage
-            console.log('saving sessionName', props.sessionName);
-            localStorage.setItem("sessionName", props.sessionName);
-
-            // get db session
             createSession(props.sessionName)
-
         }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -28,9 +22,8 @@ export default function Host(props) {
             .then(res => {
                 const session: SessionModel = res.data;
                 setSession(session);
-                if (session.songId) {
-                    getSong(session.songId);
-                }
+                appContext.changeSessionName(session.name)
+                appContext.changeSongId(session.songId)
             })
             .catch(err => {
                 console.log(err);
@@ -38,22 +31,28 @@ export default function Host(props) {
         console.log('downloaded session', session);
     }
 
-    const getSong = async (songId: string) => {
-        API.get('songs/' + songId)
-            .then(res => {
-                const song = res.data;
-                setSong(song);
-                console.log('getSong:', song)
-            })
-    }
+    // const getSong = async (songId: string) => {
+    //     API.get('songs/' + songId)
+    //         .then(res => {
+    //             const song = res.data;
+    //             setSong(song);
+    //             console.log('getSong:', song)
+    //         })
+    // }
 
-    return <>
-        <pre>{props.sessionName}</pre>
-        <h2>Select song</h2>
-        <SongList/>
-        <hr/>
-        <h2>Selected song</h2>
-        <pre>{song?.id}</pre>
-        <LyricsComponent song={song}/>
-    </>
+    return (
+        <>
+            <hr/>
+            <pre>session name: {appContext?.sessionName}</pre>
+            <pre>song id: {appContext?.songId}</pre>
+            <hr/>
+            <pre>{props.sessionName}</pre>
+            <h2>Select song</h2>
+            <SongList session={session}/>
+            <hr/>
+            <h2>Selected song</h2>
+            {/*<pre>{song?.id}</pre>*/}
+            <LyricsComponent/>
+        </>
+    )
 }

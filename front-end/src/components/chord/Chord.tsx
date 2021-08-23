@@ -1,5 +1,5 @@
 import React from 'react';
-import '../index.css'
+import './chord.css'
 
 const Chord = (props) => {
     return <span className='chord'>{props.value}</span>;
