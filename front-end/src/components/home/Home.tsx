@@ -1,26 +1,24 @@
-import React, { useState } from 'react';
-import { Link, useHistory } from "react-router-dom";
+import React, { useContext, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import './home.css'
+import API from '../../config/ApiConfig';
+import { SessionModel } from '../../model/SessionModel';
+import AppContext from '../../context/AppContext';
 
 export default function Home() {
 
     const [sessionName, setSessionName] = useState(localStorage.getItem("sessionName") || undefined)
+    const appContext = useContext(AppContext);
 
     let history = useHistory();
 
-    // useEffect(() => {
-    //     console.log('home use effect fired');
-    //     console.log('sessionName', sessionName);
-    // }, [sessionName]);
-
     const saveSessionNameToLocalStorage = (sessionName): void => {
-        // set session name to local storage
         console.log('saving sessionName', sessionName);
         localStorage.setItem("sessionName", sessionName);
     }
 
     const handleButton = (url: string): void => {
-        if (sessionName === "" || sessionName == null) {
+        if (sessionName == null) {
             alert('no session name');
         } else {
             saveSessionNameToLocalStorage(sessionName)
@@ -28,18 +26,35 @@ export default function Home() {
         }
     }
 
-    const handleInputChange = (event): void => {
-        // event.preventDefault();
-        // console.log(event.target.value);
-        setSessionName(event.target.value);
+    const handleJoinButton = (): void => {
+        if (sessionName == null) {
+            alert('no session name');
+        } else {
+            getSession(sessionName);
+        }
+    }
+
+    const getSession = async (sessionName: string) => {
+        API.get<SessionModel>(`sessions/${sessionName}`)
+            .then(res => {
+                const session: SessionModel = res.data;
+                appContext.changeSessionName(session.name);
+                appContext.changeSongId(session.songId);
+                saveSessionNameToLocalStorage(sessionName);
+                history.push(`/join/${sessionName}`);
+            })
+            .catch(err => {
+                console.log(err);
+                alert('no session found');
+            })
     }
 
     return (
         <div>
-            <input type='text' value={sessionName || ''} onChange={handleInputChange}/>
+            <input type='text' value={sessionName || ''} onChange={event => setSessionName(event.target.value)}/>
             <ul>
                 <li onClick={() => handleButton('host')}>host</li>
-                <li onClick={() => handleButton('join')}>join</li>
+                <li onClick={handleJoinButton}>join</li>
                 <li><Link to="/songs">songs</Link></li>
             </ul>
         </div>
