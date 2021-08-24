@@ -21,7 +21,7 @@ import java.util.UUID;
 public class Session {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     @Type(type = "uuid-char")
     private UUID id;
 
@@ -29,7 +29,7 @@ public class Session {
     @Type(type = "uuid-char")
     private UUID songId;
 
-    @Column(name = "NAME")
+    @Column(name = "NAME", nullable = false)
     private String name;
 
     @Column(name = "PASSWORD")

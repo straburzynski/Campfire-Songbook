@@ -32,14 +32,14 @@ public class WebSocketTextController {
     @PostMapping("/sendTest")
     public ResponseEntity<?> sendTestMessage() {
         Song song = songRepository.findAll().stream().findFirst().orElse(new Song(UUID.randomUUID(), "author", "title", "lyrics"));
-        template.convertAndSend("/topic/message", song);
+        template.convertAndSend("/topic/message", song.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/send")
     public ResponseEntity<?> sendMessage(@RequestBody Song song) {
         log.info(song.toString());
-        template.convertAndSend("/topic/message", song);
+            template.convertAndSend("/topic/message", song.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

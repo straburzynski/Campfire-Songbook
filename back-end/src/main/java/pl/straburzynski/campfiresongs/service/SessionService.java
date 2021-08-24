@@ -1,11 +1,13 @@
 package pl.straburzynski.campfiresongs.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import pl.straburzynski.campfiresongs.exception.SessionNotFoundException;
 import pl.straburzynski.campfiresongs.model.Session;
 import pl.straburzynski.campfiresongs.repository.SessionRepository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -13,24 +15,43 @@ import java.util.UUID;
 public class SessionService {
 
     private final SessionRepository sessionRepository;
+    private final SimpMessagingTemplate template;
 
-    public SessionService(SessionRepository sessionRepository) {
+    public SessionService(SessionRepository sessionRepository,
+                          SimpMessagingTemplate template) {
         this.sessionRepository = sessionRepository;
+        this.template = template;
     }
 
-    public Session findByName(String name) {
-        return sessionRepository.findByName(name).orElseThrow(() -> new SessionNotFoundException(name));
+    public Optional<Session> findBySessionName(String sessionName) {
+        return sessionRepository.findByName(sessionName);
     }
 
-    public Session createSession(Session newSession) {
-        Session createdSession = sessionRepository.save(Session.builder()
-                .id(UUID.randomUUID())
-                .songId(newSession.getSongId())
-                .name(newSession.getName())
-                .password(newSession.getPassword())
-                .build());
-        log.debug("Session created, id: {}, name: {}", createdSession.getId(), createdSession.getName());
-        return createdSession;
+    public Session createSession(String sessionName) {
+        Session foundSession = findBySessionName(sessionName)
+                .orElseGet(() -> sessionRepository.save(
+                        Session.builder()
+                                .id(UUID.randomUUID())
+                                .songId(null)
+                                .name(sessionName)
+                                // todo password handling
+                                .password(null)
+                                .build()
+                        )
+                );
+        log.debug("Create session, id: {}, name: {}", foundSession.getId(), foundSession.getName());
+        return foundSession;
+    }
+
+    public Session updateSession(Session session) {
+        Session foundSession = sessionRepository.findByName(session.getName())
+                .orElseThrow(() -> new SessionNotFoundException(session.getName()));
+        foundSession.setSongId(session.getSongId());
+        Session updatedSession = sessionRepository.save(foundSession);
+        log.debug("Update session, name: {}, songId: {}", updatedSession.getName(), updatedSession.getSongId());
+
+        template.convertAndSend("/topic/message", updatedSession.getSongId());
+        return updatedSession;
     }
 
     public void deleteSession(UUID id) {
