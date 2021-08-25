@@ -50,7 +50,7 @@ public class SessionService {
         Session updatedSession = sessionRepository.save(foundSession);
         log.debug("Update session, name: {}, songId: {}", updatedSession.getName(), updatedSession.getSongId());
 
-        template.convertAndSend("/topic/message", updatedSession.getSongId());
+        template.convertAndSend("/topic/message/" + updatedSession.getName(), updatedSession.getSongId());
         return updatedSession;
     }
 
