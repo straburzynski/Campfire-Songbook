@@ -12,16 +12,12 @@ const RouteComponent = () => {
             <Route exact path="/">
                 <Home />
             </Route>
-            <Route
-                exact
-                path="/host/:sessionName"
-                render={(props) => <Host sessionName={props.match.params.sessionName} />}
-            />
-            <Route
-                exact
-                path="/join/:sessionName"
-                render={(props) => <Join sessionName={props.match.params.sessionName} />}
-            />
+            <Route exact path="/host/:sessionName">
+                <Host />
+            </Route>
+            <Route exact path="/join/:sessionName">
+                <Join />
+            </Route>
             <Route path="/songs">
                 <SongList />
             </Route>

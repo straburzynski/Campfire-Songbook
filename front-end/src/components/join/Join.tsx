@@ -1,19 +1,21 @@
 import React, { useContext, useEffect } from 'react';
 import LyricsComponent from '../lyrics/LyricsComponent';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { DEBUG, SOCKET_URL, TOPIC } from '../../config/WebSocketConfig';
 import SockJsClient from 'react-stomp';
 import AppContext from '../../context/AppContext';
 import API from '../../config/ApiConfig';
 import { SessionModel } from '../../model/SessionModel';
 
-export default function Join(props) {
-    const appContext = useContext(AppContext);
+export default function Join() {
+    let { sessionName } = useParams();
     let history = useHistory();
+    const appContext = useContext(AppContext);
 
     useEffect(() => {
         if (appContext.sessionName == null) {
-            getSession(props.sessionName);
+            console.log('ok', sessionName);
+            getSession(sessionName);
         }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
