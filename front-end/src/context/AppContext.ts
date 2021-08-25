@@ -5,7 +5,7 @@ const AppContext = React.createContext<AppContextModel>({
     sessionName: undefined,
     changeSessionName: () => {},
     songId: undefined,
-    changeSongId: () => {}
+    changeSongId: () => {},
 });
 
 export default AppContext;

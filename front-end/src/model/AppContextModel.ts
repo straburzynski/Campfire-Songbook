@@ -1,6 +1,6 @@
 export interface AppContextModel {
-    songId?: string,
+    songId?: string;
     changeSessionName?: any;
-    sessionName?: string
-    changeSongId?: any
+    sessionName?: string;
+    changeSongId?: any;
 }

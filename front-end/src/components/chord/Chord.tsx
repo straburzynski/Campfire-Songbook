@@ -1,8 +1,8 @@
 import React from 'react';
-import './chord.css'
+import './chord.css';
 
 const Chord = (props) => {
-    return <span className='chord'>{props.value}</span>;
-}
+    return <span className="chord">{props.value}</span>;
+};
 
-export default Chord
+export default Chord;
