@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import '../../index.css';
 import { SongModel } from '../../model/SongModel';
 import AppContext from '../../context/AppContext';
-import API from '../../config/ApiConfig';
-import { SessionModel } from '../../model/SessionModel';
+import { updateSession } from '../../service/SessionService';
 
 const SongList = (props) => {
     const appContext = useContext(AppContext);
@@ -28,14 +27,13 @@ const SongList = (props) => {
     const selectSong = (songId) => {
         if (props.session && props.session.name) {
             appContext.changeSongId(songId);
-            updateSession(props.session.name, songId);
+            handleSessionUpdate(props.session.name, songId);
         }
     };
-    const updateSession = async (sessionName: string, songId: string) => {
-        API.put('sessions/', { name: sessionName, songId: songId })
+    const handleSessionUpdate = (sessionName: string, songId: string): void => {
+        updateSession(sessionName, songId)
             .then((res) => {
-                const session: SessionModel = res.data;
-                appContext.changeSongId(session.songId);
+                appContext.changeSongId(res.songId);
             })
             .catch((err) => {
                 console.log(err);
@@ -61,4 +59,4 @@ const SongList = (props) => {
     );
 };
 
-export default SongList
+export default SongList;

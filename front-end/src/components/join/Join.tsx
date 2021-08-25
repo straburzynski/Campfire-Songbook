@@ -4,8 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { DEBUG, SOCKET_URL, TOPIC } from '../../config/WebSocketConfig';
 import SockJsClient from 'react-stomp';
 import AppContext from '../../context/AppContext';
-import API from '../../config/ApiConfig';
-import { SessionModel } from '../../model/SessionModel';
+import { getSession } from '../../service/SessionService';
 
 export default function Join() {
     let { sessionName } = useParams();
@@ -15,7 +14,7 @@ export default function Join() {
     useEffect(() => {
         if (appContext.sessionName == null) {
             console.log('ok', sessionName);
-            getSession(sessionName);
+            checkSession(sessionName);
         }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -33,12 +32,11 @@ export default function Join() {
         localStorage.setItem('sessionName', sessionName);
     };
 
-    const getSession = async (sessionName: string) => {
-        API.get<SessionModel>(`sessions/${sessionName}`)
+    const checkSession = (sessionName: string): void => {
+        getSession(sessionName)
             .then((res) => {
-                const session: SessionModel = res.data;
-                appContext.changeSessionName(session.name);
-                appContext.changeSongId(session.songId);
+                appContext.changeSessionName(res.name);
+                appContext.changeSongId(res.songId);
                 saveSessionNameToLocalStorage(sessionName);
             })
             .catch((err) => {

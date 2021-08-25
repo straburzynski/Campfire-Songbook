@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import SongList from '../songList/SongList';
 import { SessionModel } from '../../model/SessionModel';
 import LyricsComponent from '../lyrics/LyricsComponent';
-import API from '../../config/ApiConfig';
 import AppContext from '../../context/AppContext';
+import { createSession } from '../../service/SessionService';
 
 export default function Host() {
     let { sessionName } = useParams();
@@ -13,17 +13,16 @@ export default function Host() {
 
     useEffect(() => {
         if (sessionName != null) {
-            createSession(sessionName);
+            handleHostSession(sessionName);
         }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const createSession = async (sessionName: string) => {
-        API.post('sessions/', { name: sessionName })
+    const handleHostSession = (sessionName: string): void => {
+        createSession(sessionName)
             .then((res) => {
-                const session: SessionModel = res.data;
                 setSession(session);
-                appContext.changeSessionName(session.name);
-                appContext.changeSongId(session.songId);
+                appContext.changeSessionName(res.name);
+                appContext.changeSongId(res.songId);
             })
             .catch((err) => {
                 console.log(err);
@@ -33,13 +32,10 @@ export default function Host() {
 
     return (
         <>
-            <hr />
             <pre>session name: {appContext?.sessionName}</pre>
-            <pre>song id: {appContext?.songId}</pre>
             <h2>Select song</h2>
             <SongList session={session} />
             <hr />
-            <h2>Selected song</h2>
             <LyricsComponent />
         </>
     );
