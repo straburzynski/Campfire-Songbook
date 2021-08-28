@@ -1,0 +1,13 @@
+p {
+    display: block;
+    position: relative;
+}
+
+.menu-item {
+    padding: 0 1rem;
+}
+
+.modal-title {
+    align-items: stretch;
+    width: 100%;
+}

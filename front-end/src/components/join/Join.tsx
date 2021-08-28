@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import LyricsComponent from '../lyrics/LyricsComponent';
+import Lyrics from '../lyrics/Lyrics';
 import { useHistory, useParams } from 'react-router-dom';
 import { DEBUG, SOCKET_URL, TOPIC } from '../../config/WebSocketConfig';
 import SockJsClient from 'react-stomp';
@@ -13,7 +13,7 @@ export default function Join() {
 
     useEffect(() => {
         if (appContext.sessionName == null) {
-            console.log('ok', sessionName);
+            appContext.changeHost(false);
             checkSession(sessionName);
         }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -26,7 +26,6 @@ export default function Join() {
         console.log('Disconnected!!');
     };
 
-    // todo extract to service
     const saveSessionNameToLocalStorage = (sessionName): void => {
         console.log('saving sessionName', sessionName);
         localStorage.setItem('sessionName', sessionName);
@@ -47,7 +46,7 @@ export default function Join() {
     };
 
     let onMessageReceived = (msg) => {
-        console.log('received', msg);
+        console.log('received song', msg);
         appContext.changeSongId(msg);
     };
 
@@ -70,9 +69,8 @@ export default function Join() {
     };
 
     return (
-        <div>
-            <pre>Connected to session: {appContext.sessionName}</pre>
-            <LyricsComponent />
+        <div className="p-p-2">
+            <Lyrics />
             <WebSocketClient />
         </div>
     );

@@ -1,19 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import './index.css';
 import AppContext from './context/AppContext';
 import Header from './components/header/Header';
 import RouteComponent from './routing/RouteComponent';
+import { ScrollTop } from 'primereact/scrolltop';
+import { CreateAppContext } from './context/ContextConfig';
 
 const App = () => {
-    const appContext = useContext(AppContext);
-    const [sessionName, setSessionName] = useState(appContext.sessionName);
-    const changeSessionName = (newValue) => setSessionName(newValue);
-    const [songId, setSongId] = useState(appContext.songId);
-    const changeSongId = (songId) => setSongId(songId);
-
     return (
         <div>
-            <AppContext.Provider value={{ sessionName, changeSessionName, songId, changeSongId }}>
+            <ScrollTop />
+            <AppContext.Provider value={CreateAppContext()}>
                 <Header />
                 <RouteComponent />
             </AppContext.Provider>

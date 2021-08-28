@@ -1,6 +1,15 @@
-.chord {
+.lyrics p {
+    white-space: break-spaces;
+}
+
+.annotation {
     font-weight: bold;
     color: red;
     position: absolute;
     top: -1em;
+}
+
+.side {
+    font-weight: bold;
+    color: red;
 }

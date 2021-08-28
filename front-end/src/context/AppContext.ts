@@ -6,6 +6,10 @@ const AppContext = React.createContext<AppContextModel>({
     changeSessionName: () => {},
     songId: undefined,
     changeSongId: () => {},
+    host: false,
+    changeHost: () => {},
+    showChords: true,
+    changeShowChords: () => {},
 });
 
 export default AppContext;
