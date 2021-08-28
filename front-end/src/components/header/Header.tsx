@@ -12,10 +12,14 @@ import './header.css';
 
 const Header = () => {
     let history = useHistory();
-    const [visibleFullScreen, setVisibleFullScreen] = useState(false);
 
+    const [visibleFullScreen, setVisibleFullScreen] = useState(false);
     const appContext = useContext(AppContext);
     const menu = useRef<any>(null);
+
+    const closeFullScreen = () => {
+        setVisibleFullScreen(false);
+    };
 
     const currentSession = () => (
         <>
@@ -94,7 +98,7 @@ const Header = () => {
                 onHide={() => setVisibleFullScreen(false)}
                 icons={customIcons}
             >
-                <SongList />
+                <SongList onSongSelected={closeFullScreen} />
             </Sidebar>
         </div>
     );
