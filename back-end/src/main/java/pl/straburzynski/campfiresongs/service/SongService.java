@@ -5,6 +5,7 @@ import pl.straburzynski.campfiresongs.exception.SongNotFoundException;
 import pl.straburzynski.campfiresongs.model.Song;
 import pl.straburzynski.campfiresongs.repository.SongRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,4 +26,7 @@ public class SongService {
         return songRepository.findById(id).orElseThrow(() -> new SongNotFoundException(id));
     }
 
+    public List<Song> searchByTitle(String title) {
+        return new ArrayList<>();
+    }
 }
