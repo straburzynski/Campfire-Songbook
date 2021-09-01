@@ -18,7 +18,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("pl.straburzynski.campfiresongs.controller"))
+                .apis(RequestHandlerSelectors.basePackage("pl.straburzynski.campfiresongs"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(metaData());

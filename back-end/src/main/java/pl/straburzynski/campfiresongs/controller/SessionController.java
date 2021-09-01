@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.straburzynski.campfiresongs.exception.SessionNotFoundException;
-import pl.straburzynski.campfiresongs.model.Session;
+import pl.straburzynski.campfiresongs.model.SessionDto;
 import pl.straburzynski.campfiresongs.service.SessionService;
 
 import java.util.UUID;
@@ -27,18 +26,18 @@ public class SessionController {
     }
 
     @GetMapping("{name}")
-    public Session findByName(@PathVariable String name) {
-        return sessionService.findBySessionName(name).orElseThrow(() -> new SessionNotFoundException(name));
+    public SessionDto findByName(@PathVariable String name) {
+        return sessionService.findBySessionName(name);
     }
 
     @PostMapping
-    public Session createSession(@RequestBody Session session) {
-        return sessionService.createSession(session.getName());
+    public SessionDto createSession(@RequestBody SessionDto sessionDto) {
+        return sessionService.createSession(sessionDto.getName());
     }
 
     @PutMapping
-    public Session updateSession(@RequestBody Session session) {
-        return sessionService.updateSession(session);
+    public SessionDto updateSession(@RequestBody SessionDto sessionDto) {
+        return sessionService.updateSession(sessionDto);
     }
 
     @DeleteMapping("{id}")
