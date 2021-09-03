@@ -1,6 +1,5 @@
 package pl.straburzynski.campfiresongs.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -54,9 +53,11 @@ public class SessionService {
             foundSession.setSongData(null);
         }
         Session updatedSession = sessionRepository.save(foundSession);
-        log.debug("Update session, name: {}, songId: {}", updatedSession.getName(), updatedSession.getSong().getId());
+        log.debug("Update session, name: {}, temporary: {}, songId: {}",
+                updatedSession.getName(), updatedSession.isTemporary(),
+                updatedSession.isTemporary() ? "---" : updatedSession.getSong().getId());
 
-        template.convertAndSend("/topic/message/" + updatedSession.getName(), updatedSession.getSong());
+        template.convertAndSend("/topic/message/" + updatedSession.getName(), sessionDto.getSong());
         return sessionConverter.convertFromSession(updatedSession);
     }
 
