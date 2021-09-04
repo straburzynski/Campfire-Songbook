@@ -1,0 +1,11 @@
+.annotation {
+    font-weight: bold;
+    color: red;
+    position: absolute;
+    top: -1em;
+}
+
+.side {
+    font-weight: bold;
+    color: red;
+}
