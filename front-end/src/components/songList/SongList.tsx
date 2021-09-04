@@ -7,25 +7,25 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { SessionModel } from '../../model/SessionModel';
 import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
+import Lyrics from '../lyrics/Lyrics';
 
 const SongList = ({ onSongSelected }) => {
     const appContext = useContext(AppContext);
     const [songs, setSongs] = useState<SongModel[]>([]);
+    const [song, setSong] = useState<SongModel>();
     const [globalFilter, setGlobalFilter] = useState('');
-
-    const handleGetAllSongs = async () => {
-        getAllSongs().then((res: SongModel[]) => {
-            setSongs(res);
-        });
-    };
+    const [showDialog, setShowDialog] = useState(false);
 
     useEffect(() => {
+        const handleGetAllSongs = async () => {
+            getAllSongs().then((res: SongModel[]) => {
+                setSongs(res);
+            });
+        };
         handleGetAllSongs();
     }, []);
-    // useEffect(() => console.log('will update song'), [songs]);
-    // useEffect(() => console.log('will update any'));
-    // useEffect(() => () => console.log('will update song or unmount'), [songs]);
-    // useEffect(() => () => console.log('unmount'), []);
 
     const selectSong = (song: SongModel) => {
         if (song.id && appContext.host && appContext.sessionName) {
@@ -39,6 +39,7 @@ const SongList = ({ onSongSelected }) => {
             handleSessionUpdate(session);
         }
     };
+
     const handleSessionUpdate = (session: SessionModel): void => {
         updateSession(session)
             .then((res: SessionModel) => {
@@ -47,6 +48,62 @@ const SongList = ({ onSongSelected }) => {
             .catch((err) => {
                 console.log(err);
             });
+    };
+
+    const renderFooter = () => {
+        return (
+            <div>
+                <Button
+                    label="Close"
+                    icon="pi pi-times"
+                    onClick={() => onDialogHide(false)}
+                    className="p-button-text"
+                />
+                {appContext.host && (
+                    <Button label="Select" icon="pi pi-check" onClick={() => onDialogHide(true)} autoFocus />
+                )}
+            </div>
+        );
+    };
+
+    const onDialogHide = (selected: boolean) => {
+        setShowDialog(false);
+        if (selected && song) {
+            selectSong(song);
+        }
+        setSong(undefined);
+    };
+
+    const SongDetails = () => (
+        <>
+            <Dialog
+                className="song-details-dialog"
+                visible={showDialog}
+                style={{ width: '90vw' }}
+                footer={renderFooter}
+                onHide={() => onDialogHide(false)}
+                dismissableMask={true}
+                showHeader={false}
+            >
+                <Lyrics song={song} />
+            </Dialog>
+        </>
+    );
+
+    const showSong = (song: SongModel, e) => {
+        e.stopPropagation();
+        setShowDialog(true);
+        setSong(song);
+    };
+
+    const actionColumn = (song: SongModel) => {
+        return (
+            <Button
+                icon="pi pi-search"
+                className="p-button-rounded p-button-success p-button-outlined"
+                onClick={(e) => showSong(song, e)}
+            />
+        );
     };
 
     return (
@@ -73,8 +130,10 @@ const SongList = ({ onSongSelected }) => {
                 >
                     <Column field="author" header="author" sortable />
                     <Column field="title" header="title" sortable />
+                    <Column header="action" body={actionColumn} style={{ width: '100px' }} />
                 </DataTable>
             </div>
+            <SongDetails />
         </>
     );
 };
