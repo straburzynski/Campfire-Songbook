@@ -9,35 +9,46 @@ import SongList from '../songList/SongList';
 import { confirmDialog } from 'primereact/confirmdialog';
 import logo from '../../resources/logo.png';
 import './header.css';
+import ExternalSearch from '../externalSearch/ExternalSearch';
+import { Divider } from 'primereact/divider';
 
 const Header = () => {
     let history = useHistory();
 
-    const [visibleFullScreen, setVisibleFullScreen] = useState(false);
+    const [songListModal, setSongListModal] = useState(false);
+    const [externalSearchModal, setExternalSearchModal] = useState(false);
     const appContext = useContext(AppContext);
     const menu = useRef<any>(null);
 
-    const closeFullScreen = () => {
-        setVisibleFullScreen(false);
+    const closeSongListModal = () => {
+        setSongListModal(false);
+    };
+    const closeExternalSearchModal = () => {
+        setExternalSearchModal(false);
     };
 
-    const currentSession = () => (
-        <>
-            <p className={'menu-item'}> Current session:</p>
-            <p className={'menu-item'}>
-                <strong>{appContext?.sessionName}</strong>
-            </p>
-            <hr />
-        </>
-    );
     const items = [
         {
-            template: currentSession,
+            template: (
+              <>
+                  <p className="menu-item"> Current session:</p>
+                  <p className="menu-item p-text-bold">{appContext?.sessionName}</p>
+                  <Divider />
+              </>
+            ),
         },
         {
             label: 'Song list',
             icon: 'pi pi-list',
-            command: () => setVisibleFullScreen(true),
+            command: () => setSongListModal(true),
+        },
+        {
+            label: 'External search',
+            icon: 'pi pi-search',
+            command: () => setExternalSearchModal(true),
+        },
+        {
+            template: <Divider />,
         },
         {
             label: 'Exit session',
@@ -45,6 +56,7 @@ const Header = () => {
             command: () => confirmExitSession(),
         },
     ];
+
     const confirmExitSession = () => {
         confirmDialog({
             message: 'Are you sure you want to exit session?',
@@ -60,47 +72,51 @@ const Header = () => {
         history.push('/');
     };
 
-    const start = () => {
-        return (
-            <>
-                <img alt="logo" src={logo} height="40" className="p-mr-2" />
-                <div>Campfire Songbook</div>
-            </>
-        );
-    };
-    const end = () => {
-        return (
-            <>
-                <Menu model={items} popup ref={menu} id="popup_menu" />
-                <Button
-                    label=""
-                    icon="pi pi-bars"
-                    onClick={(event) => menu.current.toggle(event)}
-                    aria-controls="popup_menu"
-                    aria-haspopup
-                />
-            </>
-        );
-    };
-    const customIcons = (
-        <React.Fragment>
-            <div className="modal-title">Song list</div>
-        </React.Fragment>
-    );
+    const customIcons = <div className="modal-title">Song list</div>;
 
     return (
-        <div>
-            <Toolbar left={start} right={end} />
-            <Sidebar
-                visible={visibleFullScreen}
-                blockScroll={true}
-                fullScreen={true}
-                onHide={() => setVisibleFullScreen(false)}
-                icons={customIcons}
-            >
-                <SongList onSongSelected={closeFullScreen} />
-            </Sidebar>
-        </div>
+      <div>
+          <Toolbar
+            left={
+                <>
+                    <img alt="logo" src={logo} height="40" className="p-mr-2" />
+                    <div>Campfire Songbook</div>
+                </>
+            }
+            right={
+                <>
+                    <Menu model={items} popup ref={menu} id="popup_menu" />
+                    <Button
+                      label=""
+                      icon="pi pi-bars"
+                      onClick={(event) => menu.current.toggle(event)}
+                      aria-controls="popup_menu"
+                      aria-haspopup
+                    />
+                </>
+            }
+          />
+
+          <Sidebar
+            visible={songListModal}
+            blockScroll={true}
+            fullScreen={true}
+            onHide={() => setSongListModal(false)}
+            icons={customIcons}
+          >
+              <SongList onSongSelected={closeSongListModal} />
+          </Sidebar>
+
+          <Sidebar
+            visible={externalSearchModal}
+            blockScroll={true}
+            fullScreen={true}
+            onHide={() => setExternalSearchModal(false)}
+            icons={customIcons}
+          >
+              <ExternalSearch onSongSelected={closeExternalSearchModal} />
+          </Sidebar>
+      </div>
     );
 };
 export default Header;

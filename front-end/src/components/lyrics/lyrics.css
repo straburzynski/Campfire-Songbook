@@ -1,7 +1,10 @@
-p {
+.lyrics p {
+    white-space: pre-wrap;
     display: block;
     position: relative;
     min-height: 1em;
+    font-size: 1em;
+    font-family: monospace ;
 }
 
 .menu-item {

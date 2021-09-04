@@ -24,7 +24,7 @@ export default function Host() {
         if (sessionName != null) {
             handleHostSession(sessionName);
         }
-    }, [appContext, sessionName]);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className="p-p-2">
