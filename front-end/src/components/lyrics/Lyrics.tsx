@@ -1,63 +1,43 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { ANNOTATION, NEW_LINE, SEPARATOR, SIDE } from '../../config/ChordConfig';
 import Chord from '../chord/Chord';
-import AppContext from '../../context/AppContext';
 import { SongModel } from '../../model/SongModel';
-import { getSong } from '../../service/SongService';
-import './lyrics.css';
 import { ChordPositionEnum } from '../../model/ChordPosition';
+import './lyrics.css';
 
-const Lyrics = () => {
-    const appContext = useContext(AppContext);
-    const [song, setSong] = useState<SongModel>();
+const Lyrics = ({ song }) => {
 
-    useEffect(() => {
-        if (appContext.songId) {
-            console.log('song changed');
-            handleGetSong(appContext.songId);
+    const renderPart = (part: string, lineIndex: number, partIndex) => {
+        if (part.startsWith(ANNOTATION)) {
+            return (
+                <Chord
+                    key={lineIndex.toString() + partIndex}
+                    chordName={part.substr(1)}
+                    chordPosition={ChordPositionEnum.ANNOTATION}
+                />
+            );
+        } else if (part.startsWith(SIDE)) {
+            return (
+                <Chord
+                    key={lineIndex.toString() + partIndex}
+                    chordName={part.substr(1)}
+                    chordPosition={ChordPositionEnum.SIDE}
+                />
+            );
+        } else {
+            return part;
         }
-    }, [appContext.songId]); // eslint-disable-line react-hooks/exhaustive-deps
-
-    const handleGetSong = (songId: string): void => {
-        getSong(songId).then((res) => {
-            setSong(res);
-            console.log('getSong:', res);
-        });
     };
 
-    const noSongSelected = () => {
-        return <p>No song selected</p>;
-    };
-
-    const selectedSong = (song) => {
+    const selectedSong = (song: SongModel) => {
         return (
             <div>
                 <h3 className="p-mb-4">{`${song.title} - ${song.author}`}</h3>
                 <div className="lyrics">
-                    {song.lyrics.split(NEW_LINE).map((line, i) => {
+                    {song.lyrics.split(NEW_LINE).map((line, lineIndex) => {
                         return (
-                            <p key={i}>
-                                {line.split(SEPARATOR).map((part, index) => {
-                                    if (part.startsWith(ANNOTATION)) {
-                                        return (
-                                            <Chord
-                                                key={i.toString() + index}
-                                                chordName={part.substr(1)}
-                                                chordPosition={ChordPositionEnum.ANNOTATION}
-                                            />
-                                        );
-                                    } else if (part.startsWith(SIDE)) {
-                                        return (
-                                            <Chord
-                                                key={i.toString() + index}
-                                                chordName={part.substr(1)}
-                                                chordPosition={ChordPositionEnum.SIDE}
-                                            />
-                                        );
-                                    } else {
-                                        return part;
-                                    }
-                                })}
+                            <p key={lineIndex}>
+                                {line.split(SEPARATOR).map((part, partIndex) => renderPart(part, lineIndex, partIndex))}
                             </p>
                         );
                     })}
@@ -66,7 +46,7 @@ const Lyrics = () => {
         );
     };
 
-    return <div>{song ? selectedSong(song) : noSongSelected()}</div>;
+    return <div>{song ? selectedSong(song) : <p>No song selected</p>}</div>;
 };
 
 export default Lyrics;

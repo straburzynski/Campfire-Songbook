@@ -10,26 +10,25 @@ export default function Host() {
     const appContext = useContext(AppContext);
 
     useEffect(() => {
+        const handleHostSession = (sessionName: string): void => {
+            createSession(sessionName)
+                .then((res: SessionModel) => {
+                    appContext.changeSessionName(res.name);
+                    appContext.changeSong(res.song);
+                    appContext.changeHost(true);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        };
         if (sessionName != null) {
             handleHostSession(sessionName);
         }
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-    const handleHostSession = (sessionName: string): void => {
-        createSession(sessionName)
-            .then((res: SessionModel) => {
-                appContext.changeSessionName(res.name);
-                appContext.changeSongId(res.songId);
-                appContext.changeHost(true);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
+    }, [appContext, sessionName]);
 
     return (
-        <div className='p-p-2'>
-            <Lyrics />
+        <div className="p-p-2">
+            <Lyrics song={appContext.song} />
         </div>
     );
 }

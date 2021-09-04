@@ -5,8 +5,8 @@ export const CreateAppContext = () => {
     const appContext = useContext(AppContext);
     const [sessionName, setSessionName] = useState(appContext.sessionName);
     const changeSessionName = (newValue) => setSessionName(newValue);
-    const [songId, setSongId] = useState(appContext.songId);
-    const changeSongId = (songId) => setSongId(songId);
+    const [song, setSong] = useState(appContext.song);
+    const changeSong = (song) => setSong(song);
     const [host, setHost] = useState(appContext.host);
     const changeHost = (host) => setHost(host);
     const [showChords, setShowChords] = useState(appContext.showChords);
@@ -15,8 +15,8 @@ export const CreateAppContext = () => {
     return {
         sessionName,
         changeSessionName,
-        songId,
-        changeSongId,
+        song,
+        changeSong,
         host,
         changeHost,
         showChords,

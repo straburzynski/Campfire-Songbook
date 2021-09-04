@@ -46,7 +46,7 @@ export default function Home() {
         getSession(sessionName)
             .then((res) => {
                 appContext.changeSessionName(res.name);
-                appContext.changeSongId(res.songId);
+                appContext.changeSong(res.song);
                 saveSessionNameToLocalStorage(sessionName);
                 history.push(`/join/${sessionName}`);
             })

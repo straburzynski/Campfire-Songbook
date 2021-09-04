@@ -10,9 +10,6 @@ export function createSession(sessionName: string): Promise<SessionModel> {
     return API.post('sessions/', { name: sessionName }).then((result: AxiosResponse<SessionModel>) => result.data);
 }
 
-export function updateSession(sessionName: string, songId: string): Promise<SessionModel> {
-    return API.put('sessions/', {
-        name: sessionName,
-        songId: songId,
-    }).then((result: AxiosResponse<SessionModel>) => result.data);
+export function updateSession(session: SessionModel): Promise<SessionModel> {
+    return API.put('sessions/', session).then((result: AxiosResponse<SessionModel>) => result.data);
 }

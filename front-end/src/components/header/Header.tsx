@@ -55,7 +55,7 @@ const Header = () => {
     const exitSession = () => {
         localStorage.removeItem('sessionName');
         appContext.changeSessionName(undefined);
-        appContext.changeSongId(undefined);
+        appContext.changeSong(undefined);
         appContext.changeHost(false);
         history.push('/');
     };

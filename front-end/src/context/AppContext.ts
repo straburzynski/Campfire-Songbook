@@ -4,8 +4,8 @@ import { AppContextModel } from '../model/AppContextModel';
 const AppContext = React.createContext<AppContextModel>({
     sessionName: undefined,
     changeSessionName: () => {},
-    songId: undefined,
-    changeSongId: () => {},
+    song: undefined,
+    changeSong: () => {},
     host: false,
     changeHost: () => {},
     showChords: true,

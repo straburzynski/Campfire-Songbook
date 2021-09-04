@@ -1,6 +1,7 @@
 p {
     display: block;
     position: relative;
+    min-height: 1em;
 }
 
 .menu-item {

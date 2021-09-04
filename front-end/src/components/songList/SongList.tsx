@@ -8,7 +8,7 @@ import { Column } from 'primereact/column';
 import { SessionModel } from '../../model/SessionModel';
 import { InputText } from 'primereact/inputtext';
 
-const SongList = ({onSongSelected}) => {
+const SongList = ({ onSongSelected }) => {
     const appContext = useContext(AppContext);
     const [songs, setSongs] = useState<SongModel[]>([]);
     const [globalFilter, setGlobalFilter] = useState('');
@@ -29,15 +29,20 @@ const SongList = ({onSongSelected}) => {
 
     const selectSong = (song: SongModel) => {
         if (song.id && appContext.host && appContext.sessionName) {
-            appContext.changeSongId(song.id);
+            appContext.changeSong(song);
             onSongSelected();
-            handleSessionUpdate(appContext.sessionName, song.id);
+            const session: SessionModel = {
+                name: appContext.sessionName,
+                temporary: false,
+                song: song,
+            };
+            handleSessionUpdate(session);
         }
     };
-    const handleSessionUpdate = (sessionName: string, songId: string): void => {
-        updateSession(sessionName, songId)
+    const handleSessionUpdate = (session: SessionModel): void => {
+        updateSession(session)
             .then((res: SessionModel) => {
-                appContext.changeSongId(res.songId);
+                appContext.changeSong(res.song);
             })
             .catch((err) => {
                 console.log(err);
