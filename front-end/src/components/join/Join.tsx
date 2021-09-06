@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import Lyrics from '../lyrics/Lyrics';
+import Lyrics from '../shared/lyrics/Lyrics';
 import { useHistory, useParams } from 'react-router-dom';
 import { DEBUG, SOCKET_URL, TOPIC } from '../../config/WebSocketConfig';
 import SockJsClient from 'react-stomp';
@@ -11,8 +11,7 @@ import { toastConfig } from '../../config/ToastConfig';
 export default function Join() {
     let { sessionName } = useParams();
     let history = useHistory();
-    const appContext = useContext(AppContext);
-
+    const { setHost, setSessionName, song, setSong } = useContext(AppContext);
     const toast = useRef<any>(null);
 
     const showToast = () => {
@@ -20,10 +19,8 @@ export default function Join() {
     };
 
     useEffect(() => {
-        if (appContext.sessionName == null) {
-            appContext.changeHost(false);
-            checkSession(sessionName);
-        }
+        setHost(false);
+        checkSession(sessionName);
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     let onConnected = () => {
@@ -39,11 +36,10 @@ export default function Join() {
     };
 
     const checkSession = (sessionName: string): void => {
-        console.log('check session: ', sessionName);
         getSession(sessionName)
             .then((res) => {
-                appContext.changeSessionName(res.name);
-                appContext.changeSong(res.song);
+                setSessionName(res.name);
+                setSong(res.song);
                 saveSessionNameToLocalStorage(sessionName);
             })
             .catch((err) => {
@@ -54,16 +50,16 @@ export default function Join() {
     };
 
     let onMessageReceived = (msg: SongModel) => {
-        appContext.changeSong(msg);
+        setSong(msg);
     };
 
     return (
         <div className="p-p-2">
-            <Lyrics song={appContext.song} />
-            {appContext.sessionName && (
+            <Lyrics song={song} />
+            {sessionName && (
                 <SockJsClient
                     url={SOCKET_URL}
-                    topics={[TOPIC + appContext.sessionName]}
+                    topics={[TOPIC + sessionName]}
                     onConnect={onConnected}
                     onDisconnect={onDisconnected}
                     onMessage={(msg) => onMessageReceived(msg)}

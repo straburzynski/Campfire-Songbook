@@ -8,14 +8,14 @@ import { Sidebar } from 'primereact/sidebar';
 import { confirmDialog } from 'primereact/confirmdialog';
 import { Divider } from 'primereact/divider';
 import logo from '../../resources/logo.png';
-import SongList from '../songList/SongList';
-import ExternalSearch from '../externalSearch/ExternalSearch';
+import SongList from '../shared/songList/SongList';
+import ExternalSearch from '../shared/externalSearch/ExternalSearch';
 import './header.css';
 
 const Header = () => {
     let history = useHistory();
 
-    const appContext = useContext(AppContext);
+    const { sessionName, setSessionName, setSong, setHost } = useContext(AppContext);
     const [songListModal, setSongListModal] = useState(false);
     const [externalSearchModal, setExternalSearchModal] = useState(false);
     const menu = useRef<any>(null);
@@ -32,7 +32,7 @@ const Header = () => {
             template: (
                 <>
                     <p className="menu-item"> Current session:</p>
-                    <p className="menu-item p-text-bold">{appContext?.sessionName}</p>
+                    <p className="menu-item p-text-bold">{sessionName}</p>
                     <Divider />
                 </>
             ),
@@ -67,9 +67,9 @@ const Header = () => {
 
     const exitSession = () => {
         localStorage.removeItem('sessionName');
-        appContext.changeSessionName(undefined);
-        appContext.changeSong(undefined);
-        appContext.changeHost(false);
+        setSessionName(undefined);
+        setSong(undefined);
+        setHost(false);
         history.push('/');
     };
 

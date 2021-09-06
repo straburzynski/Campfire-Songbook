@@ -2,11 +2,11 @@ import { SongModel } from './SongModel';
 
 export interface AppContextModel {
     song?: SongModel;
-    changeSong?: any;
+    setSong?: any;
     sessionName?: string;
-    changeSessionName?: any;
+    setSessionName?: any;
     host?: boolean;
-    changeHost?: any;
-    showChords: boolean;
-    changeShowChords: any;
+    setHost?: any;
+    showChords?: boolean;
+    setShowChords?: any;
 }

@@ -1,12 +1,11 @@
 import React from 'react';
-import { ANNOTATION, NEW_LINE, SEPARATOR, SIDE } from '../../config/ChordConfig';
-import Chord from '../chord/Chord';
-import { SongModel } from '../../model/SongModel';
-import { ChordPositionEnum } from '../../model/ChordPosition';
+import { ANNOTATION, NEW_LINE, SEPARATOR, SIDE } from '../../../config/ChordConfig';
+import Chord from './chord/Chord';
+import { SongModel } from '../../../model/SongModel';
+import { ChordPositionEnum } from '../../../model/ChordPosition';
 import './lyrics.css';
 
 const Lyrics = ({ song }) => {
-
     const renderPart = (part: string, lineIndex: number, partIndex) => {
         if (part.startsWith(ANNOTATION)) {
             return (
@@ -29,7 +28,7 @@ const Lyrics = ({ song }) => {
         }
     };
 
-    const selectedSong = (song: SongModel) => {
+    const SelectedSong = (song: SongModel) => {
         return (
             <div>
                 <h3 className="p-mb-4">{`${song.title} - ${song.author}`}</h3>
@@ -46,7 +45,7 @@ const Lyrics = ({ song }) => {
         );
     };
 
-    return <div>{song ? selectedSong(song) : <p>No song selected</p>}</div>;
+    return <div>{song ? SelectedSong(song) : <p>No song selected</p>}</div>;
 };
 
 export default Lyrics;

@@ -1,20 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { SongModel } from '../../model/SongModel';
-import AppContext from '../../context/AppContext';
-import { updateSession } from '../../service/SessionService';
-import { getAllSongs } from '../../service/SongService';
+import { SongModel } from '../../../model/SongModel';
+import AppContext from '../../../context/AppContext';
+import { updateSession } from '../../../service/SessionService';
+import { getAllSongs } from '../../../service/SongService';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { SessionModel } from '../../model/SessionModel';
+import { SessionModel } from '../../../model/SessionModel';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import Lyrics from '../lyrics/Lyrics';
 
 const SongList = ({ onSongSelected }) => {
-    const appContext = useContext(AppContext);
+    const { song, setSong, sessionName, host } = useContext(AppContext);
     const [songs, setSongs] = useState<SongModel[]>([]);
-    const [song, setSong] = useState<SongModel>();
     const [globalFilter, setGlobalFilter] = useState('');
     const [showDialog, setShowDialog] = useState(false);
 
@@ -28,11 +27,11 @@ const SongList = ({ onSongSelected }) => {
     }, []);
 
     const selectSong = (song: SongModel) => {
-        if (song.id && appContext.host && appContext.sessionName) {
-            appContext.changeSong(song);
+        if (song.id && host && sessionName) {
+            setSong(song);
             onSongSelected();
             const session: SessionModel = {
-                name: appContext.sessionName,
+                name: sessionName,
                 temporary: false,
                 song: song,
             };
@@ -43,7 +42,7 @@ const SongList = ({ onSongSelected }) => {
     const handleSessionUpdate = (session: SessionModel): void => {
         updateSession(session)
             .then((res: SessionModel) => {
-                appContext.changeSong(res.song);
+                setSong(res.song);
             })
             .catch((err) => {
                 console.log(err);
@@ -59,9 +58,7 @@ const SongList = ({ onSongSelected }) => {
                     onClick={() => onDialogHide(false)}
                     className="p-button-text"
                 />
-                {appContext.host && (
-                    <Button label="Select" icon="pi pi-check" onClick={() => onDialogHide(true)} autoFocus />
-                )}
+                {host && <Button label="Select" icon="pi pi-check" onClick={() => onDialogHide(true)} autoFocus />}
             </div>
         );
     };

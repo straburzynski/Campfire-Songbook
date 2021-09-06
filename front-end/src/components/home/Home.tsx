@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getSession } from '../../service/SessionService';
 import AppContext from '../../context/AppContext';
@@ -10,18 +10,23 @@ import { Toast } from 'primereact/toast';
 import { toastConfig } from '../../config/ToastConfig';
 import './home.css';
 
-export default function Home() {
+const Home = () => {
     let history = useHistory();
-    const [sessionName, setSessionName] = useState(localStorage.getItem('sessionName') || undefined);
-    const appContext = useContext<AppContextModel>(AppContext);
+    const { setSong, sessionName, setSessionName } = useContext<AppContextModel>(AppContext);
     const toast = useRef<any>(null);
+
+    useEffect(() => {
+        const savedSessionName = localStorage.getItem('sessionName');
+        if (savedSessionName) {
+            setSessionName(savedSessionName);
+        }
+    }, []);
 
     const showToast = () => {
         toast.current.show(toastConfig('warn', 'Session not found'));
     };
 
     const saveSessionNameToLocalStorage = (sessionName): void => {
-        console.log('saving sessionName', sessionName);
         localStorage.setItem('sessionName', sessionName);
     };
 
@@ -45,14 +50,18 @@ export default function Home() {
     const checkSession = (sessionName: string): void => {
         getSession(sessionName)
             .then((res) => {
-                appContext.changeSessionName(res.name);
-                appContext.changeSong(res.song);
+                setSessionName(res.name);
+                setSong(res.song);
                 saveSessionNameToLocalStorage(sessionName);
                 history.push(`/join/${sessionName}`);
             })
             .catch(() => {
                 showToast();
             });
+    };
+
+    const handleOnChange = (e) => {
+        setSessionName(e.target.value);
     };
 
     return (
@@ -64,7 +73,7 @@ export default function Home() {
                     <div className="p-mb-2">Logo</div>
                     <div className="p-mb-2">Campfire Songbook</div>
                     <div className="p-mb-2">
-                        <InputText value={sessionName || ''} onChange={(event) => setSessionName(event.target.value)} />
+                        <InputText value={sessionName || ''} onChange={handleOnChange} />
                     </div>
                     <div className="p-mb-2">
                         <Button onClick={handleJoinButton} className="p-m-1">
@@ -80,4 +89,6 @@ export default function Home() {
             </Card>
         </>
     );
-}
+};
+
+export default Home;

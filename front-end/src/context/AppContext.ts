@@ -2,14 +2,10 @@ import React from 'react';
 import { AppContextModel } from '../model/AppContextModel';
 
 const AppContext = React.createContext<AppContextModel>({
-    sessionName: undefined,
-    changeSessionName: () => {},
     song: undefined,
-    changeSong: () => {},
+    sessionName: undefined,
     host: false,
-    changeHost: () => {},
     showChords: true,
-    changeShowChords: () => {},
 });
 
 export default AppContext;

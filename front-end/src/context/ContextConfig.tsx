@@ -1,25 +1,19 @@
-import { useContext, useState } from 'react';
-import AppContext from './AppContext';
+import { useState } from 'react';
 
 export const CreateAppContext = () => {
-    const appContext = useContext(AppContext);
-    const [sessionName, setSessionName] = useState(appContext.sessionName);
-    const changeSessionName = (newValue) => setSessionName(newValue);
-    const [song, setSong] = useState(appContext.song);
-    const changeSong = (song) => setSong(song);
-    const [host, setHost] = useState(appContext.host);
-    const changeHost = (host) => setHost(host);
-    const [showChords, setShowChords] = useState(appContext.showChords);
-    const changeShowChords = (showChords) => setShowChords(showChords);
+    const [sessionName, setSessionName] = useState();
+    const [song, setSong] = useState();
+    const [host, setHost] = useState();
+    const [showChords, setShowChords] = useState();
 
     return {
         sessionName,
-        changeSessionName,
+        setSessionName,
         song,
-        changeSong,
+        setSong,
         host,
-        changeHost,
+        setHost,
         showChords,
-        changeShowChords,
+        setShowChords,
     };
 };

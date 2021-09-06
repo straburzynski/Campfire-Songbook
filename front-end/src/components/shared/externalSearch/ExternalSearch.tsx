@@ -1,0 +1,146 @@
+import React, { useCallback, useContext, useState } from 'react';
+import AppContext from '../../../context/AppContext';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { SessionModel } from '../../../model/SessionModel';
+import { ExternalApiSongModel } from '../../../model/ExternalApiSongModel';
+import {
+    externalApiGetSong,
+    externalApiSearch,
+    externalApiUpdateSession,
+} from '../../../service/ExternalApiSongService';
+import { Button } from 'primereact/button';
+import { SongModel } from '../../../model/SongModel';
+import { updateSession } from '../../../service/SessionService';
+import SongDetailsDialog from './SongDetailsDialog';
+import { InputText } from 'primereact/inputtext';
+
+const ExternalSearch = ({ onSongSelected }) => {
+    const { song, setSong, host, sessionName } = useContext(AppContext);
+    const [songs, setSongs] = useState<ExternalApiSongModel[]>([]);
+    const [query, setQuery] = useState<string>('');
+    const [showDialog, setShowDialog] = useState(false);
+    const [temporarySong, setTemporarySong] = useState<SongModel>();
+
+    const onSetSong = useCallback((song) => setSong(song), [setSong]);
+
+    const handleSearchButton = () => {
+        externalApiSearch(query).then((res: ExternalApiSongModel[]) => {
+            setSongs(res);
+        });
+    };
+
+    const actionColumn = (song: ExternalApiSongModel) => {
+        return (
+            <Button
+                icon="pi pi-search"
+                className="p-button-rounded p-button-success p-button-outlined"
+                onClick={(e) => showSongDetails(song, e)}
+            />
+        );
+    };
+
+    const handleOnRowClick = (song: ExternalApiSongModel) => {
+        externalApiUpdateSession(song, sessionName as string)
+            .then((session) => {
+                setSong(session.song);
+                onSongSelected();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const selectSong = useCallback(() => {
+        if (host && sessionName) {
+            onSongSelected();
+            const session: SessionModel = {
+                name: sessionName,
+                temporary: true,
+                song: song,
+            };
+            handleSessionUpdate(session);
+        }
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const handleSessionUpdate = (session: SessionModel): void => {
+        updateSession(session)
+            .then((res: SessionModel) => {
+                setSong(res.song);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const showSongDetails = (song: ExternalApiSongModel, e) => {
+        e.stopPropagation();
+
+        externalApiGetSong(song)
+            .then((res: SongModel) => {
+                setTemporarySong(res);
+                setShowDialog(true);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const onShowDialog = useCallback(
+        (dialogVisibility: boolean) => {
+            setShowDialog(dialogVisibility);
+            onSongSelected();
+        },
+        [setShowDialog, onSongSelected]
+    );
+
+    const handleOnChange = useCallback(
+        (e) => {
+            setQuery(e.target.value);
+        },
+        [setQuery]
+    );
+
+    return (
+        <>
+            <div className="p-d-flex p-jc-end p-mb-2 p-mr-2">
+                <div className="p-grid p-justify-center">
+                    <div className="p-col-12">
+                        <div className="p-inputgroup">
+                            <InputText value={query} onChange={handleOnChange} placeholder="Search" />
+                            <Button onClick={handleSearchButton} icon="pi pi-search" className="p-button-secondary" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="card">
+                {songs.length > 0 ? (
+                    <DataTable
+                        value={songs}
+                        sortField="artist"
+                        sortOrder={1}
+                        onRowClick={(row) => handleOnRowClick(row.data)}
+                    >
+                        <Column field="artist" header="author" sortable />
+                        <Column field="title" header="title" sortable />
+                        <Column header="action" body={actionColumn} style={{ width: '100px' }} />
+                    </DataTable>
+                ) : (
+                    <p className="p-text-center">No songs found.</p>
+                )}
+            </div>
+            {temporarySong && (
+                <SongDetailsDialog
+                    song={temporarySong}
+                    host={host}
+                    showDialog={showDialog}
+                    onSongSelected={selectSong}
+                    onShowDialog={onShowDialog}
+                    onSetSong={onSetSong}
+                />
+            )}
+        </>
+    );
+};
+
+export default ExternalSearch;
