@@ -10,7 +10,7 @@ import { Divider } from 'primereact/divider';
 import logo from '../../resources/logo.png';
 import SongList from '../shared/songList/SongList';
 import ExternalSearch from '../shared/externalSearch/ExternalSearch';
-import './header.css';
+import './header.scss';
 
 const Header = () => {
     let history = useHistory();
@@ -76,18 +76,19 @@ const Header = () => {
     const customIcons = <div className="modal-title">Song list</div>;
 
     return (
-        <div>
+        <div className="app-toolbar">
             <Toolbar
                 left={
                     <>
-                        <img alt="logo" src={logo} height="40" className="p-mr-2" />
-                        <div>Campfire Songbook</div>
+                        <img alt="logo" src={logo} height="40" />
+                        <div className="toolbar-title">Campfire Songbook</div>
                     </>
                 }
                 right={
                     <>
-                        <Menu model={items} popup ref={menu} id="popup_menu" />
+                        <Menu className="app-menu" model={items} popup ref={menu} id="popup_menu" />
                         <Button
+                            className="white-secondary"
                             label=""
                             icon="pi pi-bars"
                             onClick={(event) => menu.current.toggle(event)}

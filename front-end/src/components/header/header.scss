@@ -1,0 +1,49 @@
+.app-toolbar {
+  .p-sidebar .p-sidebar-content {
+    padding: 0 !important;
+  }
+
+  .menu-item {
+    padding: 0 1rem;
+  }
+
+  .toolbar-title {
+    display: block;
+    margin-left: 1rem;
+    font-family: monospace;
+  }
+
+  .modal-title {
+    align-items: stretch;
+    width: 100%;
+  }
+
+
+  .p-toolbar {
+    background-color: var(--app-primary);
+    color: white;
+  }
+
+  .p-button.white-secondary {
+    background: #ffffff;
+    border-color: #f3f3f3;
+    line-height: 1.1rem;
+    color: var(--app-secondary);
+    box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, .05);
+
+    &:hover {
+      background: var(--app-secondary);
+      border-color: var(--app-secondary-dark);
+    }
+  }
+
+  .p-button.p-button-text {
+    background-color: transparent;
+    color: white;
+    border-color: var(--app-secondary);
+  }
+
+}
+
+
+

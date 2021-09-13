@@ -12,6 +12,7 @@
     "@types/react-dom": "^17.0.9",
     "axios": "^0.21.1",
     "classnames": "^2.3.1",
+    "node-sass": "^6.0.1",
     "primeflex": "^2.0.0",
     "primeicons": "^4.1.0",
     "primereact": "^6.5.1",
@@ -25,7 +26,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HOST=0.0.0.0 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

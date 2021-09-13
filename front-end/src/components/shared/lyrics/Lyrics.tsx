@@ -48,4 +48,4 @@ const Lyrics = ({ song }) => {
     return <div>{song ? SelectedSong(song) : <p>No song selected</p>}</div>;
 };
 
-export default Lyrics;
+export default React.memo(Lyrics);

@@ -1,11 +1,11 @@
 .annotation {
     font-weight: bold;
-    color: red;
+    color: var(--app-accent);
     position: absolute;
     top: -1em;
 }
 
 .side {
     font-weight: bold;
-    color: red;
+    color: var(--app-accent);
 }

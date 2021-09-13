@@ -3,6 +3,7 @@ import { Button } from 'primereact/button';
 import Lyrics from '../lyrics/Lyrics';
 import { Dialog } from 'primereact/dialog';
 import { SongModel } from '../../../model/SongModel';
+import './songDetailsDialog.scss';
 
 interface SongDetailsDialogModel {
     song: SongModel;
@@ -10,13 +11,12 @@ interface SongDetailsDialogModel {
     showDialog?: boolean;
     onSongSelected: Function;
     onShowDialog: Function;
-    onSetSong: Function;
 }
 
-const SongDetailsDialog = React.memo((props: SongDetailsDialogModel) => {
+const SongDetailsDialog = (props: SongDetailsDialogModel) => {
     const onDialogHide = useCallback((selected: boolean, song?: SongModel) => {
         if (selected) {
-            props.onSetSong(song);
+            props.onSongSelected(song);
         }
         props.onShowDialog(false);
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -32,10 +32,11 @@ const SongDetailsDialog = React.memo((props: SongDetailsDialogModel) => {
                             label="Close"
                             icon="pi pi-times"
                             onClick={() => onDialogHide(false)}
-                            className="p-button-text"
+                            className="p-confirm-dialog-reject"
                         />
                         {props.host && (
                             <Button
+                                className="p-confirm-dialog-accept"
                                 label="Select"
                                 icon="pi pi-check"
                                 onClick={() => onDialogHide(true, props.song)}
@@ -52,6 +53,6 @@ const SongDetailsDialog = React.memo((props: SongDetailsDialogModel) => {
             </Dialog>
         </>
     );
-});
+};
 
 export default SongDetailsDialog;

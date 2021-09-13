@@ -1,0 +1,9 @@
+.p-button.button-primary {
+        background: var(--app-primary);
+        border-color: var(--app-primary-dark);
+        color: white;
+        &:hover {
+            background: var(--app-primary);
+            border-color: var(--app-primary-dark);
+        }
+}

@@ -10,10 +10,12 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import Lyrics from '../lyrics/Lyrics';
+import './songList.scss';
 
 const SongList = ({ onSongSelected }) => {
-    const { song, setSong, sessionName, host } = useContext(AppContext);
+    const { setSong, sessionName, host } = useContext(AppContext);
     const [songs, setSongs] = useState<SongModel[]>([]);
+    const [previewSong, setPreviewSong] = useState<SongModel>();
     const [globalFilter, setGlobalFilter] = useState('');
     const [showDialog, setShowDialog] = useState(false);
 
@@ -26,7 +28,7 @@ const SongList = ({ onSongSelected }) => {
         handleGetAllSongs();
     }, []);
 
-    const selectSong = (song: SongModel) => {
+    const selectSong = (song: SongModel): void => {
         if (song.id && host && sessionName) {
             setSong(song);
             onSongSelected();
@@ -51,24 +53,32 @@ const SongList = ({ onSongSelected }) => {
 
     const renderFooter = () => {
         return (
-            <div>
+            <div className="app-dialog-buttons">
                 <Button
                     label="Close"
                     icon="pi pi-times"
                     onClick={() => onDialogHide(false)}
-                    className="p-button-text"
+                    className="p-confirm-dialog-reject"
                 />
-                {host && <Button label="Select" icon="pi pi-check" onClick={() => onDialogHide(true)} autoFocus />}
+                {host && (
+                    <Button
+                        className="p-confirm-dialog-accept"
+                        label="Select"
+                        icon="pi pi-check"
+                        onClick={() => onDialogHide(true)}
+                        autoFocus
+                    />
+                )}
             </div>
         );
     };
 
-    const onDialogHide = (selected: boolean) => {
+    const onDialogHide = (selected: boolean): void => {
         setShowDialog(false);
-        if (selected && song) {
-            selectSong(song);
+        if (selected && previewSong) {
+            selectSong(previewSong);
         }
-        setSong(undefined);
+        setPreviewSong(undefined);
     };
 
     const SongDetails = () => (
@@ -82,7 +92,7 @@ const SongList = ({ onSongSelected }) => {
                 dismissableMask={true}
                 showHeader={false}
             >
-                <Lyrics song={song} />
+                <Lyrics song={previewSong} />
             </Dialog>
         </>
     );
@@ -90,7 +100,7 @@ const SongList = ({ onSongSelected }) => {
     const showSong = (song: SongModel, e) => {
         e.stopPropagation();
         setShowDialog(true);
-        setSong(song);
+        setPreviewSong(song);
     };
 
     const actionColumn = (song: SongModel) => {

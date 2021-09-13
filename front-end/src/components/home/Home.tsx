@@ -3,12 +3,13 @@ import { useHistory } from 'react-router-dom';
 import { getSession } from '../../service/SessionService';
 import AppContext from '../../context/AppContext';
 import { InputText } from 'primereact/inputtext';
-import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { AppContextModel } from '../../model/AppContextModel';
 import { Toast } from 'primereact/toast';
 import { toastConfig } from '../../config/ToastConfig';
-import './home.css';
+import './home.scss';
+import logo from '../../resources/logo.png';
+import { SessionModel } from '../../model/SessionModel';
 
 const Home = () => {
     let history = useHistory();
@@ -20,10 +21,10 @@ const Home = () => {
         if (savedSessionName) {
             setSessionName(savedSessionName);
         }
-    }, []);
+    }, [sessionName, setSessionName]);
 
-    const showToast = () => {
-        toast.current.show(toastConfig('warn', 'Session not found'));
+    const showToast = (text: string): void => {
+        toast.current.show(toastConfig('warn', text));
     };
 
     const saveSessionNameToLocalStorage = (sessionName): void => {
@@ -31,8 +32,8 @@ const Home = () => {
     };
 
     const handleHostButton = (url: string): void => {
-        if (sessionName == null) {
-            showToast();
+        if (sessionName == null || sessionName === '') {
+            showToast('Enter session name');
         } else {
             saveSessionNameToLocalStorage(sessionName);
             history.push(`/${url}/${sessionName}`);
@@ -40,8 +41,8 @@ const Home = () => {
     };
 
     const handleJoinButton = (): void => {
-        if (sessionName == null) {
-            showToast();
+        if (sessionName == null || sessionName === '') {
+            showToast('Enter session name');
         } else {
             checkSession(sessionName);
         }
@@ -49,45 +50,54 @@ const Home = () => {
 
     const checkSession = (sessionName: string): void => {
         getSession(sessionName)
-            .then((res) => {
+            .then((res: SessionModel) => {
                 setSessionName(res.name);
                 setSong(res.song);
                 saveSessionNameToLocalStorage(sessionName);
                 history.push(`/join/${sessionName}`);
             })
             .catch(() => {
-                showToast();
+                showToast('Session not found');
             });
     };
 
-    const handleOnChange = (e) => {
+    const handleOnChange = (e): void => {
         setSessionName(e.target.value);
     };
 
     return (
-        <>
-            <Toast ref={toast} position="bottom-center" />
-
-            <Card className="home">
-                <div className="p-d-flex p-flex-column p-jc-center p-ai-center">
-                    <div className="p-mb-2">Logo</div>
-                    <div className="p-mb-2">Campfire Songbook</div>
-                    <div className="p-mb-2">
-                        <InputText value={sessionName || ''} onChange={handleOnChange} />
+        <div className="home">
+            <div className="flex-container">
+                <Toast ref={toast} position="bottom-center" />
+                <div className="row">
+                    <div className="flex-item p-mb-2">
+                        <img src={logo} className="logo" alt="Campfire Songs Logo" />
                     </div>
-                    <div className="p-mb-2">
-                        <Button onClick={handleJoinButton} className="p-m-1">
+                    <div className="flex-item p-mb-6 title">Campfire Songbook</div>
+                    <div className="flex-item p-mb-6">
+                        <InputText
+                            className="app-shadow"
+                            value={sessionName || ''}
+                            onChange={handleOnChange}
+                            placeholder="Session name"
+                        />
+                    </div>
+                    <div className="flex-item p-mb-2">
+                        <Button onClick={handleJoinButton} className="white-primary p-button-rounded p-m-1">
                             <i className="pi pi-users p-px-2" />
                             <span className="p-px-3">Join</span>
                         </Button>
-                        <Button onClick={() => handleHostButton('host')} className="p-m-1 p-button-secondary">
+                        <Button
+                            onClick={() => handleHostButton('host')}
+                            className="white-secondary p-button-rounded p-m-1"
+                        >
                             <i className="pi pi-user-plus p-px-2" />
                             <span className="p-px-3">Create</span>
                         </Button>
                     </div>
                 </div>
-            </Card>
-        </>
+            </div>
+        </div>
     );
 };
 

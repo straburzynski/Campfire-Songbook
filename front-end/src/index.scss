@@ -1,0 +1,51 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-width: 350px;
+}
+
+.p-toast {
+  width: 20rem !important;
+}
+
+:root {
+  --app-primary: #0e769c;
+  --app-primary-dark: #08698c;
+  --app-secondary: #00ae9d;
+  --app-secondary-dark: #00a191;
+  --app-accent: #d71111;
+  --app-accent-dark: #9C340E;
+}
+
+// confirmation dialog
+.p-dialog .p-dialog-content {
+  padding: 2.5em 1.5rem 2rem 1.5rem !important;
+}
+
+.p-dialog-footer {
+  .p-confirm-dialog-reject {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: var(--app-primary) !important;
+  }
+
+  .p-confirm-dialog-accept {
+    background-color: var(--app-secondary) !important;
+    border-color: var(--app-secondary-dark) !important;
+  }
+
+  .p-button.p-button-text:not(a):not(.p-disabled):active {
+    background: transparent !important;
+  }
+
+}
+
+// scroll to top button
+.p-scrolltop {
+  background-color: var(--app-primary) !important;
+}
+

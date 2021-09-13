@@ -14,20 +14,27 @@ import { SongModel } from '../../../model/SongModel';
 import { updateSession } from '../../../service/SessionService';
 import SongDetailsDialog from './SongDetailsDialog';
 import { InputText } from 'primereact/inputtext';
+import './externalSearch.scss';
 
 const ExternalSearch = ({ onSongSelected }) => {
-    const { song, setSong, host, sessionName } = useContext(AppContext);
+    const { setSong, host, sessionName } = useContext(AppContext);
     const [songs, setSongs] = useState<ExternalApiSongModel[]>([]);
     const [query, setQuery] = useState<string>('');
     const [showDialog, setShowDialog] = useState(false);
     const [temporarySong, setTemporarySong] = useState<SongModel>();
 
-    const onSetSong = useCallback((song) => setSong(song), [setSong]);
+    // const onSetSong = useCallback((song) => {
+    //     setSong(song)
+    // }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleSearchButton = () => {
         externalApiSearch(query).then((res: ExternalApiSongModel[]) => {
             setSongs(res);
         });
+    };
+    const handleOnSubmit = (e) => {
+        e.preventDefault();
+        handleSearchButton();
     };
 
     const actionColumn = (song: ExternalApiSongModel) => {
@@ -51,8 +58,9 @@ const ExternalSearch = ({ onSongSelected }) => {
             });
     };
 
-    const selectSong = useCallback(() => {
+    const selectSong = useCallback((song: SongModel) => {
         if (host && sessionName) {
+            setSong(song);
             onSongSelected();
             const session: SessionModel = {
                 name: sessionName,
@@ -86,12 +94,11 @@ const ExternalSearch = ({ onSongSelected }) => {
             });
     };
 
-    const onShowDialog = useCallback(
-        (dialogVisibility: boolean) => {
+    const onShowDialog = useCallback((dialogVisibility: boolean) => {
             setShowDialog(dialogVisibility);
-            onSongSelected();
+            // onSongSelected();
         },
-        [setShowDialog, onSongSelected]
+        [setShowDialog]
     );
 
     const handleOnChange = useCallback(
@@ -106,10 +113,15 @@ const ExternalSearch = ({ onSongSelected }) => {
             <div className="p-d-flex p-jc-end p-mb-2 p-mr-2">
                 <div className="p-grid p-justify-center">
                     <div className="p-col-12">
-                        <div className="p-inputgroup">
-                            <InputText value={query} onChange={handleOnChange} placeholder="Search" />
-                            <Button onClick={handleSearchButton} icon="pi pi-search" className="p-button-secondary" />
-                        </div>
+                        <form onSubmit={(event) => handleOnSubmit(event)} className="p-inputgroup">
+                            <InputText autoFocus value={query} onChange={handleOnChange} placeholder="Search" />
+                            <Button
+                                type="button"
+                                onClick={handleSearchButton}
+                                icon="pi pi-search"
+                                className="button-primary"
+                            />
+                        </form>
                     </div>
                 </div>
             </div>
@@ -136,7 +148,7 @@ const ExternalSearch = ({ onSongSelected }) => {
                     showDialog={showDialog}
                     onSongSelected={selectSong}
                     onShowDialog={onShowDialog}
-                    onSetSong={onSetSong}
+                    // onSetSong={onSetSong}
                 />
             )}
         </>
