@@ -15,7 +15,7 @@ export default function Join() {
     const toast = useRef<any>(null);
 
     const showToast = () => {
-        toast.current.show(toastConfig('warn', 'Session not found'));
+        toast?.current?.show(toastConfig('warn', 'Session not found'));
     };
 
     useEffect(() => {

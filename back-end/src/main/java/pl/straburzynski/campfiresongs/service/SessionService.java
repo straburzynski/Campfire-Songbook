@@ -3,12 +3,16 @@ package pl.straburzynski.campfiresongs.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.straburzynski.campfiresongs.exception.NotAuthorizedException;
 import pl.straburzynski.campfiresongs.exception.SessionNotFoundException;
 import pl.straburzynski.campfiresongs.model.Session;
 import pl.straburzynski.campfiresongs.model.SessionDto;
 import pl.straburzynski.campfiresongs.repository.SessionRepository;
 
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,6 +24,7 @@ public class SessionService {
     private final SimpMessagingTemplate template;
     private final SongConverter songConverter;
     private final SessionConverter sessionConverter;
+    private final PasswordEncoder passwordEncoder;
 
     public SessionDto findBySessionName(String sessionName) {
         Session session = sessionRepository.findByName(sessionName)
@@ -27,18 +32,29 @@ public class SessionService {
         return sessionConverter.convertFromSession(session);
     }
 
-    public SessionDto createSession(String sessionName) {
-        // todo password handling if session exists
-        Session foundSession = sessionRepository.findByName(sessionName)
-                .orElseGet(() -> sessionRepository.save(
-                        Session.builder()
-                                .id(UUID.randomUUID())
-                                .name(sessionName)
-                                .build()
-                        )
-                );
-        log.debug("Create session, id: {}, name: {}", foundSession.getId(), foundSession.getName());
-        return sessionConverter.convertFromSession(foundSession);
+    public SessionDto createSession(SessionDto sessionDto) {
+        Session session;
+        Optional<Session> foundSession = sessionRepository.findByName(sessionDto.getName());
+        if (foundSession.isPresent()) {
+            checkPassword(sessionDto, foundSession.get());
+            session = foundSession.get();
+        } else {
+            session = sessionRepository.save(
+                    Session.builder()
+                            .id(UUID.randomUUID())
+                            .name(sessionDto.getName())
+                            .password(passwordEncoder.encode(sessionDto.getPassword()))
+                            .build()
+            );
+        }
+        log.debug("Create session, id: {}, name: {}", session.getId(), session.getName());
+        return sessionConverter.convertFromSession(session);
+    }
+
+    private void checkPassword(SessionDto sessionDto, Session session) {
+        if (Objects.isNull(sessionDto.getPassword()) || !passwordEncoder.matches(sessionDto.getPassword(), session.getPassword())) {
+            throw new NotAuthorizedException();
+        }
     }
 
     public SessionDto updateSession(SessionDto sessionDto) {

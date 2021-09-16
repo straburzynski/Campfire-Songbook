@@ -32,7 +32,7 @@ public class SessionController {
 
     @PostMapping
     public SessionDto createSession(@RequestBody SessionDto sessionDto) {
-        return sessionService.createSession(sessionDto.getName());
+        return sessionService.createSession(sessionDto);
     }
 
     @PutMapping

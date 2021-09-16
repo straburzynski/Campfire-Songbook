@@ -47,7 +47,6 @@
   .p-button.white-primary {
     background: #ffffff;
     border-color: #f3f3f3;
-    line-height: 2rem;
     color: var(--app-primary);
     box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, .05);
 
@@ -68,6 +67,39 @@
       background: var(--app-secondary);
       border-color: var(--app-secondary-dark);
     }
+  }
+
+  .p-inputtext {
+    box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, .05);
+    border-radius: 2rem;
+  }
+
+  .start-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .session-type-select {
+
+    .p-button.p-highlight:hover,.p-button.p-highlight {
+      background: var(--app-primary);
+      border-color: var(--app-primary-dark);
+      color: #ffffff;
+    }
+
+    .p-button {
+      box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, .05);
+      overflow: hidden;
+      width: 40%;
+
+    }
+    .p-button:first-child {
+      border-radius: 2rem 0 0 2rem!important;
+    }
+    .p-button:last-child {
+      border-radius: 0 2rem 2rem 0!important;
+    }
+
   }
 
 }

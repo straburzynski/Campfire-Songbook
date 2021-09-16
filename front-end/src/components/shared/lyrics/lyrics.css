@@ -2,8 +2,8 @@
     white-space: pre-wrap;
     display: block;
     position: relative;
-    min-height: 1em;
-    font-size: 1em;
+    min-height: 1rem;
+    font-size: 1rem;
     font-family: monospace ;
 }
 

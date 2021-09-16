@@ -15,7 +15,7 @@ import './header.scss';
 const Header = () => {
     let history = useHistory();
 
-    const { sessionName, setSessionName, setSong, setHost } = useContext(AppContext);
+    const { sessionName, setSessionName, setSong, host, setHost } = useContext(AppContext);
     const [songListModal, setSongListModal] = useState(false);
     const [externalSearchModal, setExternalSearchModal] = useState(false);
     const menu = useRef<any>(null);
@@ -31,7 +31,10 @@ const Header = () => {
         {
             template: (
                 <>
-                    <p className="menu-item"> Current session:</p>
+                    <p className="menu-item session-name">
+                        <span className={host ? 'p-menuitem-icon pi pi-user' : 'p-menuitem-icon pi pi-users'} />
+                        Current session:
+                    </p>
                     <p className="menu-item p-text-bold">{sessionName}</p>
                     <Divider />
                 </>
