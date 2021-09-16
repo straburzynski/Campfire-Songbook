@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Lyrics from '../shared/lyrics/Lyrics';
 import { useHistory, useParams } from 'react-router-dom';
 import { DEBUG, SOCKET_URL, TOPIC } from '../../config/WebSocketConfig';
@@ -6,17 +6,12 @@ import SockJsClient from 'react-stomp';
 import AppContext from '../../context/AppContext';
 import { getSession } from '../../service/SessionService';
 import { SongModel } from '../../model/SongModel';
-import { toastConfig } from '../../config/ToastConfig';
+import { toast } from 'react-toastify';
 
 export default function Join() {
     let { sessionName } = useParams();
     let history = useHistory();
     const { setHost, setSessionName, song, setSong } = useContext(AppContext);
-    const toast = useRef<any>(null);
-
-    const showToast = () => {
-        toast?.current?.show(toastConfig('warn', 'Session not found'));
-    };
 
     useEffect(() => {
         setHost(false);
@@ -45,7 +40,7 @@ export default function Join() {
             .catch((err) => {
                 history.push('/');
                 console.log(err);
-                showToast();
+                toast.error("Session not found");
             });
     };
 

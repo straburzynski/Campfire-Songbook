@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getSession } from '../../service/SessionService';
 import AppContext from '../../context/AppContext';
@@ -6,17 +6,15 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { SelectButton } from 'primereact/selectbutton';
 import { AppContextModel } from '../../model/AppContextModel';
-import { Toast } from 'primereact/toast';
-import { toastConfig } from '../../config/ToastConfig';
 import './home.scss';
 import logo from '../../resources/logo.png';
 import { SessionModel } from '../../model/SessionModel';
 import { SessionTypeEnum } from '../../model/SessionTypeEnum';
+import { toast } from 'react-toastify';
 
 const Home = () => {
     let history = useHistory();
     const { setSong, sessionName, setSessionName } = useContext<AppContextModel>(AppContext);
-    const toast = useRef<any>(null);
 
     const [sessionType, setSessionType] = useState(SessionTypeEnum.JOIN);
     const [password, setPassword] = useState('');
@@ -32,17 +30,13 @@ const Home = () => {
         }
     }, [setSessionName]);
 
-    const showToast = (text: string): void => {
-        toast.current.show(toastConfig('warn', text));
-    };
-
     const saveSessionNameToLocalStorage = (sessionName): void => {
         localStorage.setItem('sessionName', sessionName);
     };
 
     const handleButton = (): void => {
         if (sessionName == null || sessionName === '') {
-            showToast('Enter session name');
+            toast.warn('Enter session name');
             return;
         }
         if (sessionType === SessionTypeEnum.JOIN) {
@@ -67,7 +61,7 @@ const Home = () => {
                 history.push(`/join/${sessionName}`);
             })
             .catch(() => {
-                showToast('Session not found');
+                toast.warn('Session not found');
             });
     };
 
@@ -78,7 +72,6 @@ const Home = () => {
     return (
         <div className="home">
             <div className="flex-container">
-                <Toast ref={toast} position="bottom-center" />
                 <div className="row">
                     <div className="flex-item p-mb-2">
                         <img src={logo} className="logo" alt="Campfire Songs Logo" />
@@ -105,7 +98,6 @@ const Home = () => {
                     {sessionType === SessionTypeEnum.CREATE && (
                         <div className="flex-item p-mt-1">
                             <InputText
-                                // className="app-shadow"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Password"

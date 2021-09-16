@@ -5,6 +5,8 @@ import Header from './components/header/Header';
 import RouteComponent from './routing/RouteComponent';
 import { ScrollTop } from 'primereact/scrolltop';
 import { CreateAppContext } from './context/ContextConfig';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
     return (
@@ -14,6 +16,7 @@ const App = () => {
                 <Header />
                 <RouteComponent />
             </AppContext.Provider>
+            <ToastContainer position="bottom-center" autoClose={4000} closeOnClick draggable={false} />
         </div>
     );
 };
