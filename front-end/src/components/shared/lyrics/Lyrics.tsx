@@ -31,7 +31,7 @@ const Lyrics = ({ song }) => {
     const SelectedSong = (song: SongModel) => {
         return (
             <div>
-                <h3 className="p-mb-4">{`${song.title} - ${song.author}`}</h3>
+                <h3 className="p-mb-5">{`${song.author} - ${song.title}`}</h3>
                 <div className="lyrics">
                     {song.lyrics.split(NEW_LINE).map((line, lineIndex) => {
                         return (

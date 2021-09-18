@@ -7,10 +7,11 @@ import { Button } from 'primereact/button';
 import { SelectButton } from 'primereact/selectbutton';
 import { AppContextModel } from '../../model/AppContextModel';
 import './home.scss';
-import logo from '../../resources/logo.png';
+import logo from '../../resources/logo-shadow.png';
 import { SessionModel } from '../../model/SessionModel';
 import { SessionTypeEnum } from '../../model/SessionTypeEnum';
 import { toast } from 'react-toastify';
+import { SessionTypeOptions } from './SessionTypeOptions';
 
 const Home = () => {
     let history = useHistory();
@@ -18,10 +19,6 @@ const Home = () => {
 
     const [sessionType, setSessionType] = useState(SessionTypeEnum.JOIN);
     const [password, setPassword] = useState('');
-    const sessionTypeOptions = [
-        { name: 'Join', value: SessionTypeEnum.JOIN },
-        { name: 'Create', value: SessionTypeEnum.CREATE },
-    ];
 
     useEffect(() => {
         const savedSessionName = localStorage.getItem('sessionName');
@@ -83,7 +80,7 @@ const Home = () => {
                             unselectable={false}
                             value={sessionType}
                             optionLabel="name"
-                            options={sessionTypeOptions}
+                            options={SessionTypeOptions}
                             onChange={(e) => handleHostChange(e.value)}
                         />
                     </div>

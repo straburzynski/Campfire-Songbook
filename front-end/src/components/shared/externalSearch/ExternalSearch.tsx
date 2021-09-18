@@ -41,7 +41,7 @@ const ExternalSearch = ({ onSongSelected }) => {
         return (
             <Button
                 icon="pi pi-search"
-                className="p-button-rounded p-button-success p-button-outlined"
+                className="p-button-rounded p-button-secondary p-button-outlined"
                 onClick={(e) => showSongDetails(song, e)}
             />
         );
@@ -133,9 +133,9 @@ const ExternalSearch = ({ onSongSelected }) => {
                         sortOrder={1}
                         onRowClick={(row) => handleOnRowClick(row.data)}
                     >
-                        <Column field="artist" header="author" sortable />
-                        <Column field="title" header="title" sortable />
-                        <Column header="action" body={actionColumn} style={{ width: '100px' }} />
+                        <Column field="artist" header="Author" sortable />
+                        <Column field="title" header="Title" sortable />
+                        <Column header="" body={actionColumn} style={{ width: '100px' }} />
                     </DataTable>
                 ) : (
                     <p className="p-text-center">No songs found.</p>
@@ -148,7 +148,6 @@ const ExternalSearch = ({ onSongSelected }) => {
                     showDialog={showDialog}
                     onSongSelected={selectSong}
                     onShowDialog={onShowDialog}
-                    // onSetSong={onSetSong}
                 />
             )}
         </>

@@ -107,7 +107,7 @@ const SongList = ({ onSongSelected }) => {
         return (
             <Button
                 icon="pi pi-search"
-                className="p-button-rounded p-button-success p-button-outlined"
+                className="p-button-rounded p-button-secondary p-button-outlined"
                 onClick={(e) => showSong(song, e)}
             />
         );
@@ -135,9 +135,9 @@ const SongList = ({ onSongSelected }) => {
                     globalFilter={globalFilter}
                     emptyMessage="No songs found."
                 >
-                    <Column field="author" header="author" sortable />
-                    <Column field="title" header="title" sortable />
-                    <Column header="action" body={actionColumn} style={{ width: '100px' }} />
+                    <Column field="author" header="Author" sortable />
+                    <Column field="title" header="Title" sortable />
+                    <Column header="" body={actionColumn} style={{ width: '100px' }} />
                 </DataTable>
             </div>
             <SongDetails />

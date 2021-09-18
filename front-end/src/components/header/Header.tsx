@@ -76,8 +76,6 @@ const Header = () => {
         history.push('/');
     };
 
-    const customIcons = <div className="modal-title">Song list</div>;
-
     return (
         <div className="app-toolbar">
             <Toolbar
@@ -107,7 +105,7 @@ const Header = () => {
                 blockScroll={true}
                 fullScreen={true}
                 onHide={() => setSongListModal(false)}
-                icons={customIcons}
+                icons={<div className="modal-title">Song list</div>}
             >
                 <SongList onSongSelected={closeSongListModal} />
             </Sidebar>
@@ -117,7 +115,7 @@ const Header = () => {
                 blockScroll={true}
                 fullScreen={true}
                 onHide={() => setExternalSearchModal(false)}
-                icons={customIcons}
+                icons={<div className="modal-title">External API search</div>}
             >
                 <ExternalSearch onSongSelected={closeExternalSearchModal} />
             </Sidebar>
