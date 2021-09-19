@@ -3,11 +3,12 @@ import { useHistory, useLocation } from 'react-router-dom';
 import Lyrics from '../shared/lyrics/Lyrics';
 import AppContext from '../../context/AppContext';
 import { toast } from 'react-toastify';
+import SelectSong from '../shared/selectSong/SelectSong';
 
 export default function Host() {
     let history = useHistory();
     const location = useLocation();
-    const { song } = useContext(AppContext);
+    const { song, host } = useContext(AppContext);
 
     useEffect(() => {
         if (!location?.state?.authorized) {
@@ -19,6 +20,7 @@ export default function Host() {
     return (
         <div className="p-p-2">
             <Lyrics song={song} />
+            <SelectSong song={song} host={host}/>
         </div>
     );
 }

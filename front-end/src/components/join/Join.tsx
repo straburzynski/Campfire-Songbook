@@ -7,28 +7,27 @@ import AppContext from '../../context/AppContext';
 import { getSession } from '../../service/SessionService';
 import { SongModel } from '../../model/SongModel';
 import { toast } from 'react-toastify';
+import SelectSong from '../shared/selectSong/SelectSong';
 
 export default function Join() {
     let { sessionName } = useParams();
     let history = useHistory();
     const location = useLocation();
-    const { setHost, setSessionName, song, setSong } = useContext(AppContext);
+    const { host, setHost, setSessionName, song, setSong } = useContext(AppContext);
 
     useEffect(() => {
-        if (!location?.state?.authorized) {
-            getSession(sessionName)
-                .then((res) => {
-                    setSessionName(res.name);
-                    setSong(res.song);
-                    setHost(false);
-                    saveSessionNameToLocalStorage(sessionName);
-                })
-                .catch((err) => {
-                    history.push('/');
-                    console.log(err);
-                    toast.error('Session not found');
-                });
-        }
+        getSession(sessionName)
+            .then((res) => {
+                setSessionName(res.name);
+                setSong(res.song);
+                setHost(false);
+                saveSessionNameToLocalStorage(sessionName);
+            })
+            .catch((err) => {
+                history.push('/');
+                console.log(err);
+                toast.error('Session not found');
+            });
     }, [history, location, sessionName, setHost, setSong, setSessionName]);
 
     let onConnected = () => {
@@ -60,6 +59,7 @@ export default function Join() {
                     debug={DEBUG}
                 />
             )}
+            <SelectSong song={song} host={host}/>
         </div>
     );
 }

@@ -29,7 +29,6 @@ public class Session {
     @Id
     @Column(name = "ID", nullable = false)
     @Type(type = "uuid-char")
-    //todo id strategy
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -45,7 +44,7 @@ public class Session {
     @Column(name = "TEMPORARY")
     private boolean temporary = false;
 
-    @Column(name = "SONG_DATA", length = 4000)
+    @Column(name = "SONG_DATA", length = Integer.MAX_VALUE)
     private String songData;
 
 }

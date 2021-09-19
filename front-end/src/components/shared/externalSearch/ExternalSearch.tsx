@@ -15,6 +15,7 @@ import { updateSession } from '../../../service/SessionService';
 import SongDetailsDialog from './SongDetailsDialog';
 import { InputText } from 'primereact/inputtext';
 import './externalSearch.scss';
+import { toast } from 'react-toastify';
 
 const ExternalSearch = ({ onSongSelected }) => {
     const { setSong, host, sessionName } = useContext(AppContext);
@@ -22,10 +23,6 @@ const ExternalSearch = ({ onSongSelected }) => {
     const [query, setQuery] = useState<string>('');
     const [showDialog, setShowDialog] = useState(false);
     const [temporarySong, setTemporarySong] = useState<SongModel>();
-
-    // const onSetSong = useCallback((song) => {
-    //     setSong(song)
-    // }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleSearchButton = () => {
         externalApiSearch(query).then((res: ExternalApiSongModel[]) => {
@@ -48,14 +45,17 @@ const ExternalSearch = ({ onSongSelected }) => {
     };
 
     const handleOnRowClick = (song: ExternalApiSongModel) => {
-        externalApiUpdateSession(song, sessionName as string)
-            .then((session) => {
-                setSong(session.song);
-                onSongSelected();
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        if (host) {
+            externalApiUpdateSession(song, sessionName as string)
+                .then((session) => {
+                    setSong(session.song);
+                    onSongSelected();
+                })
+                .catch((err) => {
+                    toast.error('Error searching external API');
+                    console.log(err);
+                });
+        }
     };
 
     const selectSong = useCallback((song: SongModel) => {
@@ -94,9 +94,9 @@ const ExternalSearch = ({ onSongSelected }) => {
             });
     };
 
-    const onShowDialog = useCallback((dialogVisibility: boolean) => {
+    const onShowDialog = useCallback(
+        (dialogVisibility: boolean) => {
             setShowDialog(dialogVisibility);
-            // onSongSelected();
         },
         [setShowDialog]
     );

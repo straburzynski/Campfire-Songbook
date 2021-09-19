@@ -1,0 +1,16 @@
+.not-found {
+  height: 100%;
+  padding: 0;
+  margin: 2rem 0 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.p-button.home-button {
+  margin-top: 2rem;
+  background: var(--app-primary);
+  border-color: var(--app-primary-dark);;
+  color: white;
+  box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, .05);
+}

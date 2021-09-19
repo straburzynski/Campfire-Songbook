@@ -35,7 +35,7 @@ const Header = () => {
                         <span className={host ? 'p-menuitem-icon pi pi-user' : 'p-menuitem-icon pi pi-users'} />
                         Current session:
                     </p>
-                    <p className="menu-item p-text-bold">{sessionName}</p>
+                    <p className="menu-item p-text-bold p-ml-4">{sessionName || '---'}</p>
                     <Divider />
                 </>
             ),

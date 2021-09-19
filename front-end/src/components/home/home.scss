@@ -1,5 +1,5 @@
 .home {
-  z-index: 1000;
+  z-index: 10;
   position: absolute;
   top: 0;
   left: 0;
@@ -13,7 +13,7 @@
   background-size: cover;
 
   button {
-    width: 45%;
+    width: 7rem;
   }
 
   .logo {
@@ -77,6 +77,8 @@
   .p-inputtext {
     box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, .05);
     border-radius: 2rem;
+    text-align: center;
+    max-width: 8rem;
   }
 
   .start-button {
@@ -95,7 +97,7 @@
     .p-button {
       box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, .05);
       overflow: hidden;
-      width: 40%;
+      width: 6rem;
     }
 
     .p-button:first-child {

@@ -106,18 +106,16 @@ const Home = () => {
                             onChange={(e) => setSessionName(e.target.value)}
                             placeholder="Session name"
                         />
-                    </div>
-
-                    {sessionType === SessionTypeEnum.CREATE && (
-                        <div className="flex-item p-mt-1">
+                        {sessionType === SessionTypeEnum.CREATE && (
                             <InputText
+                                className="p-ml-2"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Password"
                                 type="password"
                             />
-                        </div>
-                    )}
+                        )}
+                    </div>
                     <div className="flex-item p-mb-1 p-mt-3">
                         <Button onClick={() => handleButton()} className="white-primary p-button-rounded">
                             <span className="start-button">Start</span>

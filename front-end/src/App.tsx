@@ -16,7 +16,7 @@ const App = () => {
                 <Header />
                 <RouteComponent />
             </AppContext.Provider>
-            <ToastContainer position="bottom-center" autoClose={4000} closeOnClick draggable={false} />
+            <ToastContainer position="bottom-center" autoClose={5000} closeOnClick draggable={false} />
         </div>
     );
 };

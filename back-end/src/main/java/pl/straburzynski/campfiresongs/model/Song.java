@@ -25,7 +25,6 @@ public class Song {
     @Id
     @Column(name = "ID")
     @Type(type = "uuid-char")
-    // todo id strategy handled by jpa
     private UUID id;
 
     @Column(name = "AUTHOR")
@@ -34,7 +33,7 @@ public class Song {
     @Column(name = "TITLE")
     private String title;
 
-    @Column(name = "LYRICS", length = 4000)
+    @Column(name = "LYRICS", length = Integer.MAX_VALUE)
     private String lyrics;
 
 }

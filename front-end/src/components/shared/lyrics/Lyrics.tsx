@@ -45,7 +45,7 @@ const Lyrics = ({ song }) => {
         );
     };
 
-    return <div>{song ? SelectedSong(song) : <p>No song selected</p>}</div>;
+    return <>{song && SelectedSong(song)}</>;
 };
 
 export default React.memo(Lyrics);

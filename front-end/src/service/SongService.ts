@@ -1,6 +1,7 @@
 import API from '../config/ApiConfig';
 import { AxiosResponse } from 'axios';
 import { SongModel } from '../model/SongModel';
+import { trackPromise } from 'react-promise-tracker';
 
 export function getSong(songId: string): Promise<SongModel> {
     const url = 'songs/' + songId;
@@ -8,5 +9,5 @@ export function getSong(songId: string): Promise<SongModel> {
 }
 
 export function getAllSongs(): Promise<SongModel[]> {
-    return API.get('songs').then((result: AxiosResponse<SongModel[]>) => result.data);
+    return trackPromise(API.get('songs').then((result: AxiosResponse<SongModel[]>) => result.data));
 }
