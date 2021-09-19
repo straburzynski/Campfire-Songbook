@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { getSession } from '../../service/SessionService';
+import { createSession, getSession } from '../../service/SessionService';
 import AppContext from '../../context/AppContext';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
@@ -15,7 +15,7 @@ import { SessionTypeOptions } from './SessionTypeOptions';
 
 const Home = () => {
     let history = useHistory();
-    const { setSong, sessionName, setSessionName } = useContext<AppContextModel>(AppContext);
+    const { setSong, sessionName, setSessionName, setHost } = useContext<AppContextModel>(AppContext);
 
     const [sessionType, setSessionType] = useState(SessionTypeEnum.JOIN);
     const [password, setPassword] = useState('');
@@ -40,12 +40,22 @@ const Home = () => {
             checkSession(sessionName);
         } else if (sessionType === SessionTypeEnum.CREATE) {
             saveSessionNameToLocalStorage(sessionName);
-            history.push({
-                pathname: `/host/${sessionName}`,
-                state: {
-                    password: password,
-                },
-            });
+            createSession(sessionName, password)
+                .then((res: SessionModel) => {
+                    setSessionName(res.name);
+                    setSong(res.song);
+                    setHost(true);
+                    history.push({
+                        pathname: `/host/${sessionName}`,
+                        state: {
+                            authorized: true,
+                        },
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                    toast.error('Not authorized to session');
+                });
         }
     };
 
@@ -54,8 +64,14 @@ const Home = () => {
             .then((res: SessionModel) => {
                 setSessionName(res.name);
                 setSong(res.song);
+                setHost(false);
                 saveSessionNameToLocalStorage(sessionName);
-                history.push(`/join/${sessionName}`);
+                history.push({
+                    pathname: `/join/${sessionName}`,
+                    state: {
+                        authorized: true,
+                    },
+                });
             })
             .catch(() => {
                 toast.warn('Session not found');

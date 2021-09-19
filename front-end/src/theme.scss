@@ -3385,6 +3385,8 @@
 .p-divider.p-divider-horizontal {
   margin: 1rem 0;
   padding: 0 1rem;
+  height: 1px;
+  background-color: #dadada;
 }
 .p-divider.p-divider-horizontal:before {
   border-top: 1px #dee2e6;

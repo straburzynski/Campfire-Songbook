@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import Lyrics from '../shared/lyrics/Lyrics';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { DEBUG, SOCKET_URL, TOPIC } from '../../config/WebSocketConfig';
 import SockJsClient from 'react-stomp';
 import AppContext from '../../context/AppContext';
@@ -11,12 +11,25 @@ import { toast } from 'react-toastify';
 export default function Join() {
     let { sessionName } = useParams();
     let history = useHistory();
+    const location = useLocation();
     const { setHost, setSessionName, song, setSong } = useContext(AppContext);
 
     useEffect(() => {
-        setHost(false);
-        checkSession(sessionName);
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+        if (!location?.state?.authorized) {
+            getSession(sessionName)
+                .then((res) => {
+                    setSessionName(res.name);
+                    setSong(res.song);
+                    setHost(false);
+                    saveSessionNameToLocalStorage(sessionName);
+                })
+                .catch((err) => {
+                    history.push('/');
+                    console.log(err);
+                    toast.error('Session not found');
+                });
+        }
+    }, [history, location, sessionName, setHost, setSong, setSessionName]);
 
     let onConnected = () => {
         console.log('Connected!!');
@@ -28,20 +41,6 @@ export default function Join() {
 
     const saveSessionNameToLocalStorage = (sessionName): void => {
         localStorage.setItem('sessionName', sessionName);
-    };
-
-    const checkSession = (sessionName: string): void => {
-        getSession(sessionName)
-            .then((res) => {
-                setSessionName(res.name);
-                setSong(res.song);
-                saveSessionNameToLocalStorage(sessionName);
-            })
-            .catch((err) => {
-                history.push('/');
-                console.log(err);
-                toast.error("Session not found");
-            });
     };
 
     let onMessageReceived = (msg: SongModel) => {
