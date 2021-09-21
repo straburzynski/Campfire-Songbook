@@ -10,25 +10,28 @@ import { toast } from 'react-toastify';
 import SelectSong from '../shared/selectSong/SelectSong';
 
 export default function Join() {
-    let { sessionName } = useParams();
+    let { sessionName: sessionNameFromUrl } = useParams();
     let history = useHistory();
     const location = useLocation();
-    const { host, setHost, setSessionName, song, setSong } = useContext(AppContext);
+    const { host, setHost, sessionName, setSessionName, song, setSong } = useContext(AppContext);
 
     useEffect(() => {
-        getSession(sessionName)
+        if (sessionName) {
+            return;
+        }
+        getSession(sessionNameFromUrl)
             .then((res) => {
                 setSessionName(res.name);
                 setSong(res.song);
                 setHost(false);
-                saveSessionNameToLocalStorage(sessionName);
+                saveSessionNameToLocalStorage(res.name);
             })
             .catch((err) => {
                 history.push('/');
                 console.log(err);
                 toast.error('Session not found');
             });
-    }, [history, location, sessionName, setHost, setSong, setSessionName]);
+    }, [history, location, sessionName, sessionNameFromUrl, setHost, song, setSong, setSessionName]);
 
     let onConnected = () => {
         console.log('Connected!!');
@@ -59,7 +62,7 @@ export default function Join() {
                     debug={DEBUG}
                 />
             )}
-            <SelectSong song={song} host={host}/>
+            <SelectSong song={song} host={host} />
         </div>
     );
 }

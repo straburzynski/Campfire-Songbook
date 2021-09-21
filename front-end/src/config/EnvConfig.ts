@@ -1,9 +1,9 @@
 const dev = {
-    url: 'http://localhost:8080/',
+    url: 'http://localhost:8090/api/',
 };
 
 const prod = {
-    url: 'http://localhost:8080/',
+    url: '/api/',
 };
 
 const config = process.env.REACT_APP_STAGE === 'production' ? prod : dev;
