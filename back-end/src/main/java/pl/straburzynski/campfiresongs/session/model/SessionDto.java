@@ -1,4 +1,4 @@
-package pl.straburzynski.campfiresongs.model;
+package pl.straburzynski.campfiresongs.session.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.straburzynski.campfiresongs.song.model.SongDto;
 
 import java.util.UUID;
 

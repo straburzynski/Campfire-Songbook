@@ -12,10 +12,10 @@ import pl.straburzynski.campfiresongs.externalapi.model.ExternalApiSong;
 import pl.straburzynski.campfiresongs.externalapi.service.ExternalApiParserService;
 import pl.straburzynski.campfiresongs.externalapi.service.ExternalApiRestService;
 import pl.straburzynski.campfiresongs.externalapi.service.ExternalApiSongScrapperService;
-import pl.straburzynski.campfiresongs.model.SessionDto;
-import pl.straburzynski.campfiresongs.model.Song;
-import pl.straburzynski.campfiresongs.model.SongDto;
-import pl.straburzynski.campfiresongs.service.SessionService;
+import pl.straburzynski.campfiresongs.session.model.SessionDto;
+import pl.straburzynski.campfiresongs.song.model.Song;
+import pl.straburzynski.campfiresongs.song.model.SongDto;
+import pl.straburzynski.campfiresongs.session.service.SessionService;
 
 import java.util.List;
 import java.util.UUID;

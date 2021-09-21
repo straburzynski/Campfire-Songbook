@@ -1,15 +1,16 @@
-package pl.straburzynski.campfiresongs.service;
+package pl.straburzynski.campfiresongs.session.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.straburzynski.campfiresongs.exception.NotAuthorizedException;
-import pl.straburzynski.campfiresongs.exception.SessionNotFoundException;
-import pl.straburzynski.campfiresongs.model.Session;
-import pl.straburzynski.campfiresongs.model.SessionDto;
-import pl.straburzynski.campfiresongs.repository.SessionRepository;
+import pl.straburzynski.campfiresongs.session.exception.NotAuthorizedException;
+import pl.straburzynski.campfiresongs.session.model.Session;
+import pl.straburzynski.campfiresongs.session.model.SessionDto;
+import pl.straburzynski.campfiresongs.session.repository.SessionRepository;
+import pl.straburzynski.campfiresongs.session.exception.SessionNotFoundException;
+import pl.straburzynski.campfiresongs.song.service.SongConverter;
 
 import java.util.Objects;
 import java.util.Optional;

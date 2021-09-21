@@ -5,7 +5,11 @@ import { trackPromise } from 'react-promise-tracker';
 
 export function getSong(songId: string): Promise<SongModel> {
     const url = 'songs/' + songId;
-    return API.get(url).then((result: AxiosResponse<SongModel>) => result.data);
+    return trackPromise(API.get(url).then((result: AxiosResponse<SongModel>) => result.data));
+}
+
+export function saveSong(song: SongModel): Promise<void> {
+    return trackPromise(API.post('songs', song).then((result: AxiosResponse<void>) => result.data));
 }
 
 export function getAllSongs(): Promise<SongModel[]> {

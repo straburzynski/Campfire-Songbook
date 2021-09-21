@@ -114,7 +114,7 @@ const ExternalSearch = ({ onSongSelected }) => {
                 <div className="p-grid p-justify-center">
                     <div className="p-col-12">
                         <form onSubmit={(event) => handleOnSubmit(event)} className="p-inputgroup">
-                            <InputText autoFocus value={query} onChange={handleOnChange} placeholder="Search" />
+                            <InputText type="search" autoFocus value={query} onChange={handleOnChange} placeholder="Search" />
                             <Button
                                 type="button"
                                 onClick={handleSearchButton}

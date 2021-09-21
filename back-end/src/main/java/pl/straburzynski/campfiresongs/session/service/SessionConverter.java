@@ -1,10 +1,10 @@
-package pl.straburzynski.campfiresongs.service;
+package pl.straburzynski.campfiresongs.session.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.straburzynski.campfiresongs.model.Session;
-import pl.straburzynski.campfiresongs.model.SessionDto;
+import pl.straburzynski.campfiresongs.session.model.Session;
+import pl.straburzynski.campfiresongs.session.model.SessionDto;
+import pl.straburzynski.campfiresongs.song.service.SongConverter;
 
 @Service
 @RequiredArgsConstructor

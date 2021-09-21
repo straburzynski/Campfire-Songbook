@@ -1,4 +1,4 @@
-package pl.straburzynski.campfiresongs.model;
+package pl.straburzynski.campfiresongs.song.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

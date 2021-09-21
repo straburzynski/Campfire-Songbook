@@ -1,4 +1,4 @@
-package pl.straburzynski.campfiresongs.exception;
+package pl.straburzynski.campfiresongs.session.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

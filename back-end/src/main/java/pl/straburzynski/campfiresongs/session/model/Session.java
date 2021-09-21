@@ -1,4 +1,4 @@
-package pl.straburzynski.campfiresongs.model;
+package pl.straburzynski.campfiresongs.session.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
+import pl.straburzynski.campfiresongs.song.model.Song;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

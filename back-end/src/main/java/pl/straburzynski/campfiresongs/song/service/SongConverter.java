@@ -1,12 +1,12 @@
-package pl.straburzynski.campfiresongs.service;
+package pl.straburzynski.campfiresongs.song.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.straburzynski.campfiresongs.exception.JsonParseException;
-import pl.straburzynski.campfiresongs.model.Song;
-import pl.straburzynski.campfiresongs.model.SongDto;
+import pl.straburzynski.campfiresongs.song.exception.JsonParseException;
+import pl.straburzynski.campfiresongs.song.model.Song;
+import pl.straburzynski.campfiresongs.song.model.SongDto;
 
 @Service
 @RequiredArgsConstructor

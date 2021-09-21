@@ -1,4 +1,4 @@
-package pl.straburzynski.campfiresongs.exception;
+package pl.straburzynski.campfiresongs.song.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class JsonParseException extends RuntimeException {
 
     public JsonParseException(String methodName) {
-        super("JSON parse exception on method: ");
+        super("JSON parse exception on method: " + methodName);
     }
 }

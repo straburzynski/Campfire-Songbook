@@ -1,9 +1,25 @@
 .p-button.button-primary {
-        background: var(--app-primary);
-        border-color: var(--app-primary-dark);
-        color: white;
-        &:hover {
-            background: var(--app-primary);
-            border-color: var(--app-primary-dark);
-        }
+  background: var(--app-primary);
+  border-color: var(--app-primary-dark);
+  color: white;
+
+  &:hover {
+    background: var(--app-primary);
+    border-color: var(--app-primary-dark);
+  }
+}
+
+.p-button.button-secondary {
+  background: var(--app-secondary);
+  border-color: var(--app-secondary-dark);
+  color: white;
+
+  &:hover {
+    background: var(--app-secondary);
+    border-color: var(--app-secondary-dark);
+  }
+}
+
+.float-left {
+  float: left;
 }
