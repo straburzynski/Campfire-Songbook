@@ -6,12 +6,14 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { SelectButton } from 'primereact/selectbutton';
 import { AppContextModel } from '../../model/AppContextModel';
-import './home.scss';
 import logo from '../../resources/logo-shadow.png';
 import { SessionModel } from '../../model/SessionModel';
 import { SessionTypeEnum } from '../../model/SessionTypeEnum';
 import { toast } from 'react-toastify';
 import { SessionTypeOptions } from './SessionTypeOptions';
+import { handleError } from '../../service/ExceptionService';
+import { getItemFromLocalStorage, saveItemToLocalStorage } from '../../service/LocalStorageService';
+import './home.scss';
 
 const Home = () => {
     let history = useHistory();
@@ -21,15 +23,11 @@ const Home = () => {
     const [password, setPassword] = useState('');
 
     useEffect(() => {
-        const savedSessionName = localStorage.getItem('sessionName');
+        const savedSessionName = getItemFromLocalStorage('sessionName');
         if (savedSessionName) {
             setSessionName(savedSessionName);
         }
     }, [setSessionName]);
-
-    const saveSessionNameToLocalStorage = (sessionName): void => {
-        localStorage.setItem('sessionName', sessionName);
-    };
 
     const handleButton = (): void => {
         if (sessionName == null || sessionName === '') {
@@ -39,23 +37,16 @@ const Home = () => {
         if (sessionType === SessionTypeEnum.JOIN) {
             checkSession(sessionName);
         } else if (sessionType === SessionTypeEnum.CREATE) {
-            saveSessionNameToLocalStorage(sessionName);
             createSession(sessionName, password)
                 .then((res: SessionModel) => {
+                    saveItemToLocalStorage('sessionName', sessionName);
+                    saveItemToLocalStorage('password', password);
                     setSessionName(res.name);
                     setSong(res.song);
                     setHost(true);
-                    history.push({
-                        pathname: `/host/${sessionName}`,
-                        state: {
-                            authorized: true,
-                        },
-                    });
+                    history.push({ pathname: `/host/${sessionName}` });
                 })
-                .catch((err) => {
-                    console.log(err);
-                    toast.error('Not authorized to session');
-                });
+                .catch((err) => handleError(err));
         }
     };
 
@@ -65,7 +56,7 @@ const Home = () => {
                 setSessionName(res.name);
                 setSong(res.song);
                 setHost(false);
-                saveSessionNameToLocalStorage(sessionName);
+                saveItemToLocalStorage('sessionName', sessionName);
                 history.push({
                     pathname: `/join/${sessionName}`,
                     state: {
@@ -73,9 +64,7 @@ const Home = () => {
                     },
                 });
             })
-            .catch(() => {
-                toast.warn('Session not found');
-            });
+            .catch((err) => handleError(err));
     };
 
     const handleHostChange = (e): void => {

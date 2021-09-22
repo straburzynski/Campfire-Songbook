@@ -11,6 +11,7 @@ import logo from '../../resources/logo.png';
 import SongList from '../shared/songList/SongList';
 import ExternalSearch from '../shared/externalSearch/ExternalSearch';
 import './header.scss';
+import { removeItemFromLocalStorage } from '../../service/LocalStorageService';
 
 const Header = () => {
     let history = useHistory();
@@ -69,7 +70,8 @@ const Header = () => {
     };
 
     const exitSession = () => {
-        localStorage.removeItem('sessionName');
+        removeItemFromLocalStorage('sessionName');
+        removeItemFromLocalStorage('password');
         setSessionName(undefined);
         setSong(undefined);
         setHost(false);

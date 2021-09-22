@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { FC, useCallback } from 'react';
 import { Button } from 'primereact/button';
 import Lyrics from '../lyrics/Lyrics';
 import { Dialog } from 'primereact/dialog';
@@ -16,33 +16,39 @@ interface SongDetailsDialogModel {
     onShowDialog: Function;
 }
 
-const SongDetailsDialog = (props: SongDetailsDialogModel) => {
-    const onDialogHide = useCallback((selected: boolean, song?: SongModel) => {
-        if (selected) {
-            props.onSongSelected(song);
-        }
-        props.onShowDialog(false);
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+const SongDetailsDialog: FC<SongDetailsDialogModel> = ({ song, host, showDialog, onSongSelected, onShowDialog }) => {
+    const onDialogHide = useCallback(
+        (selected: boolean, song?: SongModel) => {
+            if (selected) {
+                onSongSelected(song);
+            }
+            onShowDialog(false);
+        },
+        [onShowDialog, onSongSelected]
+    );
 
-    const onSaveButton = useCallback((song: SongModel) => {
-        saveSong(song)
-            .then(() => {
-                toast.success('Song added');
-                props.onShowDialog(false);
-            })
-            .catch((err) => handleError(err));
-    }, []);
+    const onSaveButton = useCallback(
+        (song: SongModel) => {
+            saveSong(song)
+                .then(() => {
+                    toast.success('Song added');
+                    onShowDialog(false);
+                })
+                .catch((err) => handleError(err));
+        },
+        [onShowDialog]
+    );
 
     return (
         <Dialog
-            visible={props.showDialog}
+            visible={showDialog}
             style={{ width: '90vw' }}
             footer={
                 <div>
                     <Button
                         label="Save"
                         icon="pi pi-save"
-                        onClick={() => onSaveButton(props.song)}
+                        onClick={() => onSaveButton(song)}
                         className="button-secondary float-left"
                     />
                     <Button
@@ -51,13 +57,12 @@ const SongDetailsDialog = (props: SongDetailsDialogModel) => {
                         onClick={() => onDialogHide(false)}
                         className="p-confirm-dialog-reject"
                     />
-                    {props.host && (
+                    {host && (
                         <Button
                             className="button-primary"
                             label="Select"
                             icon="pi pi-check"
-                            onClick={() => onDialogHide(true, props.song)}
-                            autoFocus
+                            onClick={() => onDialogHide(true, song)}
                         />
                     )}
                 </div>
@@ -65,8 +70,9 @@ const SongDetailsDialog = (props: SongDetailsDialogModel) => {
             onHide={() => onDialogHide(false)}
             dismissableMask={true}
             showHeader={false}
+            focusOnShow={false}
         >
-            <Lyrics song={props.song} />
+            <Lyrics song={song} />
         </Dialog>
     );
 };

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import Lyrics from '../shared/lyrics/Lyrics';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { DEBUG, SOCKET_URL, TOPIC } from '../../config/WebSocketConfig';
 import SockJsClient from 'react-stomp';
 import AppContext from '../../context/AppContext';
@@ -8,11 +8,11 @@ import { getSession } from '../../service/SessionService';
 import { SongModel } from '../../model/SongModel';
 import { toast } from 'react-toastify';
 import SelectSong from '../shared/selectSong/SelectSong';
+import { saveItemToLocalStorage } from '../../service/LocalStorageService';
 
 export default function Join() {
     let { sessionName: sessionNameFromUrl } = useParams();
     let history = useHistory();
-    const location = useLocation();
     const { host, setHost, sessionName, setSessionName, song, setSong } = useContext(AppContext);
 
     useEffect(() => {
@@ -24,14 +24,14 @@ export default function Join() {
                 setSessionName(res.name);
                 setSong(res.song);
                 setHost(false);
-                saveSessionNameToLocalStorage(res.name);
+                saveItemToLocalStorage('sessionName', res.name);
             })
             .catch((err) => {
                 history.push('/');
                 console.log(err);
                 toast.error('Session not found');
             });
-    }, [history, location, sessionName, sessionNameFromUrl, setHost, song, setSong, setSessionName]);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     let onConnected = () => {
         console.log('Connected!!');
@@ -39,10 +39,6 @@ export default function Join() {
 
     let onDisconnected = () => {
         console.log('Disconnected!!');
-    };
-
-    const saveSessionNameToLocalStorage = (sessionName): void => {
-        localStorage.setItem('sessionName', sessionName);
     };
 
     let onMessageReceived = (msg: SongModel) => {

@@ -6,7 +6,7 @@ const prod = {
     url: '/api/',
 };
 
-const config = process.env.REACT_APP_STAGE === 'production' ? prod : dev;
+const config = process.env.NODE_ENV === 'development' ? dev : process.env.NODE_ENV === 'production' ? prod : null;
 
 const EnvConfig = {
     // common EnvConfig

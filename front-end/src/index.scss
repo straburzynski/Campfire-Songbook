@@ -21,7 +21,10 @@ body {
   --app-accent-dark: #9C340E;
 }
 
-// confirmation dialog
+.p-sidebar .p-sidebar-content {
+  padding: 0 !important;
+}
+
 .p-dialog .p-dialog-content {
   padding: 2.5em 1.5rem 2rem 1.5rem !important;
 }
@@ -46,8 +49,12 @@ body {
 
 }
 
-// scroll to top button
 .p-scrolltop {
   background-color: var(--app-primary) !important;
+}
+
+.p-divider.p-divider-horizontal {
+  height: 1px;
+  background-color: #dadada;
 }
 

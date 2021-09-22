@@ -1,0 +1,17 @@
+.p-datatable .p-datatable-tbody > tr > td {
+  text-align: center;
+}
+
+.custom-input {
+  &.p-inputtext:enabled:focus {
+    box-shadow: 0 0 0 0 #ccc;
+    border-color: #dadada;
+  }
+
+  &.p-inputtext:enabled:hover {
+    border-color: var(--app-primary);
+  }
+}
+.song-list-table .p-datatable .p-datatable-tbody > tr > td {
+  text-align: center!important;
+}

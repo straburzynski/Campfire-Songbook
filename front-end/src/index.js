@@ -5,9 +5,9 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { LoadingIndicator } from './components/shared/loadingIndicator/LoadingIndicator';
 import 'primereact/resources/primereact.min.css';
+import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
-import './theme.scss';
 import './index.scss';
 
 ReactDOM.render(

@@ -91,6 +91,7 @@ const SongList = ({ onSongSelected }) => {
                 onHide={() => onDialogHide(false)}
                 dismissableMask={true}
                 showHeader={false}
+                focusOnShow={false}
             >
                 <Lyrics song={previewSong} />
             </Dialog>
@@ -119,6 +120,7 @@ const SongList = ({ onSongSelected }) => {
                 <div className="p-input-icon-left">
                     <i className="pi pi-search" />
                     <InputText
+                        className="custom-input"
                         type="search"
                         value={globalFilter}
                         onChange={(e) => setGlobalFilter(e.target.value)}
@@ -128,6 +130,7 @@ const SongList = ({ onSongSelected }) => {
             </div>
             <div className="card">
                 <DataTable
+                    className="song-list-table"
                     value={songs}
                     sortField="author"
                     sortOrder={1}
