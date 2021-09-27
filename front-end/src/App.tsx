@@ -7,6 +7,7 @@ import { ScrollTop } from 'primereact/scrolltop';
 import { CreateAppContext } from './context/ContextConfig';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import "./translations/i18n";
 
 const App = () => {
     return (

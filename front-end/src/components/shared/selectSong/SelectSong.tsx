@@ -1,7 +1,10 @@
 import React from 'react';
 import './selectSong.scss';
+import { useTranslation } from 'react-i18next';
 
 const SelectSong = (props) => {
+    const { t} = useTranslation();
+
     return (
         <>
             {!props.song && props.host && (
@@ -9,12 +12,12 @@ const SelectSong = (props) => {
                     <p className="p-mb-0">
                         <span className="pi pi-arrow-up" />
                     </p>
-                    <p>Select song</p>
+                    <p>{t('common.select_song')}</p>
                 </div>
             )}
             {!props.song && !props.host && (
                 <div className="no-song-selected">
-                    <p>The song has not been selected yet</p>
+                    <p>{t('dialog.no_song_selected')}</p>
                 </div>
             )}
         </>

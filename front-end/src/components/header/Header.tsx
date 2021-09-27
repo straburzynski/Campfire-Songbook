@@ -12,10 +12,11 @@ import SongList from '../shared/songList/SongList';
 import ExternalSearch from '../shared/externalSearch/ExternalSearch';
 import './header.scss';
 import { removeItemFromLocalStorage } from '../../service/LocalStorageService';
+import { useTranslation } from 'react-i18next';
 
 const Header = () => {
     let history = useHistory();
-
+    const { t } = useTranslation();
     const { sessionName, setSessionName, setSong, host, setHost } = useContext(AppContext);
     const [songListModal, setSongListModal] = useState(false);
     const [externalSearchModal, setExternalSearchModal] = useState(false);
@@ -34,7 +35,7 @@ const Header = () => {
                 <>
                     <p className="menu-item session-name">
                         <span className={host ? 'p-menuitem-icon pi pi-user' : 'p-menuitem-icon pi pi-users'} />
-                        Current session:
+                        {t('header.current_session')}:
                     </p>
                     <p className="menu-item p-text-bold p-ml-4">{sessionName || '---'}</p>
                     <Divider />
@@ -42,12 +43,12 @@ const Header = () => {
             ),
         },
         {
-            label: 'Song list',
+            label: t('header.song_list'),
             icon: 'pi pi-list',
             command: () => setSongListModal(true),
         },
         {
-            label: 'External search',
+            label: t('header.external_search'),
             icon: 'pi pi-search',
             command: () => setExternalSearchModal(true),
         },
@@ -55,7 +56,7 @@ const Header = () => {
             template: <Divider />,
         },
         {
-            label: 'Exit session',
+            label: t('header.exit_session'),
             icon: 'pi pi-times',
             command: () => confirmExitSession(),
         },
@@ -64,7 +65,7 @@ const Header = () => {
     const confirmExitSession = () => {
         confirmDialog({
             showHeader: false,
-            message: 'Are you sure you want to exit session?',
+            message: t('dialog.exit_session_confirmation'),
             accept: () => exitSession(),
         });
     };
@@ -107,7 +108,7 @@ const Header = () => {
                 blockScroll={true}
                 fullScreen={true}
                 onHide={() => setSongListModal(false)}
-                icons={<div className="modal-title">Song list</div>}
+                icons={<div className="modal-title">{t('header.song_list')}</div>}
             >
                 <SongList onSongSelected={closeSongListModal} />
             </Sidebar>
@@ -117,7 +118,7 @@ const Header = () => {
                 blockScroll={true}
                 fullScreen={true}
                 onHide={() => setExternalSearchModal(false)}
-                icons={<div className="modal-title">External API search</div>}
+                icons={<div className="modal-title">{t('header.external_search')}</div>}
             >
                 <ExternalSearch onSongSelected={closeExternalSearchModal} />
             </Sidebar>

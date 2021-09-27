@@ -16,9 +16,12 @@ import SongDetailsDialog from './SongDetailsDialog';
 import { InputText } from 'primereact/inputtext';
 import './externalSearch.scss';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const ExternalSearch = ({ onSongSelected }) => {
     const { setSong, host, sessionName } = useContext(AppContext);
+    const { t} = useTranslation();
+
     const [songs, setSongs] = useState<ExternalApiSongModel[]>([]);
     const [query, setQuery] = useState<string>('');
     const [showDialog, setShowDialog] = useState(false);
@@ -52,7 +55,7 @@ const ExternalSearch = ({ onSongSelected }) => {
                     onSongSelected();
                 })
                 .catch((err) => {
-                    toast.error('Error searching external API');
+                    toast.error(t('exception.external_api_exception'));
                     console.log(err);
                 });
         }
@@ -119,7 +122,7 @@ const ExternalSearch = ({ onSongSelected }) => {
                                 type="search"
                                 value={query}
                                 onChange={handleOnChange}
-                                placeholder="Search"
+                                placeholder={t('common.search')}
                             />
                             <Button
                                 type="button"
@@ -139,12 +142,12 @@ const ExternalSearch = ({ onSongSelected }) => {
                         sortOrder={1}
                         onRowClick={(row) => handleOnRowClick(row.data)}
                     >
-                        <Column field="artist" header="Author" sortable />
-                        <Column field="title" header="Title" sortable />
+                        <Column field="artist" header={t('common.author')} sortable />
+                        <Column field="title" header={t('common.title')} sortable />
                         <Column header="" body={actionColumn} style={{ width: '100px' }} />
                     </DataTable>
                 ) : (
-                    <p className="p-text-center">No songs found.</p>
+                    <p className="p-text-center">{t('exception.no_songs_found')}</p>
                 )}
             </div>
             {temporarySong && (

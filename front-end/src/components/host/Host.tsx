@@ -8,10 +8,12 @@ import { getItemFromLocalStorage } from '../../service/LocalStorageService';
 import { createSession } from '../../service/SessionService';
 import { SessionModel } from '../../model/SessionModel';
 import { handleError } from '../../service/ExceptionService';
+import { useTranslation } from 'react-i18next';
 
 export default function Host() {
     let history = useHistory();
     const { sessionName, setSessionName, song, setSong, host, setHost } = useContext(AppContext);
+    const { t } = useTranslation();
 
     useEffect(() => {
         debugger;
@@ -30,7 +32,7 @@ export default function Host() {
                         history.push('/');
                     });
             } else {
-                toast.error('Not authorized to session');
+                toast.error(t('exception.not_authorized_to_session'));
                 history.push('/');
             }
         }

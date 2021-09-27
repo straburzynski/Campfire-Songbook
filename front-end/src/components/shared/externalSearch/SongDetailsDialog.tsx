@@ -7,6 +7,7 @@ import './songDetailsDialog.scss';
 import { saveSong } from '../../../service/SongService';
 import { toast } from 'react-toastify';
 import { handleError } from '../../../service/ExceptionService';
+import { useTranslation } from 'react-i18next';
 
 interface SongDetailsDialogModel {
     song: SongModel;
@@ -17,6 +18,8 @@ interface SongDetailsDialogModel {
 }
 
 const SongDetailsDialog: FC<SongDetailsDialogModel> = ({ song, host, showDialog, onSongSelected, onShowDialog }) => {
+    const { t } = useTranslation();
+
     const onDialogHide = useCallback(
         (selected: boolean, song?: SongModel) => {
             if (selected) {
@@ -31,12 +34,12 @@ const SongDetailsDialog: FC<SongDetailsDialogModel> = ({ song, host, showDialog,
         (song: SongModel) => {
             saveSong(song)
                 .then(() => {
-                    toast.success('Song added');
+                    toast.success(t('dialog.song_added'));
                     onShowDialog(false);
                 })
                 .catch((err) => handleError(err));
         },
-        [onShowDialog]
+        [onShowDialog, t]
     );
 
     return (
@@ -46,13 +49,13 @@ const SongDetailsDialog: FC<SongDetailsDialogModel> = ({ song, host, showDialog,
             footer={
                 <div>
                     <Button
-                        label="Save"
+                        label={t('common.save')}
                         icon="pi pi-save"
                         onClick={() => onSaveButton(song)}
                         className="button-secondary float-left"
                     />
                     <Button
-                        label="Close"
+                        label={t('common.close')}
                         icon="pi pi-times"
                         onClick={() => onDialogHide(false)}
                         className="p-confirm-dialog-reject"
@@ -60,7 +63,7 @@ const SongDetailsDialog: FC<SongDetailsDialogModel> = ({ song, host, showDialog,
                     {host && (
                         <Button
                             className="button-primary"
-                            label="Select"
+                            label={t('common.select')}
                             icon="pi pi-check"
                             onClick={() => onDialogHide(true, song)}
                         />

@@ -10,15 +10,15 @@ import logo from '../../resources/logo-shadow.png';
 import { SessionModel } from '../../model/SessionModel';
 import { SessionTypeEnum } from '../../model/SessionTypeEnum';
 import { toast } from 'react-toastify';
-import { SessionTypeOptions } from './SessionTypeOptions';
 import { handleError } from '../../service/ExceptionService';
 import { getItemFromLocalStorage, saveItemToLocalStorage } from '../../service/LocalStorageService';
+import { useTranslation } from 'react-i18next';
 import './home.scss';
 
 const Home = () => {
     let history = useHistory();
     const { setSong, sessionName, setSessionName, setHost } = useContext<AppContextModel>(AppContext);
-
+    const { t } = useTranslation();
     const [sessionType, setSessionType] = useState(SessionTypeEnum.JOIN);
     const [password, setPassword] = useState('');
 
@@ -31,7 +31,7 @@ const Home = () => {
 
     const handleButton = (): void => {
         if (sessionName == null || sessionName === '') {
-            toast.warn('Enter session name');
+            toast.warn(t('home.enter_session_name'));
             return;
         }
         if (sessionType === SessionTypeEnum.JOIN) {
@@ -85,7 +85,10 @@ const Home = () => {
                             unselectable={false}
                             value={sessionType}
                             optionLabel="name"
-                            options={SessionTypeOptions}
+                            options={[
+                                { name: 'Dołącz', value: SessionTypeEnum.JOIN },
+                                { name: 'Stwórz', value: SessionTypeEnum.CREATE },
+                            ]}
                             onChange={(e) => handleHostChange(e.value)}
                         />
                     </div>
@@ -93,21 +96,21 @@ const Home = () => {
                         <InputText
                             value={sessionName || ''}
                             onChange={(e) => setSessionName(e.target.value)}
-                            placeholder="Session name"
+                            placeholder={t('home.session_name')}
                         />
                         {sessionType === SessionTypeEnum.CREATE && (
                             <InputText
                                 className="p-ml-2"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Password"
+                                placeholder={t('home.password')}
                                 type="password"
                             />
                         )}
                     </div>
                     <div className="flex-item p-mb-1 p-mt-3">
                         <Button onClick={() => handleButton()} className="white-primary p-button-rounded">
-                            <span className="start-button">Start</span>
+                            <span className="start-button">{t('home.start')}</span>
                         </Button>
                     </div>
                 </div>

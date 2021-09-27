@@ -11,9 +11,12 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import Lyrics from '../lyrics/Lyrics';
 import './songList.scss';
+import { useTranslation } from 'react-i18next';
 
 const SongList = ({ onSongSelected }) => {
     const { setSong, sessionName, host } = useContext(AppContext);
+    const { t } = useTranslation();
+
     const [songs, setSongs] = useState<SongModel[]>([]);
     const [previewSong, setPreviewSong] = useState<SongModel>();
     const [globalFilter, setGlobalFilter] = useState('');
@@ -55,7 +58,7 @@ const SongList = ({ onSongSelected }) => {
         return (
             <div className="app-dialog-buttons">
                 <Button
-                    label="Close"
+                    label={t('common.close')}
                     icon="pi pi-times"
                     onClick={() => onDialogHide(false)}
                     className="p-confirm-dialog-reject"
@@ -63,7 +66,7 @@ const SongList = ({ onSongSelected }) => {
                 {host && (
                     <Button
                         className="p-confirm-dialog-accept"
-                        label="Select"
+                        label={t('common.select')}
                         icon="pi pi-check"
                         onClick={() => onDialogHide(true)}
                         autoFocus
@@ -124,7 +127,7 @@ const SongList = ({ onSongSelected }) => {
                         type="search"
                         value={globalFilter}
                         onChange={(e) => setGlobalFilter(e.target.value)}
-                        placeholder="Search"
+                        placeholder={t('common.search')}
                     />
                 </div>
             </div>
@@ -136,10 +139,10 @@ const SongList = ({ onSongSelected }) => {
                     sortOrder={1}
                     onRowClick={(row) => selectSong(row.data)}
                     globalFilter={globalFilter}
-                    emptyMessage="No songs found."
+                    emptyMessage={t('exception.no_songs_found')}
                 >
-                    <Column field="author" header="Author" sortable />
-                    <Column field="title" header="Title" sortable />
+                    <Column field="author" header={t('common.author')} sortable />
+                    <Column field="title" header={t('common.title')} sortable />
                     <Column header="" body={actionColumn} style={{ width: '100px' }} />
                 </DataTable>
             </div>

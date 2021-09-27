@@ -9,10 +9,12 @@ import { SongModel } from '../../model/SongModel';
 import { toast } from 'react-toastify';
 import SelectSong from '../shared/selectSong/SelectSong';
 import { saveItemToLocalStorage } from '../../service/LocalStorageService';
+import { useTranslation } from 'react-i18next';
 
 export default function Join() {
     let { sessionName: sessionNameFromUrl } = useParams();
     let history = useHistory();
+    const { t } = useTranslation();
     const { host, setHost, sessionName, setSessionName, song, setSong } = useContext(AppContext);
 
     useEffect(() => {
@@ -29,7 +31,7 @@ export default function Join() {
             .catch((err) => {
                 history.push('/');
                 console.log(err);
-                toast.error('Session not found');
+                toast.error(t('exception.session_not_found'));
             });
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
