@@ -13,14 +13,17 @@ import ExternalSearch from '../shared/externalSearch/ExternalSearch';
 import './header.scss';
 import { removeItemFromLocalStorage } from '../../service/LocalStorageService';
 import { useTranslation } from 'react-i18next';
+import Preferences from '../shared/preferences/Preferences';
 
 const Header = () => {
     let history = useHistory();
     const { t } = useTranslation();
     const { sessionName, setSessionName, setSong, host, setHost } = useContext(AppContext);
+    const menu = useRef<any>(null);
+
     const [songListModal, setSongListModal] = useState(false);
     const [externalSearchModal, setExternalSearchModal] = useState(false);
-    const menu = useRef<any>(null);
+    const [preferencesModal, setPreferencesModal] = useState(false);
 
     const closeSongListModal = () => {
         setSongListModal(false);
@@ -56,6 +59,14 @@ const Header = () => {
             template: <Divider />,
         },
         {
+            label: t('header.preferences'),
+            icon: 'pi pi-cog',
+            command: () => setPreferencesModal(true),
+        },
+        {
+            template: <Divider />,
+        },
+        {
             label: t('header.exit_session'),
             icon: 'pi pi-times',
             command: () => confirmExitSession(),
@@ -67,6 +78,8 @@ const Header = () => {
             showHeader: false,
             message: t('dialog.exit_session_confirmation'),
             accept: () => exitSession(),
+            rejectLabel: t('common.no'),
+            acceptLabel: t('common.yes'),
         });
     };
 
@@ -121,6 +134,18 @@ const Header = () => {
                 icons={<div className="modal-title">{t('header.external_search')}</div>}
             >
                 <ExternalSearch onSongSelected={closeExternalSearchModal} />
+            </Sidebar>
+
+            <Sidebar
+                visible={preferencesModal}
+                blockScroll={true}
+                fullScreen={false}
+                position="right"
+                modal={true}
+                onHide={() => setPreferencesModal(false)}
+                icons={<div className="modal-title">{t('header.preferences')}</div>}
+            >
+                <Preferences />
             </Sidebar>
         </div>
     );
