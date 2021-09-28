@@ -71,6 +71,13 @@ const Home = () => {
         setSessionType(e);
     };
 
+    const getHomeButtons = () => {
+        return [
+            { name: t('home.join'), value: SessionTypeEnum.JOIN },
+            { name: t('home.create'), value: SessionTypeEnum.CREATE },
+        ];
+    }
+
     return (
         <div className="home">
             <div className="flex-container">
@@ -85,10 +92,7 @@ const Home = () => {
                             unselectable={false}
                             value={sessionType}
                             optionLabel="name"
-                            options={[
-                                { name: 'Dołącz', value: SessionTypeEnum.JOIN },
-                                { name: 'Stwórz', value: SessionTypeEnum.CREATE },
-                            ]}
+                            options={getHomeButtons()}
                             onChange={(e) => handleHostChange(e.value)}
                         />
                     </div>

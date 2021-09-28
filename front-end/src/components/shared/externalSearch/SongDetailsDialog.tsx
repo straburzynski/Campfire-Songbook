@@ -1,5 +1,4 @@
 import React, { FC, useCallback } from 'react';
-import { Button } from 'primereact/button';
 import Lyrics from '../lyrics/Lyrics';
 import { Dialog } from 'primereact/dialog';
 import { SongModel } from '../../../model/SongModel';
@@ -48,25 +47,30 @@ const SongDetailsDialog: FC<SongDetailsDialogModel> = ({ song, host, showDialog,
             style={{ width: '90vw' }}
             footer={
                 <div>
-                    <Button
-                        label={t('common.save')}
-                        icon="pi pi-save"
+                    <button
+                        className="p-button p-component button-secondary float-left"
                         onClick={() => onSaveButton(song)}
-                        className="button-secondary float-left"
-                    />
-                    <Button
-                        label={t('common.close')}
-                        icon="pi pi-times"
+                    >
+                        <span className="p-button-icon p-c pi pi-save p-button-icon-left" />
+                        <span className="p-button-label p-c p-d-none p-d-sm-inline-flex">{t('common.save')}</span>
+                    </button>
+
+                    <button
+                        className="p-button p-component p-confirm-dialog-reject"
                         onClick={() => onDialogHide(false)}
-                        className="p-confirm-dialog-reject"
-                    />
+                    >
+                        <span className="p-button-icon p-c pi pi-times p-button-icon-left" />
+                        <span className="p-button-label p-c p-d-none p-d-sm-inline-flex">{t('common.close')}</span>
+                    </button>
+
                     {host && (
-                        <Button
-                            className="button-primary"
-                            label={t('common.select')}
-                            icon="pi pi-check"
+                        <button
+                            className="p-button p-component button-primary"
                             onClick={() => onDialogHide(true, song)}
-                        />
+                        >
+                            <span className="p-button-icon p-c pi pi-check p-button-icon-left" />
+                            <span className="p-button-label p-c">{t('common.select')}</span>
+                        </button>
                     )}
                 </div>
             }
