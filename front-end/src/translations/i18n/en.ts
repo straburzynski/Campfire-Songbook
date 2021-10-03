@@ -20,6 +20,7 @@ export const EN = {
         no_song_selected: 'The song has not been selected yet',
     },
     exception: {
+        chord_not_found: "Chord not found",
         external_api_exception: 'External search error',
         no_songs_found: 'No songs found',
         not_authorized_to_session: 'Not authorized to session',

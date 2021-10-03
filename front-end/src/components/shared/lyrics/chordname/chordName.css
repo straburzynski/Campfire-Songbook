@@ -1,0 +1,26 @@
+.chord-name-text {
+    font-weight: bold;
+    color: var(--app-accent);
+    cursor: pointer;
+}
+
+.annotation {
+    position: absolute;
+    top: -1rem;
+}
+
+.side {
+    font-weight: bold;
+}
+
+.chord-name.p-dialog-content {
+    padding-top: 0;
+}
+
+.chord-name-dialog.p-dialog .p-dialog-header {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.chord-name-dialog h2{
+    margin-top: 0;
+}

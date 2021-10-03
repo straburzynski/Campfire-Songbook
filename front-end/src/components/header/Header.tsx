@@ -76,7 +76,7 @@ const Header = () => {
     const confirmExitSession = () => {
         confirmDialog({
             showHeader: false,
-            message: t('dialog.exit_session_confirmation'),
+            message: <div className="p-mt-6">{t('dialog.exit_session_confirmation')}</div>,
             accept: () => exitSession(),
             rejectLabel: t('common.no'),
             acceptLabel: t('common.yes'),

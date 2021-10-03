@@ -1,6 +1,6 @@
 import React from 'react';
 import { ANNOTATION, NEW_LINE, SEPARATOR, SIDE } from '../../../config/ChordConfig';
-import Chord from './chord/Chord';
+import ChordName from './chordname/ChordName';
 import { SongModel } from '../../../model/SongModel';
 import { ChordPositionEnum } from '../../../model/ChordPosition';
 import './lyrics.css';
@@ -9,16 +9,18 @@ const Lyrics = ({ song }) => {
     const renderPart = (part: string, lineIndex: number, partIndex) => {
         if (part.startsWith(ANNOTATION)) {
             return (
-                <Chord
+                <ChordName
                     key={lineIndex.toString() + partIndex}
+                    chordId={lineIndex.toString() + partIndex}
                     chordName={part.substr(1)}
                     chordPosition={ChordPositionEnum.ANNOTATION}
                 />
             );
         } else if (part.startsWith(SIDE)) {
             return (
-                <Chord
+                <ChordName
                     key={lineIndex.toString() + partIndex}
+                    chordId={lineIndex.toString() + partIndex}
                     chordName={part.substr(1)}
                     chordPosition={ChordPositionEnum.SIDE}
                 />

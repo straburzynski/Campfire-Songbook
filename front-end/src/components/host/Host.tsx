@@ -16,7 +16,6 @@ export default function Host() {
     const { t } = useTranslation();
 
     useEffect(() => {
-        debugger;
         if (!sessionName) {
             const sessionNameFromStorage = history.location.pathname.split('/').pop();
             const passwordFromStorage = getItemFromLocalStorage('password');

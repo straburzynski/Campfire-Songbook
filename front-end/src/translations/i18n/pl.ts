@@ -20,6 +20,7 @@ export const PL = {
         no_song_selected: 'Nie wybrano jeszcze piosenki',
     },
     exception: {
+        chord_not_found: "Nie znaleziono akordu",
         external_api_exception: 'Błąd szukania w Internecie',
         no_songs_found: 'Nie znaleziono piosenek',
         not_authorized_to_session: 'Brak autoryzacji do sesji',
