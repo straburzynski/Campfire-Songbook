@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next';
 
 const ExternalSearch = ({ onSongSelected }) => {
     const { setSong, host, sessionName } = useContext(AppContext);
-    const { t} = useTranslation();
+    const { t } = useTranslation();
 
     const [songs, setSongs] = useState<ExternalApiSongModel[]>([]);
     const [query, setQuery] = useState<string>('');

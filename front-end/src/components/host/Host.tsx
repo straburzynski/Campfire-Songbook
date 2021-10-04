@@ -39,7 +39,7 @@ export default function Host() {
 
     return (
         <div className="p-p-2">
-            <Lyrics song={song} />
+            <Lyrics song={song} showChordDiagrams={true} />
             <SelectSong song={song} host={host} />
         </div>
     );

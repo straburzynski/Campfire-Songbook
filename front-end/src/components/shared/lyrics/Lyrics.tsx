@@ -3,9 +3,10 @@ import { ANNOTATION, NEW_LINE, SEPARATOR, SIDE } from '../../../config/ChordConf
 import ChordName from './chordname/ChordName';
 import { SongModel } from '../../../model/SongModel';
 import { ChordPositionEnum } from '../../../model/ChordPosition';
-import './lyrics.css';
+import SongChordDiagrams from '../songChordDiagrams/SongChordDiagrams';
+import './lyrics.scss';
 
-const Lyrics = ({ song }) => {
+const Lyrics = ({ song, showChordDiagrams = false }) => {
     const renderPart = (part: string, lineIndex: number, partIndex) => {
         if (part.startsWith(ANNOTATION)) {
             return (
@@ -47,7 +48,12 @@ const Lyrics = ({ song }) => {
         );
     };
 
-    return <>{song && SelectedSong(song)}</>;
+    return (
+        <>
+            {song && showChordDiagrams && <SongChordDiagrams lyrics={song.lyrics} />}
+            {song && SelectedSong(song)}
+        </>
+    );
 };
 
 export default React.memo(Lyrics);

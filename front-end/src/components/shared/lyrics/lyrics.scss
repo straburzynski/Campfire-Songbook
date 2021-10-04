@@ -1,0 +1,21 @@
+.lyrics p {
+  white-space: pre-wrap;
+  display: block;
+  position: relative;
+  font-family: monospace;
+}
+
+.menu-item {
+  padding: 0 1rem;
+}
+
+.modal-title {
+  align-items: stretch;
+  width: 100%;
+}
+
+.chord-container {
+  min-width: 115px;
+  max-width: 30%;
+}
+

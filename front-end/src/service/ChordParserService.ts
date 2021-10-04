@@ -10,6 +10,10 @@ export const getChordPositions = (chordName: string) => {
     }
 };
 
+export const getMultipleChordPositions = (chordNames: string[]) => {
+    return chordNames.map((chordName) => getChordPositions(chordName));
+};
+
 const isUpperCase = (string) => /^[A-Z]*$/.test(string);
 const suffixes: string[] = guitar.suffixes;
 
