@@ -16,4 +16,9 @@
     flex-direction: column;
     align-items: flex-end;
   }
+
+  &.p-inplace .p-inplace-display:not(.p-disabled):hover {
+    background: transparent;
+  }
+
 }

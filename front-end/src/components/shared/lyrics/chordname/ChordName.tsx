@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './chordName.css';
 import { Dialog } from 'primereact/dialog';
 import { getChordPositions } from '../../../../service/ChordParserService';
@@ -6,16 +6,18 @@ import Chord from '@tombatossals/react-chords/lib/Chord';
 import { Button } from 'primereact/button';
 import { useTranslation } from 'react-i18next';
 import instruments from '../../../../resources/chords/instruments.json';
+import AppContext from '../../../../context/AppContext';
 
 const ChordName = ({ chordId, chordName, chordPosition }) => {
     const [chordDialog, setChordDialog] = useState<boolean>(false);
     const [chordDiagrams, setChordDiagrams] = useState([]);
     const [currentChordIndex, setCurrentChordIndex] = useState<number>(0);
+    const { instrument } = useContext(AppContext);
     const { t } = useTranslation();
 
     const onChordClick = (e): void => {
         e.stopPropagation();
-        const chords = getChordPositions(chordName);
+        const chords = getChordPositions(instrument, chordName);
         setChordDiagrams(chords);
         setCurrentChordIndex(0);
         setChordDialog(true);
@@ -51,7 +53,7 @@ const ChordName = ({ chordId, chordName, chordPosition }) => {
                     <h2>{chordName}</h2>
                     {chordDiagrams ? (
                         <>
-                            <Chord chord={chordDiagrams[currentChordIndex]} instrument={instruments['guitar']} />
+                            <Chord chord={chordDiagrams[currentChordIndex]} instrument={instruments[instrument]} />
                             <div className="flex-item p-mt-2 p-as-center">
                                 <Button
                                     onClick={handlePrev}

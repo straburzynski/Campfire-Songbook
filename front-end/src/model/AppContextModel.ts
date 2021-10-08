@@ -1,4 +1,5 @@
 import { SongModel } from './SongModel';
+import { InstrumentEnum } from './InstrumentEnum';
 
 export interface AppContextModel {
     song?: SongModel;
@@ -7,6 +8,6 @@ export interface AppContextModel {
     setSessionName?: any;
     host?: boolean;
     setHost?: any;
-    showChords?: boolean;
-    setShowChords?: any;
+    instrument: InstrumentEnum,
+    setInstrument?: any;
 }

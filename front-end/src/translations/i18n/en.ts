@@ -22,6 +22,7 @@ export const EN = {
     exception: {
         chord_not_found: "Chord not found",
         external_api_exception: 'External search error',
+        enter_song_name: "Enter song name",
         no_songs_found: 'No songs found',
         not_authorized_to_session: 'Not authorized to session',
         not_found: 'Not found',
@@ -43,6 +44,11 @@ export const EN = {
     },
     preferences: {
         language: 'Language',
+        instrument: 'Instrument',
+    },
+    instrument: {
+        guitar: 'Guitar',
+        ukulele: 'Ukulele',
     },
     language: {
         english: 'English',

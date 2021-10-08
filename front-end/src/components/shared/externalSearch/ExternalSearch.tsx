@@ -28,6 +28,10 @@ const ExternalSearch = ({ onSongSelected }) => {
     const [temporarySong, setTemporarySong] = useState<SongModel>();
 
     const handleSearchButton = () => {
+        if (query === '') {
+            toast.warning(t('exception.enter_song_name'));
+            return;
+        }
         externalApiSearch(query).then((res: ExternalApiSongModel[]) => {
             setSongs(res);
         });

@@ -1,17 +1,25 @@
 import { ChordDetails } from '../model/ChordDetails';
 import { CHORDS_MAPPING } from '../config/ChordConfig';
 import guitar from '../resources/chords/guitar.json';
+import ukulele from '../resources/chords/ukulele.json';
+import { InstrumentEnum } from '../model/InstrumentEnum';
 
-export const getChordPositions = (chordName: string) => {
+export const getChordPositions = (instrument: InstrumentEnum, chordName: string) => {
     const chord = extractChord(chordName);
     if (chord != null) {
-        const foundChords = guitar.chords[chord.key].filter((i) => i.suffix === chord.suffix)[0];
-        return foundChords.positions;
+        switch (instrument) {
+            case InstrumentEnum.GUITAR:
+                return guitar.chords[chord.key].filter((i) => i.suffix === chord.suffix)[0].positions;
+            case InstrumentEnum.UKULELE:
+                return ukulele.chords[chord.key].filter((i) => i.suffix === chord.suffix)[0].positions;
+            default:
+                return guitar.chords[chord.key].filter((i) => i.suffix === chord.suffix)[0].positions;
+        }
     }
 };
 
-export const getMultipleChordPositions = (chordNames: string[]) => {
-    return chordNames.map((chordName) => getChordPositions(chordName));
+export const getMultipleChordPositions = (instrument: InstrumentEnum, chordNames: string[]) => {
+    return chordNames.map((chordName) => getChordPositions(instrument, chordName));
 };
 
 const isUpperCase = (string) => /^[A-Z]*$/.test(string);

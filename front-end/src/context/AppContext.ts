@@ -1,11 +1,12 @@
 import React from 'react';
 import { AppContextModel } from '../model/AppContextModel';
+import { InstrumentEnum } from '../model/InstrumentEnum';
 
 const AppContext = React.createContext<AppContextModel>({
     song: undefined,
     sessionName: undefined,
     host: false,
-    showChords: true,
+    instrument: InstrumentEnum.GUITAR
 });
 
 export default AppContext;

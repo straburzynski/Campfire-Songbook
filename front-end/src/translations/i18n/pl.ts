@@ -21,6 +21,7 @@ export const PL = {
     },
     exception: {
         chord_not_found: "Nie znaleziono akordu",
+        enter_song_name: "Wpisz tytuł piosenki",
         external_api_exception: 'Błąd szukania w Internecie',
         no_songs_found: 'Nie znaleziono piosenek',
         not_authorized_to_session: 'Brak autoryzacji do sesji',
@@ -43,6 +44,11 @@ export const PL = {
     },
     preferences: {
         language: 'Język',
+        instrument: 'Instrument',
+    },
+    instrument: {
+        guitar: 'Gitara',
+        ukulele: 'Ukulele',
     },
     language: {
         english: 'Angielski',
