@@ -10,6 +10,8 @@ import { toast } from 'react-toastify';
 import SelectSong from '../shared/selectSong/SelectSong';
 import { saveItemToLocalStorage } from '../../service/LocalStorageService';
 import { useTranslation } from 'react-i18next';
+import { CustomExceptionModel } from '../../model/CustomExceptionModel';
+import { handleError } from '../../service/ExceptionService';
 
 export default function Join() {
     let { sessionName: sessionNameFromUrl } = useParams();
@@ -30,8 +32,12 @@ export default function Join() {
             })
             .catch((err) => {
                 history.push('/');
-                console.log(err);
-                toast.error(t('exception.session_not_found'));
+                const ex = err.response?.data as CustomExceptionModel;
+                if (ex.params.hasOwnProperty('name')) {
+                    toast.warning(t(ex.translationKey, { name: ex.params['name'] }));
+                } else {
+                    handleError(err);
+                }
             });
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 

@@ -14,6 +14,7 @@ import { handleError } from '../../service/ExceptionService';
 import { getItemFromLocalStorage, saveItemToLocalStorage } from '../../service/LocalStorageService';
 import { useTranslation } from 'react-i18next';
 import './home.scss';
+import { CustomExceptionModel } from '../../model/CustomExceptionModel';
 
 const Home = () => {
     let history = useHistory();
@@ -46,7 +47,14 @@ const Home = () => {
                     setHost(true);
                     history.push({ pathname: `/host/${sessionName}` });
                 })
-                .catch((err) => handleError(err));
+                .catch((err) => {
+                    const ex = err.response?.data as CustomExceptionModel;
+                    if (ex.translationKey) {
+                        toast.error(t(ex.translationKey));
+                    } else {
+                        handleError(err);
+                    }
+                });
         }
     };
 
@@ -64,7 +72,15 @@ const Home = () => {
                     },
                 });
             })
-            .catch((err) => handleError(err));
+            .catch((err) => {
+                history.push('/');
+                const ex = err.response?.data as CustomExceptionModel;
+                if (ex.params.hasOwnProperty('name')) {
+                    toast.warning(t(ex.translationKey, { name: ex.params['name'] }));
+                } else {
+                    handleError(err);
+                }
+            });
     };
 
     const handleHostChange = (e): void => {
@@ -76,7 +92,7 @@ const Home = () => {
             { name: t('home.join'), value: SessionTypeEnum.JOIN },
             { name: t('home.create'), value: SessionTypeEnum.CREATE },
         ];
-    }
+    };
 
     return (
         <div className="home">

@@ -21,12 +21,13 @@ export const EN = {
     },
     exception: {
         chord_not_found: "Chord not found",
-        external_api_exception: 'External search error',
+        external_api_exception: 'External search error {{message}}',
         enter_song_name: "Enter song name",
         no_songs_found: 'No songs found',
         not_authorized_to_session: 'Not authorized to session',
         not_found: 'Not found',
-        session_not_found: 'Session not found',
+        session_not_found: 'Session {{name}} not found',
+        song_exists: "Song {{title}} by author {{author}} was already saved"
     },
     common: {
         author: 'Author',

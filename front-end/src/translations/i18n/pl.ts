@@ -22,11 +22,12 @@ export const PL = {
     exception: {
         chord_not_found: "Nie znaleziono akordu",
         enter_song_name: "Wpisz tytuł piosenki",
-        external_api_exception: 'Błąd szukania w Internecie',
+        external_api_exception: 'Błąd szukania w Internecie {{message}}',
         no_songs_found: 'Nie znaleziono piosenek',
         not_authorized_to_session: 'Brak autoryzacji do sesji',
         not_found: 'Nie znaleziono',
-        session_not_found: 'Nie znaleziono sesji',
+        session_not_found: 'Nie znaleziono sesji {{name}}',
+        song_exists: "Piosenka {{title}} autora {{author}} została już zapisana"
     },
     common: {
         author: 'Autor',

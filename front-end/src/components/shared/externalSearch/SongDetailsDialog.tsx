@@ -7,6 +7,8 @@ import { saveSong } from '../../../service/SongService';
 import { toast } from 'react-toastify';
 import { handleError } from '../../../service/ExceptionService';
 import { useTranslation } from 'react-i18next';
+import { AxiosError } from 'axios';
+import { CustomExceptionModel } from '../../../model/CustomExceptionModel';
 
 interface SongDetailsDialogModel {
     song: SongModel;
@@ -36,7 +38,14 @@ const SongDetailsDialog: FC<SongDetailsDialogModel> = ({ song, host, showDialog,
                     toast.success(t('dialog.song_added'));
                     onShowDialog(false);
                 })
-                .catch((err) => handleError(err));
+                .catch((err: AxiosError) => {
+                    const ex = err.response?.data as CustomExceptionModel;
+                    if (ex.params.hasOwnProperty('song')) {
+                        toast.warning(t(ex.translationKey, ex.params['song']));
+                    } else {
+                        handleError(err);
+                    }
+                });
         },
         [onShowDialog, t]
     );

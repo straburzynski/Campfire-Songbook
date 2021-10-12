@@ -31,12 +31,12 @@ const SongChordDiagrams = ({ lyrics }) => {
         return (
             <div className="p-d-flex p-flex-row p-flex-wrap p-justify-center">
                 {multipleChordPositions.map((chord, index) => {
-                    return (
+                    return chord ? (
                         <div key={index} className="chord-container p-d-flex p-flex-column p-ai-center p-jc-center">
                             <h2>{chordList[index]}</h2>
                             <Chord key={index} chord={chord[0]} instrument={instruments[instrument]} />
                         </div>
-                    );
+                    ) : null;
                 })}
             </div>
         );

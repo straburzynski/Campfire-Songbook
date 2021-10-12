@@ -9,13 +9,21 @@ export const getChordPositions = (instrument: InstrumentEnum, chordName: string)
     if (chord != null) {
         switch (instrument) {
             case InstrumentEnum.GUITAR:
-                return guitar.chords[chord.key].filter((i) => i.suffix === chord.suffix)[0].positions;
+                return findChordPositions(chord, guitar);
             case InstrumentEnum.UKULELE:
-                return ukulele.chords[chord.key].filter((i) => i.suffix === chord.suffix)[0].positions;
-            default:
-                return guitar.chords[chord.key].filter((i) => i.suffix === chord.suffix)[0].positions;
+                return findChordPositions(chord, ukulele);
         }
     }
+};
+
+const findChordPositions = (chord: ChordDetails, instrument: any) => {
+    if (instrument.chords.hasOwnProperty(chord.key)) {
+        const foundChord = instrument.chords[chord.key]?.filter((i) => i.suffix === chord.suffix);
+        if (foundChord.length > 0) {
+            return foundChord[0].positions;
+        }
+    }
+    return;
 };
 
 export const getMultipleChordPositions = (instrument: InstrumentEnum, chordNames: string[]) => {

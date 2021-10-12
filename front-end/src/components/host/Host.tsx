@@ -9,6 +9,7 @@ import { createSession } from '../../service/SessionService';
 import { SessionModel } from '../../model/SessionModel';
 import { handleError } from '../../service/ExceptionService';
 import { useTranslation } from 'react-i18next';
+import { CustomExceptionModel } from '../../model/CustomExceptionModel';
 
 export default function Host() {
     let history = useHistory();
@@ -27,8 +28,13 @@ export default function Host() {
                         setHost(true);
                     })
                     .catch((err) => {
-                        handleError(err);
                         history.push('/');
+                        const ex = err.response?.data as CustomExceptionModel;
+                        if (ex.translationKey) {
+                            toast.warning(t(ex.translationKey));
+                        } else {
+                            handleError(err);
+                        }
                     });
             } else {
                 toast.error(t('exception.not_authorized_to_session'));

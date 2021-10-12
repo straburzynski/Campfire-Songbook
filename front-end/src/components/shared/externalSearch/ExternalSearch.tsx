@@ -17,6 +17,9 @@ import { InputText } from 'primereact/inputtext';
 import './externalSearch.scss';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { AxiosError } from 'axios';
+import { CustomExceptionModel } from '../../../model/CustomExceptionModel';
+import { handleError } from '../../../service/ExceptionService';
 
 const ExternalSearch = ({ onSongSelected }) => {
     const { setSong, host, sessionName } = useContext(AppContext);
@@ -32,9 +35,16 @@ const ExternalSearch = ({ onSongSelected }) => {
             toast.warning(t('exception.enter_song_name'));
             return;
         }
-        externalApiSearch(query).then((res: ExternalApiSongModel[]) => {
-            setSongs(res);
-        });
+        externalApiSearch(query)
+            .then((res: ExternalApiSongModel[]) => setSongs(res))
+            .catch((err: AxiosError) => {
+                const ex = err.response?.data as CustomExceptionModel;
+                if (ex.params.hasOwnProperty('message')) {
+                    toast.error(t(ex.translationKey, { message: ex.params['message'] }));
+                } else {
+                    handleError(err);
+                }
+            });
     };
     const handleOnSubmit = (e) => {
         e.preventDefault();
