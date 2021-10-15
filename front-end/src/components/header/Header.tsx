@@ -14,6 +14,7 @@ import './header.scss';
 import { removeItemFromLocalStorage } from '../../service/LocalStorageService';
 import { useTranslation } from 'react-i18next';
 import Preferences from '../shared/preferences/Preferences';
+import { toast } from 'react-toastify';
 
 const Header = () => {
     let history = useHistory();
@@ -67,11 +68,31 @@ const Header = () => {
             template: <Divider />,
         },
         {
+            label: t('header.share'),
+            icon: 'pi pi-share-alt',
+            command: () => share(),
+        },
+        {
+            template: <Divider />,
+        },
+        {
             label: t('header.exit_session'),
             icon: 'pi pi-times',
             command: () => confirmExitSession(),
         },
     ];
+
+    const share = () => {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Campfire Songbook',
+                text: t('share.text', { sessionName: sessionName }),
+                url: `${window.location.origin}/join/${sessionName}`,
+            });
+        } else {
+            toast.warning(t('exception.cannot_share'));
+        }
+    };
 
     const confirmExitSession = () => {
         confirmDialog({

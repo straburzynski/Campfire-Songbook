@@ -12,6 +12,7 @@ export const PL = {
         exit_session: 'Zakończ sesję',
         external_search: 'Szukaj w Internecie',
         preferences: 'Opcje',
+        share: "Udostępnij",
         song_list: 'Lista piosenek',
     },
     dialog: {
@@ -26,8 +27,9 @@ export const PL = {
         no_songs_found: 'Nie znaleziono piosenek',
         not_authorized_to_session: 'Brak autoryzacji do sesji',
         not_found: 'Nie znaleziono',
+        cannot_share: 'Nie można udostępnić na tym urządzeniu',
         session_not_found: 'Nie znaleziono sesji {{name}}',
-        song_exists: "Piosenka {{title}} autora {{author}} została już zapisana"
+        song_exists: "Piosenka {{title}} autora {{author}} została już zapisana",
     },
     common: {
         author: 'Autor',
@@ -55,4 +57,7 @@ export const PL = {
         english: 'Angielski',
         polish: 'Polski',
     },
+    share: {
+        text: 'Campfire Songbook - dołącz do sesji: {{sessionName}}'
+    }
 };

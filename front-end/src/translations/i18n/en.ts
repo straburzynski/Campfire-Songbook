@@ -12,6 +12,7 @@ export const EN = {
         exit_session: 'Exit session',
         external_search: 'External search',
         preferences: 'Preferences',
+        share: "Share",
         song_list: 'Song list',
     },
     dialog: {
@@ -26,6 +27,7 @@ export const EN = {
         no_songs_found: 'No songs found',
         not_authorized_to_session: 'Not authorized to session',
         not_found: 'Not found',
+        cannot_share: 'Cannot share on this device',
         session_not_found: 'Session {{name}} not found',
         song_exists: "Song {{title}} by author {{author}} was already saved"
     },
@@ -55,4 +57,7 @@ export const EN = {
         english: 'English',
         polish: 'Polish',
     },
+    share: {
+        text: 'Campfire Songbook - join session: {{sessionName}}'
+    }
 };
