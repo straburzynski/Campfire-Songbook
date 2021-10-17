@@ -27,14 +27,14 @@ const SongChordDiagrams = ({ lyrics }) => {
             });
         });
         const chordList: string[] = Array.from(songChords);
-        const multipleChordPositions = getMultipleChordPositions(instrument, chordList);
+        const multipleChordPositions = getMultipleChordPositions(instrument!, chordList);
         return (
             <div className="p-d-flex p-flex-row p-flex-wrap p-justify-center">
                 {multipleChordPositions.map((chord, index) => {
                     return chord ? (
                         <div key={index} className="chord-container p-d-flex p-flex-column p-ai-center p-jc-center">
                             <h2>{chordList[index]}</h2>
-                            <Chord key={index} chord={chord[0]} instrument={instruments[instrument]} />
+                            <Chord key={index} chord={chord[0]} instrument={instruments[instrument!]} />
                         </div>
                     ) : null;
                 })}
@@ -47,7 +47,7 @@ const SongChordDiagrams = ({ lyrics }) => {
             <InplaceDisplay>
                 <Button
                     className="p-button-text"
-                    label={t('common.showChords')}
+                    label={t('common.show_chords')}
                     icon="pi pi-angle-down"
                     iconPos="right"
                 />
@@ -55,7 +55,7 @@ const SongChordDiagrams = ({ lyrics }) => {
             <InplaceContent>
                 <Button
                     className="p-button-text"
-                    label={t('common.hideChords')}
+                    label={t('common.hide_chords')}
                     icon="pi pi-angle-up"
                     iconPos="right"
                     onClick={() => setChordsActive(!chordsActive)}

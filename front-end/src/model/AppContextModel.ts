@@ -8,6 +8,8 @@ export interface AppContextModel {
     setSessionName?: any;
     host?: boolean;
     setHost?: any;
-    instrument: InstrumentEnum,
+    instrument?: InstrumentEnum,
     setInstrument?: any;
+    fontSize?: number;
+    setFontSize?: any;
 }

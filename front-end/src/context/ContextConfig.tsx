@@ -6,6 +6,7 @@ export const CreateAppContext = () => {
     const [sessionName, setSessionName] = useState<string>();
     const [song, setSong] = useState<SongModel>();
     const [host, setHost] = useState<boolean>(false);
+    const [fontSize, setFontSize] = useState<number>(13);
     const [instrument, setInstrument] = useState<InstrumentEnum>(InstrumentEnum.GUITAR);
 
     return {
@@ -17,5 +18,7 @@ export const CreateAppContext = () => {
         setHost,
         instrument,
         setInstrument,
+        fontSize,
+        setFontSize,
     };
 };

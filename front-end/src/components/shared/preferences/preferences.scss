@@ -5,3 +5,9 @@
 .p-width-50 {
   width: 50%;
 }
+
+.p-buttonset {
+  .p-button.p-button-secondary.p-button-outlined {
+    border: #ced4da 1px solid;
+  }
+}

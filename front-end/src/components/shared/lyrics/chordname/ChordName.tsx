@@ -17,7 +17,7 @@ const ChordName = ({ chordId, chordName, chordPosition }) => {
 
     const onChordClick = (e): void => {
         e.stopPropagation();
-        const chords = getChordPositions(instrument, chordName);
+        const chords = getChordPositions(instrument!, chordName);
         setChordDiagrams(chords);
         setCurrentChordIndex(0);
         setChordDialog(true);
@@ -53,7 +53,7 @@ const ChordName = ({ chordId, chordName, chordPosition }) => {
                     <h2>{chordName}</h2>
                     {chordDiagrams ? (
                         <>
-                            <Chord chord={chordDiagrams[currentChordIndex]} instrument={instruments[instrument]} />
+                            <Chord chord={chordDiagrams[currentChordIndex]} instrument={instruments[instrument!]} />
                             <div className="flex-item p-mt-2 p-as-center">
                                 <Button
                                     onClick={handlePrev}

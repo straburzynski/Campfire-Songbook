@@ -35,12 +35,12 @@ export const EN = {
         author: 'Author',
         close: 'Close',
         home: 'Home',
-        hideChords: 'Hide chords',
+        hide_chords: 'Hide chords',
         no: 'No',
         save: 'Save',
         select: 'Select',
         select_song: 'Select song',
-        showChords: 'Show chords',
+        show_chords: 'Show chords',
         search: 'Search',
         title: 'Title',
         yes: 'Yes',
@@ -48,6 +48,7 @@ export const EN = {
     preferences: {
         language: 'Language',
         instrument: 'Instrument',
+        font_size: 'Font size',
     },
     instrument: {
         guitar: 'Guitar',

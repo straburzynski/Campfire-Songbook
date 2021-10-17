@@ -35,12 +35,12 @@ export const PL = {
         author: 'Autor',
         close: 'Zamknij',
         home: 'Strona główna',
-        hideChords: 'Ukryj chwyty',
+        hide_chords: 'Ukryj chwyty',
         no: 'Nie',
         save: 'Zapisz',
         select: 'Wybierz',
         select_song: 'Wybierz piosenkę',
-        showChords: 'Pokaż chwyty',
+        show_chords: 'Pokaż chwyty',
         search: 'Szukaj',
         title: 'Tytuł',
         yes: 'Tak',
@@ -48,6 +48,7 @@ export const PL = {
     preferences: {
         language: 'Język',
         instrument: 'Instrument',
+        font_size: 'Wielkość czcionki',
     },
     instrument: {
         guitar: 'Gitara',
