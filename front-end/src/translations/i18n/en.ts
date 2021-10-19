@@ -12,7 +12,8 @@ export const EN = {
         exit_session: 'Exit session',
         external_search: 'External search',
         preferences: 'Preferences',
-        share: "Share",
+        search_on_youtube: 'Search on Youtube',
+        share: 'Share',
         song_list: 'Song list',
     },
     dialog: {
@@ -21,15 +22,16 @@ export const EN = {
         no_song_selected: 'The song has not been selected yet',
     },
     exception: {
-        chord_not_found: "Chord not found",
+        chord_not_found: 'Chord not found',
         external_api_exception: 'External search error {{message}}',
-        enter_song_name: "Enter song name",
+        enter_song_name: 'Enter song name',
         no_songs_found: 'No songs found',
         not_authorized_to_session: 'Not authorized to session',
         not_found: 'Not found',
         cannot_share: 'Cannot share on this device',
         session_not_found: 'Session {{name}} not found',
-        song_exists: "Song {{title}} by author {{author}} was already saved"
+        song_exists: 'Song {{title}} by author {{author}} was already saved',
+        video_not_found: 'Video not found',
     },
     common: {
         author: 'Author',
@@ -59,6 +61,6 @@ export const EN = {
         polish: 'Polish',
     },
     share: {
-        text: 'Campfire Songbook - join session: {{sessionName}}'
-    }
+        text: 'Campfire Songbook - join session: {{sessionName}}',
+    },
 };

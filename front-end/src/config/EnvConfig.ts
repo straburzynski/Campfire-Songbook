@@ -10,6 +10,7 @@ const config = process.env.NODE_ENV === 'development' ? dev : process.env.NODE_E
 
 const EnvConfig = {
     // common EnvConfig
+    ...{youtubeApiKey: process.env.REACT_APP_YOUTUBE_API_KEY},
     ...config,
 };
 

@@ -15,22 +15,39 @@ import { removeItemFromLocalStorage } from '../../service/LocalStorageService';
 import { useTranslation } from 'react-i18next';
 import Preferences from '../shared/preferences/Preferences';
 import { toast } from 'react-toastify';
+import ReactPlayer from 'react-player';
+import { Dialog } from 'primereact/dialog';
+import { getResultList, getYoutubeUrl } from '../../service/YouTubeService';
 
 const Header = () => {
     let history = useHistory();
     const { t } = useTranslation();
-    const { sessionName, setSessionName, setSong, host, setHost } = useContext(AppContext);
+    const { sessionName, setSessionName, song, setSong, host, setHost } = useContext(AppContext);
     const menu = useRef<any>(null);
 
     const [songListModal, setSongListModal] = useState(false);
     const [externalSearchModal, setExternalSearchModal] = useState(false);
     const [preferencesModal, setPreferencesModal] = useState(false);
+    const [youtubeModal, setYoutubeModal] = useState(false);
+    const [url, setUrl] = useState('');
 
-    const closeSongListModal = () => {
+    const closeSongListModal = (): void => {
         setSongListModal(false);
     };
-    const closeExternalSearchModal = () => {
+    const closeExternalSearchModal = (): void => {
         setExternalSearchModal(false);
+    };
+
+    const getYoutubeResults = (): void => {
+        getResultList(song?.author + ' ' + song?.title).then((res) => {
+            if (res.items.length > 0) {
+                const url: string = getYoutubeUrl(res.items[0].id.videoId);
+                setUrl(url);
+                setYoutubeModal(true);
+            } else {
+                toast.warning(t('exception.video_not_found'));
+            }
+        });
     };
 
     const items = [
@@ -55,6 +72,11 @@ const Header = () => {
             label: t('header.external_search'),
             icon: 'pi pi-search',
             command: () => setExternalSearchModal(true),
+        },
+        {
+            label: t('header.search_on_youtube'),
+            icon: 'pi pi-youtube',
+            command: () => getYoutubeResults(),
         },
         {
             template: <Divider />,
@@ -156,6 +178,18 @@ const Header = () => {
             >
                 <ExternalSearch onSongSelected={closeExternalSearchModal} />
             </Sidebar>
+
+            <Dialog
+                visible={youtubeModal}
+                style={{ width: '90vw' }}
+                onHide={() => setYoutubeModal(false)}
+                dismissableMask={true}
+                showHeader={true}
+                focusOnShow={false}
+                modal={true}
+            >
+                <ReactPlayer url={url} playing width="100%" height="100%" />
+            </Dialog>
 
             <Sidebar
                 visible={preferencesModal}

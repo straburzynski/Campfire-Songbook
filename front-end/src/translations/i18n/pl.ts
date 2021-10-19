@@ -12,7 +12,8 @@ export const PL = {
         exit_session: 'Zakończ sesję',
         external_search: 'Szukaj w Internecie',
         preferences: 'Opcje',
-        share: "Udostępnij",
+        search_on_youtube: 'Szukaj na Youtube',
+        share: 'Udostępnij',
         song_list: 'Lista piosenek',
     },
     dialog: {
@@ -21,15 +22,16 @@ export const PL = {
         no_song_selected: 'Nie wybrano jeszcze piosenki',
     },
     exception: {
-        chord_not_found: "Nie znaleziono akordu",
-        enter_song_name: "Wpisz tytuł piosenki",
+        chord_not_found: 'Nie znaleziono akordu',
+        enter_song_name: 'Wpisz tytuł piosenki',
         external_api_exception: 'Błąd szukania w Internecie {{message}}',
         no_songs_found: 'Nie znaleziono piosenek',
         not_authorized_to_session: 'Brak autoryzacji do sesji',
         not_found: 'Nie znaleziono',
         cannot_share: 'Nie można udostępnić na tym urządzeniu',
         session_not_found: 'Nie znaleziono sesji {{name}}',
-        song_exists: "Piosenka {{title}} autora {{author}} została już zapisana",
+        song_exists: 'Piosenka {{title}} autora {{author}} została już zapisana',
+        video_not_found: 'Nie znaleziono video',
     },
     common: {
         author: 'Autor',
@@ -59,6 +61,6 @@ export const PL = {
         polish: 'Polski',
     },
     share: {
-        text: 'Campfire Songbook - dołącz do sesji: {{sessionName}}'
-    }
+        text: 'Campfire Songbook - dołącz do sesji: {{sessionName}}',
+    },
 };
