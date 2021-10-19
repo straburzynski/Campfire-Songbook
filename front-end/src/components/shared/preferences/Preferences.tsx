@@ -6,6 +6,8 @@ import './preferences.scss';
 import AppContext from '../../../context/AppContext';
 import { InstrumentEnum } from '../../../model/InstrumentEnum';
 import { Button } from 'primereact/button';
+import { saveItemToLocalStorage } from '../../../service/LocalStorageService';
+import { DEFAULT_FONT_SIZE } from '../../../config/AppConfig';
 
 const Preferences = () => {
     const { instrument, setInstrument, fontSize, setFontSize } = useContext(AppContext);
@@ -25,17 +27,21 @@ const Preferences = () => {
     };
 
     const changeInstrument = (e): void => {
+        saveItemToLocalStorage('instrument', e.value)
         setInstrument(e.value);
     };
 
     const incrementFontSize = (): void => {
+        saveItemToLocalStorage('fontSize', fontSize! + 1)
         setFontSize(fontSize! + 1);
     };
     const decrementFontSize = (): void => {
+        saveItemToLocalStorage('fontSize', fontSize! - 1)
         setFontSize(fontSize! - 1);
     };
     const resetFontSize = (): void => {
-        setFontSize(13);
+        saveItemToLocalStorage('fontSize', DEFAULT_FONT_SIZE)
+        setFontSize(DEFAULT_FONT_SIZE);
     };
 
     return (
