@@ -50,6 +50,20 @@ const Header = () => {
         });
     };
 
+    function createYoutubeMenuItem() {
+        if (song) {
+            return {
+                label: t('header.search_on_youtube'),
+                icon: 'pi pi-youtube',
+                command: () => getYoutubeResults(),
+            };
+        } else {
+            return {
+                template: <></>,
+            };
+        }
+    }
+
     const items = [
         {
             template: (
@@ -73,11 +87,7 @@ const Header = () => {
             icon: 'pi pi-search',
             command: () => setExternalSearchModal(true),
         },
-        {
-            label: t('header.search_on_youtube'),
-            icon: 'pi pi-youtube',
-            command: () => getYoutubeResults(),
-        },
+        createYoutubeMenuItem(),
         {
             template: <Divider />,
         },
