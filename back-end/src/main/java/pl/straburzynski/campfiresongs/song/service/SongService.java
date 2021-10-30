@@ -24,6 +24,7 @@ public class SongService {
         if (exists) {
             throw new SongExistsException(song);
         } else {
+            song.setId(UUID.randomUUID());
             songRepository.save(song);
         }
     }
@@ -36,4 +37,13 @@ public class SongService {
         return songRepository.findById(id).orElseThrow(() -> new SongNotFoundException(id));
     }
 
+    public void update(UUID id, SongDto songDto) {
+        Song song = songConverter.convertFromSongDto(songDto);
+        song.setId(id);
+        songRepository.save(song);
+    }
+
+    public void deleteById(UUID id) {
+        songRepository.deleteById(id);
+    }
 }
