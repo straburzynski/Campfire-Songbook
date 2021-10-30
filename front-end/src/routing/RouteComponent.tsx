@@ -3,6 +3,7 @@ import Home from '../components/home/Home';
 import Host from '../components/host/Host';
 import Join from '../components/join/Join';
 import NotFound from '../components/notFound/NotFound';
+import SongEditor from '../components/songEditor/SongEditor';
 import React from 'react';
 
 const RouteComponent = () => {
@@ -16,6 +17,9 @@ const RouteComponent = () => {
             </Route>
             <Route exact path="/join/:sessionName">
                 <Join />
+            </Route>
+            <Route exact path="/editor">
+                <SongEditor />
             </Route>
             <Route path="*">
                 <NotFound />

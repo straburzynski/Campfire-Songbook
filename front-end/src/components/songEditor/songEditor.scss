@@ -1,0 +1,33 @@
+.editor {
+  .p-button.button-primary {
+    background: var(--app-primary);
+    border-color: var(--app-primary-dark);
+    color: white;
+  }
+
+  .button-primary.p-button:not(a):not(.p-disabled):hover {
+    background: var(--app-primary-dark);
+    border-color: var(--app-primary);
+  }
+
+  .p-dropdown, .p-dropdown-panel {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .ellipsis {
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .p-field {
+    margin-top: 1.5rem;
+  }
+
+  .p-divider.p-divider-horizontal.custom-divider {
+    margin: 2rem 0;
+  }
+
+}

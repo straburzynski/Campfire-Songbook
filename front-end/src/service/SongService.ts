@@ -9,7 +9,19 @@ export function getSong(songId: string): Promise<SongModel> {
 }
 
 export function saveSong(song: SongModel): Promise<void> {
+    return song.id ? updateSong(song) : createSong(song);
+}
+
+export function createSong(song: SongModel): Promise<void> {
     return trackPromise(API.post('songs', song).then((result: AxiosResponse<void>) => result.data));
+}
+
+export function updateSong(song: SongModel): Promise<void> {
+    return trackPromise(API.put('songs/' + song.id, song).then((result: AxiosResponse<void>) => result.data));
+}
+
+export function deleteSong(id: string): Promise<void> {
+    return trackPromise(API.delete('songs/' + id,).then((result: AxiosResponse<void>) => result.data));
 }
 
 export function getAllSongs(): Promise<SongModel[]> {

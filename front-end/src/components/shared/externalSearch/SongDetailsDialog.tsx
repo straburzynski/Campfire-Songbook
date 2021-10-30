@@ -3,7 +3,7 @@ import Lyrics from '../lyrics/Lyrics';
 import { Dialog } from 'primereact/dialog';
 import { SongModel } from '../../../model/SongModel';
 import './songDetailsDialog.scss';
-import { saveSong } from '../../../service/SongService';
+import { createSong } from '../../../service/SongService';
 import { toast } from 'react-toastify';
 import { handleError } from '../../../service/ExceptionService';
 import { useTranslation } from 'react-i18next';
@@ -33,7 +33,7 @@ const SongDetailsDialog: FC<SongDetailsDialogModel> = ({ song, host, showDialog,
 
     const onSaveButton = useCallback(
         (song: SongModel) => {
-            saveSong(song)
+            createSong(song)
                 .then(() => {
                     toast.success(t('dialog.song_added'));
                     onShowDialog(false);

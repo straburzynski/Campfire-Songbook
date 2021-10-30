@@ -17,9 +17,18 @@ export const EN = {
         song_list: 'Song list',
     },
     dialog: {
+        delete_song_confirmation: 'Are you sure you want to delete this song?',
         exit_session_confirmation: 'Are you sure you want to exit session?',
         song_added: 'Song saved',
         no_song_selected: 'The song has not been selected yet',
+    },
+    editor: {
+        author_required: 'Author required',
+        lyrics_required: 'Lyrics required',
+        title_required: 'Title required',
+        song_deleted: 'Song deleted',
+        song_editor: 'Song editor',
+        song_updated: 'Song saved',
     },
     exception: {
         chord_not_found: 'Chord not found',
@@ -28,6 +37,7 @@ export const EN = {
         no_songs_found: 'No songs found',
         not_authorized_to_session: 'Not authorized to session',
         not_found: 'Not found',
+        cannot_save_song: 'Cannot save song',
         cannot_share: 'Cannot share on this device',
         session_not_found: 'Session {{name}} not found',
         song_exists: 'Song {{title}} by author {{author}} was already saved',
@@ -36,8 +46,10 @@ export const EN = {
     common: {
         author: 'Author',
         close: 'Close',
+        delete: 'Delete',
         home: 'Home',
         hide_chords: 'Hide chords',
+        lyrics: 'Lyrics',
         no: 'No',
         save: 'Save',
         select: 'Select',
