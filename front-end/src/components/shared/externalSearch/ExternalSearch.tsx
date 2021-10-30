@@ -136,7 +136,7 @@ const ExternalSearch = ({ onSongSelected }) => {
                                 type="search"
                                 value={query}
                                 onChange={handleOnChange}
-                                placeholder={t('common.search')}
+                                placeholder={t('common.search_by_title')}
                             />
                             <Button
                                 type="button"

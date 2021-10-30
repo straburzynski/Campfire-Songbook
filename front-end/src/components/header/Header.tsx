@@ -53,7 +53,7 @@ const Header = () => {
     function createYoutubeMenuItem() {
         if (song) {
             return {
-                label: t('header.search_on_youtube'),
+                label: t('header.play_on_youtube'),
                 icon: 'pi pi-youtube',
                 command: () => getYoutubeResults(),
             };

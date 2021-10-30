@@ -51,7 +51,15 @@ export default function Join() {
 
     let onMessageReceived = (msg: SongModel) => {
         setSong(msg);
+        scrollToTop();
     };
+
+    const scrollToTop = () => {
+        window.scroll({
+            top: 0,
+            behavior: 'smooth',
+        });
+    }
 
     return (
         <div className="p-p-2">
