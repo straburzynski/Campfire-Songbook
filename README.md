@@ -42,6 +42,20 @@ Preferences screen with language, instrument (guitar / ukulele) and font size op
 
 ![](img/preferences_horizontal_screen.jpg)
 
+Song editor screen - creating, updating and deleting songs
+
+![](img/song_editor.jpg)
+
+### To do:
+
+- [x] Scroll to top after song being changed in guest mode
+- [ ] More sources for external search integration
+- [ ] Prevent screen for dimming
+- [ ] Favourite songs for session
+- [ ] Playlist for session
+- [ ] PWA integration
+- [ ] Highlighting chords in song editor
+
 ### Tech stack
 
 #### Backend
