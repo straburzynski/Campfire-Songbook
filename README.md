@@ -2,14 +2,13 @@
 
 ### Description
 
-Interactive songbook web based application for campfire events. 
-It allows creating multiple sessions as host or join to existing one.
-Host can choose and select a song which will be updated immediately on screen of joined people.
+Interactive songbook application for campfire events. 
+It allows creating multiple sessions as a host or join existing ones.
+The host can choose and select a song which will be updated immediately on a joined user's screen.
 
 ### Features
 
-- Lightweight and mobile UI friendly
-- Built in database with stored songs
+- Lightweight and mobile friendly
 - Filtering and sorting songs by author or title
 - Chord diagrams with guitar and ukulele 
 - Searching and saving songs from the Internet
@@ -19,6 +18,7 @@ Host can choose and select a song which will be updated immediately on screen of
 - Password protected session as host
 - Multilingual support
 - Changeable font size
+- Built in database with stored songs
 
 ### Screenshots
 
