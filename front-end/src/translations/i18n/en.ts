@@ -1,6 +1,6 @@
 export const EN = {
     home: {
-        create: 'Home',
+        create: 'Create',
         enter_session_name: 'Enter session name',
         join: 'Join',
         password: 'Password',
