@@ -4,14 +4,18 @@
 
 Interactive songbook web based application for campfire events. 
 It allows creating multiple sessions as host or join to existing one.
-Host can choose and select a song which will be updated immediately on screen of joined people.
+The host can choose and select a song which will be updated immediately on a joined user’s screen. 
+App solves most common issues:
+- What are the chords for the song?
+- What is the lyrics of the song?
+- Which song is playing now?
+- What songs are available in the songbook?
 
 ### Features
 
-- Lightweight and mobile UI friendly
-- Built in database with stored songs
+- Lightweight and mobile friendly
 - Filtering and sorting songs by author or title
-- Chord diagrams with guitar and ukulele 
+- Chord diagrams for guitar and ukulele
 - Searching and saving songs from the Internet
 - Song lyrics editor
 - Play selected song on YouTube
@@ -19,6 +23,7 @@ Host can choose and select a song which will be updated immediately on screen of
 - Password protected session as host
 - Multilingual support
 - Changeable font size
+- Built in database with stored songs
 
 ### Screenshots
 
@@ -61,12 +66,12 @@ Song editor screen - creating, updating and deleting songs
 #### Backend
 
 - Java
-- Spring Boot 
-- Spring Data JPA
-- Lombok
-- Swagger
-- JSoup
-- H2 database
+- Spring Boot, JPA - https://spring.io/projects/spring-boot
+- REST - https://restfulapi.net
+- Lombok - https://projectlombok.org
+- Swagger - https://swagger.io
+- JSoup - https://jsoup.org
+- H2 database - https://www.h2database.com
 - Websockets
 
 #### Frontend
@@ -84,7 +89,8 @@ Song editor screen - creating, updating and deleting songs
 
 ### Deployment
 
-Deployment configuration for Caddy server with Let's Encrypt support:
+[Caddy 2 ](https://caddyserver.com/) is a powerful, enterprise-ready, open source web server with automatic HTTPS written in Go. 
+It uses Let's Encrypt certificate and allows easily configure server with one simple file.
 
 Caddyfile:
 
