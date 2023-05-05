@@ -116,7 +116,7 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
                         </InplaceContent>
                     </Inplace>
 
-                    <SongChordDiagrams lyrics={song.lyrics} />
+                    <SongChordDiagrams lyrics={song.lyrics} transposition={transposition} />
                 </>
             )}
             {song && SelectedSong(song)}

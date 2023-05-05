@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { getMultipleChordPositions } from '../../../service/ChordParserService';
+import { getMultipleChordPositions, translateChord } from '../../../service/ChordParserService';
 import instruments from '../../../resources/chords/instruments.json';
 import React, { useContext, useState } from 'react';
 import { Inplace, InplaceContent, InplaceDisplay } from 'primereact/inplace';
@@ -9,7 +9,7 @@ import { ANNOTATION, NEW_LINE, SEPARATOR, SIDE } from '../../../config/ChordConf
 import './songChordDiagrams.scss';
 import AppContext from '../../../context/AppContext';
 
-const SongChordDiagrams = ({ lyrics }) => {
+const SongChordDiagrams = ({ lyrics, transposition = 0 }) => {
     const [chordsActive, setChordsActive] = useState(false);
     const { instrument } = useContext(AppContext);
     const { t } = useTranslation();
@@ -33,7 +33,7 @@ const SongChordDiagrams = ({ lyrics }) => {
                 {multipleChordPositions.map((chord, index) => {
                     return chord ? (
                         <div key={index} className="chord-container p-d-flex p-flex-column p-ai-center p-jc-center">
-                            <h2>{chordList[index]}</h2>
+                            <h2>{translateChord(chordList[index], transposition)}</h2>
                             <Chord key={index} chord={chord[0]} instrument={instruments[instrument!]} />
                         </div>
                     ) : null;

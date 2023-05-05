@@ -28,7 +28,7 @@ export const translateChord = (chordName: string, transpose: number = 0): string
     if (chord != null) {
         chord.key = chord.key.replace('sharp', '#');
         const foundChord = Chord.getChord(chord.suffix, chord.key);
-        if (transpose != 0) {
+        if (transpose !== 0) {
             return transposeChord(foundChord.name, transpose);
         }
         return foundChord.symbol.replace('M', '');

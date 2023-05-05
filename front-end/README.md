@@ -32,5 +32,6 @@ REACT_APP_YOUTUBE_API_KEY=xyz
 - React Stomp - https://github.com/lahsivjar/react-stomp
 - React Chords with json db - https://github.com/tombatossals/react-chords https://github.com/tombatossals/chords-db
 - React Player - https://github.com/cookpete/react-player
+- Tonaljs - https://github.com/tonaljs/tonal
 - Prettier - https://github.com/prettier/prettier
 - Typescript - https://github.com/microsoft/TypeScript
