@@ -1,8 +1,10 @@
 import { ChordDetails } from '../model/ChordDetails';
+import Chord from '@tonaljs/chord';
 import { CHORDS_MAPPING } from '../config/ChordConfig';
 import guitar from '../resources/chords/guitar.json';
 import ukulele from '../resources/chords/ukulele.json';
 import { InstrumentEnum } from '../model/InstrumentEnum';
+import { Interval } from 'tonal';
 
 export const getChordPositions = (instrument: InstrumentEnum, chordName: string) => {
     const chord = extractChord(chordName);
@@ -13,6 +15,25 @@ export const getChordPositions = (instrument: InstrumentEnum, chordName: string)
             case InstrumentEnum.UKULELE:
                 return findChordPositions(chord, ukulele);
         }
+    }
+};
+
+const transposeChord = (foundChordName: string, transpose: number) => {
+    const transposedChord = Chord.transpose(foundChordName, Interval.fromSemitones(transpose));
+    return Chord.get(transposedChord).symbol.replace('M', '');
+};
+
+export const translateChord = (chordName: string, transpose: number = 0): string => {
+    const chord = extractChord(chordName);
+    if (chord != null) {
+        chord.key = chord.key.replace('sharp', '#');
+        const foundChord = Chord.getChord(chord.suffix, chord.key);
+        if (transpose != 0) {
+            return transposeChord(foundChord.name, transpose);
+        }
+        return foundChord.symbol.replace('M', '');
+    } else {
+        return '';
     }
 };
 
@@ -55,13 +76,13 @@ const extractChord = (chordName: string): ChordDetails | undefined => {
 
     // chords like A, c, e
     if (chordName.length === 1) {
-        const key = chordName.substr(0, 1);
+        const key = chordName.substring(0, 1);
         const parsedKey = CHORDS_MAPPING[key];
         return parseByKey(key, parsedKey);
     } else {
         // chords like Fis, cis
         if (chordName.includes('is')) {
-            const key = chordName.substr(0, 3);
+            const key = chordName.substring(0, 3);
             const parsedKey = CHORDS_MAPPING[key];
             if (chordName.length === 3) {
                 return parseByKey(key, parsedKey);
@@ -73,7 +94,7 @@ const extractChord = (chordName: string): ChordDetails | undefined => {
             }
             // chords like Csus2, asus4
         } else {
-            const key = chordName.substr(0, 1);
+            const key = chordName.substring(0, 1);
             const parsedKey = CHORDS_MAPPING[key];
             const suffix = chordName.slice(1);
             if (suffixes.includes(suffix)) {

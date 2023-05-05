@@ -1,14 +1,14 @@
 import React, { useContext, useState } from 'react';
 import './chordName.css';
 import { Dialog } from 'primereact/dialog';
-import { getChordPositions } from '../../../../service/ChordParserService';
+import { getChordPositions, translateChord } from '../../../../service/ChordParserService';
 import Chord from '@tombatossals/react-chords/lib/Chord';
 import { Button } from 'primereact/button';
 import { useTranslation } from 'react-i18next';
 import instruments from '../../../../resources/chords/instruments.json';
 import AppContext from '../../../../context/AppContext';
 
-const ChordName = ({ chordId, chordName, chordPosition }) => {
+const ChordName = ({ chordId, chordName, chordPosition, transposition }) => {
     const [chordDialog, setChordDialog] = useState<boolean>(false);
     const [chordDiagrams, setChordDiagrams] = useState([]);
     const [currentChordIndex, setCurrentChordIndex] = useState<number>(0);
@@ -37,7 +37,7 @@ const ChordName = ({ chordId, chordName, chordPosition }) => {
     return (
         <>
             <span onClick={onChordClick} className={`chord-name-text ${chordPosition} id-${chordId}`}>
-                {chordName}
+                {translateChord(chordName, transposition)}
             </span>
 
             <Dialog
@@ -50,7 +50,7 @@ const ChordName = ({ chordId, chordName, chordPosition }) => {
                 blockScroll={true}
             >
                 <div className="p-d-flex p-ai-center p-jc-center p-flex-column">
-                    <h2>{chordName}</h2>
+                    <h2>{translateChord(chordName)}</h2>
                     {chordDiagrams ? (
                         <>
                             <Chord chord={chordDiagrams[currentChordIndex]} instrument={instruments[instrument!]} />

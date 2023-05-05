@@ -19,3 +19,28 @@
   max-width: 30%;
 }
 
+.song-transposition-inplace {
+  text-align: right;
+  margin-bottom: 0;
+
+  &.p-inplace .p-inplace-display, &.p-inplace .p-inplace-content {
+    padding: 0;
+
+    .p-button.p-component.p-button-text {
+      color: var(--app-primary);
+      padding: 0.5rem 0.5em;
+    }
+  }
+
+  &.p-inplace .p-inplace-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  &.p-inplace .p-inplace-display:not(.p-disabled):hover {
+    background: transparent;
+  }
+
+}
+

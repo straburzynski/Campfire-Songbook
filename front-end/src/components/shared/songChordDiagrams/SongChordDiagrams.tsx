@@ -20,9 +20,9 @@ const SongChordDiagrams = ({ lyrics }) => {
         lyrics.split(NEW_LINE).forEach((line: string) => {
             line.split(SEPARATOR).forEach((part: string) => {
                 if (part.startsWith(ANNOTATION)) {
-                    songChords.add(part.substr(1));
+                    songChords.add(part.substring(1));
                 } else if (part.startsWith(SIDE)) {
-                    songChords.add(part.substr(1));
+                    songChords.add(part.substring(1));
                 }
             });
         });
