@@ -1,13 +1,12 @@
 import { ChordDetails } from '../model/ChordDetails';
-import Chord from '@tonaljs/chord';
+import { Chord } from 'tonal';
 import { CHORDS_MAPPING } from '../config/ChordConfig';
 import guitar from '../resources/chords/guitar.json';
 import ukulele from '../resources/chords/ukulele.json';
 import { InstrumentEnum } from '../model/InstrumentEnum';
 import { Interval } from 'tonal';
 
-export const getChordPositions = (instrument: InstrumentEnum, chordName: string) => {
-    const chord = extractChord(chordName);
+export const getChordPositions = (instrument: InstrumentEnum, chord) => {
     if (chord != null) {
         switch (instrument) {
             case InstrumentEnum.GUITAR:
@@ -18,18 +17,17 @@ export const getChordPositions = (instrument: InstrumentEnum, chordName: string)
     }
 };
 
-const transposeChord = (foundChordName: string, transpose: number) => {
-    const transposedChord = Chord.transpose(foundChordName, Interval.fromSemitones(transpose));
+const transposeChordName = (foundChordName: string, transpose: number) => {
+    const transposedChord = normalizeTransposition(Chord.transpose(foundChordName, Interval.fromSemitones(transpose)));
     return Chord.get(transposedChord).symbol.replace('M', '');
 };
 
-export const translateChord = (chordName: string, transpose: number = 0): string => {
+export const translateChordName = (chordName: string, transpose: number = 0): string => {
     const chord = extractChord(chordName);
     if (chord != null) {
-        chord.key = chord.key.replace('sharp', '#');
         const foundChord = Chord.getChord(chord.suffix, chord.key);
         if (transpose !== 0) {
-            return transposeChord(foundChord.name, transpose);
+            return transposeChordName(foundChord.name, transpose);
         }
         return foundChord.symbol.replace('M', '');
     } else {
@@ -37,9 +35,25 @@ export const translateChord = (chordName: string, transpose: number = 0): string
     }
 };
 
-const findChordPositions = (chord: ChordDetails, instrument: any) => {
-    if (instrument.chords.hasOwnProperty(chord.key)) {
-        const foundChord = instrument.chords[chord.key]?.filter((i) => i.suffix === chord.suffix);
+export const getChord = (chordName: string, transpose: number = 0) => {
+    const chord = extractChord(chordName);
+    let foundChord;
+    if (chord != null) {
+        foundChord = Chord.getChord(chord.suffix, chord.key);
+        if (transpose !== 0) {
+            foundChord = Chord.get(normalizeTransposition(Chord.transpose(foundChord.name, Interval.fromSemitones(transpose))));
+        }
+    } else {
+        foundChord = Chord.get('');
+    }
+    return foundChord;
+};
+
+const findChordPositions = (chord, instrument: any) => {
+    if (instrument.chords.hasOwnProperty(chord.tonic)) {
+        const foundChord = instrument.chords[chord.tonic]?.filter((i) => {
+            return i.suffix === chord.type;
+        });
         if (foundChord.length > 0) {
             return foundChord[0].positions;
         }
@@ -47,8 +61,8 @@ const findChordPositions = (chord: ChordDetails, instrument: any) => {
     return;
 };
 
-export const getMultipleChordPositions = (instrument: InstrumentEnum, chordNames: string[]) => {
-    return chordNames.map((chordName) => getChordPositions(instrument, chordName));
+export const getMultipleChordPositions = (instrument: InstrumentEnum, chords) => {
+    return chords.map((chord) => getChordPositions(instrument, chord));
 };
 
 const isUpperCase = (string) => /^[A-Z]*$/.test(string);
@@ -61,14 +75,15 @@ const parseByKey = (key: string, parsedKey: string) => {
     };
 };
 
-const buildChord = (parsedKey, suffix: string) => {
-    return {
-        key: parsedKey,
-        suffix: suffix,
-    };
-};
+const normalizeTransposition = (chordName: string) => chordName
+    .replace('Eb', 'D#')
+    .replace('Ab', 'G#')
+    .replace('Bb', 'A#')
+    .replace('E#', 'F')
+    .replace('B#', 'A');
 
 const extractChord = (chordName: string): ChordDetails | undefined => {
+    // todo extract to tonal chord object
     if (chordName == null || chordName === '') {
         return;
     }
@@ -89,7 +104,10 @@ const extractChord = (chordName: string): ChordDetails | undefined => {
             } else {
                 const suffix = chordName.slice(3);
                 if (suffixes.includes(suffix)) {
-                    return buildChord(parsedKey, suffix);
+                    return {
+                        key: parsedKey,
+                        suffix: suffix,
+                    };
                 }
             }
             // chords like Csus2, asus4
