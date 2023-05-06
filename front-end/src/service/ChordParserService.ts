@@ -52,13 +52,20 @@ export const getChord = (chordName: string, transpose: number = 0) => {
 const findChordPositions = (chord, instrument: any) => {
     if (instrument.chords.hasOwnProperty(chord.tonic)) {
         const foundChord = instrument.chords[chord.tonic]?.filter((i) => {
-            return i.suffix === chord.type;
+            return i.suffix === selectSuffix(chord);
         });
         if (foundChord.length > 0) {
             return foundChord[0].positions;
         }
     }
     return;
+};
+
+const selectSuffix = (chord): string => {
+    if (chord.type === 'minor' || chord.type === 'major') {
+        return chord.type;
+    }
+    return chord.symbol.replace(chord.tonic, '');
 };
 
 export const getMultipleChordPositions = (instrument: InstrumentEnum, chords) => {
