@@ -9,11 +9,11 @@ Host can choose and select a song which will be updated immediately on screen of
 ### Features
 
 - Lightweight and mobile UI friendly
-- Built in database with stored songs
 - Filtering and sorting songs by author or title
 - Chord diagrams for guitar and ukulele
+- Transposing chords
 - Searching and saving songs from the Internet
-- Song lyrics editor
+- Song lyrics and chords editor
 - Play selected song on YouTube
 - Share url to current session as guest
 - Password protected session as host
