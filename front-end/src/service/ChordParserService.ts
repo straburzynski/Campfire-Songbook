@@ -1,4 +1,5 @@
 import { ChordDetails } from '../model/ChordDetails';
+import { ChordModel } from '../model/ChordModel';
 import { Chord } from 'tonal';
 import { CHORDS_MAPPING } from '../config/ChordConfig';
 import guitar from '../resources/chords/guitar.json';
@@ -6,7 +7,7 @@ import ukulele from '../resources/chords/ukulele.json';
 import { InstrumentEnum } from '../model/InstrumentEnum';
 import { Interval } from 'tonal';
 
-export const getChordPositions = (instrument: InstrumentEnum, chord) => {
+export const getChordPositions = (instrument: InstrumentEnum, chord: ChordModel) => {
     if (chord != null) {
         switch (instrument) {
             case InstrumentEnum.GUITAR:
@@ -35,7 +36,7 @@ export const translateChordName = (chordName: string, transpose: number = 0): st
     }
 };
 
-export const getChord = (chordName: string, transpose: number = 0) => {
+export const getChord = (chordName: string, transpose: number = 0): ChordModel => {
     const chord = extractChord(chordName);
     let foundChord;
     if (chord != null) {
@@ -49,7 +50,8 @@ export const getChord = (chordName: string, transpose: number = 0) => {
     return foundChord;
 };
 
-const findChordPositions = (chord, instrument: any) => {
+const findChordPositions = (chord: ChordModel, instrument: any) => {
+    if (!chord.tonic) return
     if (instrument.chords.hasOwnProperty(chord.tonic)) {
         const foundChord = instrument.chords[chord.tonic]?.filter((i) => {
             return i.suffix === selectSuffix(chord);
@@ -61,19 +63,16 @@ const findChordPositions = (chord, instrument: any) => {
     return;
 };
 
-const selectSuffix = (chord): string => {
+const selectSuffix = (chord: ChordModel): string => {
     if (chord.type === 'minor' || chord.type === 'major') {
         return chord.type;
     }
-    return chord.symbol.replace(chord.tonic, '');
+    return chord.tonic ? chord.symbol.replace(chord.tonic, '') : chord.symbol;
 };
 
-export const getMultipleChordPositions = (instrument: InstrumentEnum, chords) => {
+export const getMultipleChordPositions = (instrument: InstrumentEnum, chords: ChordModel[]) => {
     return chords.map((chord) => getChordPositions(instrument, chord));
 };
-
-const isUpperCase = (string) => /^[A-Z]*$/.test(string);
-const suffixes: string[] = guitar.suffixes;
 
 const parseByKey = (key: string, parsedKey: string) => {
     return {
@@ -131,3 +130,6 @@ const extractChord = (chordName: string): ChordDetails | undefined => {
         }
     }
 };
+
+const isUpperCase = (string) => /^[A-Z]*$/.test(string);
+const suffixes: string[] = guitar.suffixes;

@@ -3,6 +3,11 @@
   position: relative;
   font-family: monospace;
   min-height: 1px;
+  white-space: pre-wrap;
+
+  &.chords {
+    margin: -1em 0 -1em;
+  }
 }
 
 .menu-item {
