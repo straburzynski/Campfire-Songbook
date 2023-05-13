@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { getChord, getMultipleChordPositions } from '../../../service/ChordParserService';
+import { getChord, getMultipleChordPositions, rowWithChordsOnly } from '../../../service/ChordParserService';
 import instruments from '../../../resources/chords/instruments.json';
 import React, { useContext, useState } from 'react';
 import { Inplace, InplaceContent, InplaceDisplay } from 'primereact/inplace';
 import { Button } from 'primereact/button';
 import Chord from '@tombatossals/react-chords/lib/Chord';
-import { ANNOTATION, NEW_LINE, SEPARATOR, SIDE } from '../../../config/ChordConfig';
+import { ANNOTATION, NEW_LINE, SEPARATOR, SIDE, SPACE } from '../../../config/ChordConfig';
 import './songChordDiagrams.scss';
 import AppContext from '../../../context/AppContext';
 
@@ -16,9 +16,13 @@ const SongChordDiagrams = ({ lyrics, transposition }) => {
 
     const ChordsDiagrams = () => {
         let songChords = new Set<string>();
-
-        lyrics.split(NEW_LINE).forEach((line: string) => {
-            line.split(SEPARATOR).forEach((part: string) => {
+        lyrics.split(NEW_LINE).forEach((row: string) => {
+            if (rowWithChordsOnly(row)) {
+                row.split(SPACE)
+                    .filter(chord => chord)
+                    .forEach(chord => songChords.add(chord))
+            }
+            row.split(SEPARATOR).forEach((part: string) => {
                 if (part.startsWith(ANNOTATION)) {
                     songChords.add(part.substring(1));
                 } else if (part.startsWith(SIDE)) {

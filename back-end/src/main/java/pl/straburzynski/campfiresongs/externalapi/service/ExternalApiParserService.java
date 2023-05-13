@@ -1,6 +1,7 @@
 package pl.straburzynski.campfiresongs.externalapi.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import pl.straburzynski.campfiresongs.externalapi.exception.ExternalApiException;
@@ -24,10 +25,6 @@ public class ExternalApiParserService {
     private final static String HTML_BREAK_LINE = "<br>";
     private final static String HTML_HARD_SPACE = "&nbsp;";
 
-    public static String getRegexPatternForTag(String tagName) {
-        return "<" + tagName + ".*?>(.+?)</" + tagName + ">";
-    }
-
     public static String getRegexPatternForTag() {
         return "<" + DEFAULT_TAG_NAME + ".*?>(.+?)</" + DEFAULT_TAG_NAME + ">";
     }
@@ -37,15 +34,13 @@ public class ExternalApiParserService {
     }
 
     public static String convertTagToChord(String tagName, String tagWithContent, boolean isAnnotation) {
-        String regex = getRegexPatternForTag(tagName);
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(tagWithContent);
-        if (matcher.find()) {
-            String chord = matcher.group(1);
-            return "|" + (isAnnotation ? "@" : "#") + chord + "|";
+        Element code = Jsoup.parseBodyFragment(tagWithContent).getElementsByTag(tagName).first();
+        if (code == null) {
+            log.debug("Didn't find any value in tag, {}", tagWithContent);
+            return "";
         } else {
-            log.debug("Didn't find any value in tag");
-            return tagWithContent;
+            String chordName = code.attr("data-chord") + code.attr("data-suffix");
+            return "|" + (isAnnotation ? "@" : "#") + chordName + "|";
         }
     }
 

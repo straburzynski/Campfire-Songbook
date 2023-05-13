@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ANNOTATION, NEW_LINE, SEPARATOR, SIDE } from '../../../config/ChordConfig';
+import { ANNOTATION, NEW_LINE, SEPARATOR, SIDE, SPACE } from '../../../config/ChordConfig';
 import ChordName from './chordname/ChordName';
 import { SongModel } from '../../../model/SongModel';
 import { ChordPositionEnum } from '../../../model/ChordPosition';
@@ -11,6 +11,7 @@ import { Inplace, InplaceContent, InplaceDisplay } from 'primereact/inplace';
 import { useTranslation } from 'react-i18next';
 import { Chord } from 'tonal';
 import { ChordModel } from '../../../model/ChordModel';
+import { rowWithChordsOnly } from '../../../service/ChordParserService';
 
 const Lyrics = ({ song, showChordDiagrams = false }) => {
     const { fontSize } = useContext(AppContext);
@@ -28,18 +29,12 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
         setTransposition(0);
     };
 
-    const chordsRow = (line: string): boolean => {
-        const elements = line.split(/\s/);
-        const spaces = elements.filter(value => value === '').length;
-        const words = elements.filter(value => value !== '').length;
-        return spaces > words;
-    };
-    const renderChordsWithLyric = (part: string, lineIndex: number, partIndex) => {
+    const renderChordsWithLyric = (part: string, rowIndex: number, partIndex) => {
         if (part.startsWith(ANNOTATION)) {
             return (
                 <ChordName
-                    key={lineIndex.toString() + partIndex}
-                    chordId={lineIndex.toString() + partIndex}
+                    key={rowIndex.toString() + partIndex}
+                    chordId={rowIndex.toString() + partIndex}
                     chordName={part.substring(1)}
                     chordPosition={ChordPositionEnum.ANNOTATION}
                     transposition={transposition}
@@ -48,8 +43,8 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
         } else if (part.startsWith(SIDE)) {
             return (
                 <ChordName
-                    key={lineIndex.toString() + partIndex}
-                    chordId={lineIndex.toString() + partIndex}
+                    key={rowIndex.toString() + partIndex}
+                    chordId={rowIndex.toString() + partIndex}
                     chordName={part.substring(1)}
                     chordPosition={ChordPositionEnum.SIDE}
                     transposition={transposition}
@@ -60,7 +55,7 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
         }
     };
 
-    const renderChordsRow = (part: string, lineIndex: number, partIndex) => {
+    const renderChordsRow = (part: string, rowIndex: number, partIndex) => {
         if (part === '') return ' ';
         const chord: ChordModel = Chord.get(part);
         if (chord.empty) {
@@ -68,8 +63,8 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
         } else {
             return (
                 <ChordName
-                    key={lineIndex.toString() + partIndex}
-                    chordId={lineIndex.toString() + partIndex}
+                    key={rowIndex.toString() + partIndex}
+                    chordId={rowIndex.toString() + partIndex}
                     chordName={part}
                     chordPosition={ChordPositionEnum.SIDE}
                     transposition={transposition}
@@ -83,17 +78,18 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
             <div>
                 <h3 className='p-mb-5'>{`${song.author} - ${song.title}`}</h3>
                 <div className='lyrics' style={{ fontSize: fontSize + 'px' }}>
-                    {song.lyrics.split(NEW_LINE).map((line, lineIndex) => {
-                        if (chordsRow(line)) {
+                    {song.lyrics.split(NEW_LINE).map((row, rowIndex) => {
+                        row = row.trimStart();
+                        if (rowWithChordsOnly(row)) {
                             return (
-                                <p className='chords' key={lineIndex}>
-                                    {line.split(/\s/).map((part, partIndex) => renderChordsRow(part, lineIndex, partIndex))}
+                                <p className='chords' key={rowIndex}>
+                                    {row.split(SPACE).map((part, partIndex) => renderChordsRow(part, rowIndex, partIndex))}
                                 </p>
                             );
                         } else {
                             return (
-                                <p key={lineIndex}>
-                                    {line.split(SEPARATOR).map((part, partIndex) => renderChordsWithLyric(part, lineIndex, partIndex))}
+                                <p key={rowIndex}>
+                                    {row.split(SEPARATOR).map((part, partIndex) => renderChordsWithLyric(part, rowIndex, partIndex))}
                                 </p>
                             );
                         }

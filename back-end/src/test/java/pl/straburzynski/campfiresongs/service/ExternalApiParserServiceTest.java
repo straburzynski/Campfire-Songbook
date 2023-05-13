@@ -16,7 +16,7 @@ public class ExternalApiParserServiceTest {
         String chord = ExternalApiParserService.convertTagToChord("code", code, true);
 
         //then
-        assertEquals("|@e|", chord);
+        assertEquals("|@Em|", chord);
     }
 
     @Test
@@ -28,7 +28,7 @@ public class ExternalApiParserServiceTest {
         String chord = ExternalApiParserService.convertTagToChord("code", code, false);
 
         //then
-        assertEquals("|#e|", chord);
+        assertEquals("|#Em|", chord);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class ExternalApiParserServiceTest {
         String formattedLine = ExternalApiParserService.convertRawLineToChordFormatted(line);
 
         //then
-        assertEquals("|@h|First part,|@B| second part ", formattedLine);
+        assertEquals("|@Bm|First part,|@A#| second part ", formattedLine);
     }
 
     @Test
@@ -52,7 +52,7 @@ public class ExternalApiParserServiceTest {
         String formattedLine = ExternalApiParserService.convertRawLineToChordFormatted(line);
 
         //then
-        assertEquals("First part&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |#h| |#A| |#D|", formattedLine);
+        assertEquals("First part&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |#Bm| |#A| |#D|", formattedLine);
     }
 
 }

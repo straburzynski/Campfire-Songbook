@@ -1,8 +1,8 @@
 export const SEPARATOR = '|';
+export const SPACE = /\s/;
 export const ANNOTATION = '@';
 export const SIDE = '#';
 export const NEW_LINE = /\r?\n/;
-export const DIGITS = /^\d+$/;
 export const CHORDS_MAPPING = {
     C: 'C',
     Cis: 'C#',
@@ -17,15 +17,15 @@ export const CHORDS_MAPPING = {
     B: 'A#',
     H: 'B',
 
-    c: 'C',
-    cis: 'C#',
-    d: 'D',
-    dis: 'D#',
-    e: 'E',
-    f: 'F',
-    fis: 'F#',
-    g: 'G',
-    a: 'A',
-    b: 'A#',
-    h: 'B',
+    c: 'Cm',
+    cis: 'C#m',
+    d: 'Dm',
+    dis: 'D#m',
+    e: 'Em',
+    f: 'Fm',
+    fis: 'F#m',
+    g: 'Gm',
+    a: 'Am',
+    b: 'A#m',
+    h: 'Bm',
 };

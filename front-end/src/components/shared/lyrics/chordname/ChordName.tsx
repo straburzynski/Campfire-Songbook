@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import './chordName.css';
 import { Dialog } from 'primereact/dialog';
-import { getChord, getChordPositions, translateChordName } from '../../../../service/ChordParserService';
+import { getChord, getChordPositions, getChordName } from '../../../../service/ChordParserService';
 import Chord from '@tombatossals/react-chords/lib/Chord';
 import { Button } from 'primereact/button';
 import { useTranslation } from 'react-i18next';
@@ -37,7 +37,7 @@ const ChordName = ({ chordId, chordName, chordPosition, transposition }) => {
     return (
         <>
             <span onClick={onChordClick} className={`chord-name-text ${chordPosition} id-${chordId}`}>
-                {translateChordName(chordName, transposition)}
+                {getChordName(chordName, transposition)}
             </span>
 
             <Dialog
@@ -50,7 +50,7 @@ const ChordName = ({ chordId, chordName, chordPosition, transposition }) => {
                 blockScroll={true}
             >
                 <div className="p-d-flex p-ai-center p-jc-center p-flex-column">
-                    <h2>{translateChordName(chordName, transposition)}</h2>
+                    <h2>{getChordName(chordName, transposition)}</h2>
                     {chordDiagrams ? (
                         <>
                             <Chord chord={chordDiagrams[currentChordIndex]} instrument={instruments[instrument!]} />
