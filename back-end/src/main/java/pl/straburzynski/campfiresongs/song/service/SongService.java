@@ -10,6 +10,7 @@ import pl.straburzynski.campfiresongs.song.repository.SongRepository;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,12 +30,15 @@ public class SongService {
         }
     }
 
-    public List<Song> findAll() {
-        return songRepository.findAll();
+    public List<SongDto> findAll() {
+        return songRepository.findAll().stream()
+                .map(songConverter::convertFromSong)
+                .collect(Collectors.toList());
     }
 
-    public Song findById(UUID id) {
-        return songRepository.findById(id).orElseThrow(() -> new SongNotFoundException(id));
+    public SongDto findById(UUID id) {
+        Song song = songRepository.findById(id).orElseThrow(() -> new SongNotFoundException(id));
+        return songConverter.convertFromSong(song);
     }
 
     public void update(UUID id, SongDto songDto) {

@@ -14,13 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.straburzynski.campfiresongs.song.model.Song;
 import pl.straburzynski.campfiresongs.song.model.SongDto;
-import pl.straburzynski.campfiresongs.song.repository.SongRepository;
-import pl.straburzynski.campfiresongs.song.service.SongConverter;
 import pl.straburzynski.campfiresongs.song.service.SongService;
 
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,13 +26,10 @@ public class WebSocketTextController {
 
     private final SimpMessagingTemplate template;
     private final SongService songService;
-    private final SongConverter songConverter;
-
 
     @PostMapping("/sendRandom")
     public ResponseEntity<?> sendTestMessage(@RequestParam("sessionName") String sessionName) {
-        List<Song> songList = songService.findAll();
-        List<SongDto> songDtoList = songList.stream().map(songConverter::convertFromSong).collect(Collectors.toList());
+        List<SongDto> songDtoList = songService.findAll();
         Random rand = new Random();
         SongDto songDto = songDtoList.get(rand.nextInt(songDtoList.size()));
         template.convertAndSend("/topic/message/" + sessionName, songDto);
@@ -57,7 +51,6 @@ public class WebSocketTextController {
         log.info(song.toString());
         // receive message from client
     }
-
 
     @SendTo("/topic/message")
     public Song broadcastMessage(@Payload Song song) {

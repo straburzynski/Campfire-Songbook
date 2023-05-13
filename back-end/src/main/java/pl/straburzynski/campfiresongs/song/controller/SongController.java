@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.straburzynski.campfiresongs.song.model.Song;
 import pl.straburzynski.campfiresongs.song.model.SongDto;
 import pl.straburzynski.campfiresongs.song.service.SongService;
 
@@ -26,7 +25,7 @@ public class SongController {
     }
 
     @GetMapping
-    public List<Song> findAll() {
+    public List<SongDto> findAll() {
         return songService.findAll();
     }
 
@@ -41,12 +40,17 @@ public class SongController {
     }
 
     @GetMapping("{id}")
-    public Song findById(@PathVariable UUID id) {
+    public SongDto findById(@PathVariable UUID id) {
         return songService.findById(id);
     }
 
     @DeleteMapping("{id}")
     public void deleteById(@PathVariable UUID id) {
         songService.deleteById(id);
+    }
+
+    @PostMapping("batch")
+    public void batchCreate(@RequestBody List<SongDto> songs) {
+        songs.forEach(songService::create);
     }
 }

@@ -3,7 +3,10 @@ package pl.straburzynski.campfiresongs.factory;
 import pl.straburzynski.campfiresongs.song.model.Song;
 import pl.straburzynski.campfiresongs.song.model.SongDto;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class SongFactory {
 
@@ -23,6 +26,12 @@ public class SongFactory {
                 .title("title")
                 .lyrics("lyrics")
                 .build();
+    }
+
+    public static List<SongDto> createSongDtoList(Integer songsNumber) {
+        return IntStream.range(0, songsNumber)
+                .mapToObj(i -> createSongDto(UUID.randomUUID()))
+                .collect(Collectors.toList());
     }
 
     public static String createSongData(UUID id) {
