@@ -1,5 +1,6 @@
 export const SEPARATOR = '|';
 export const SPACE = /\s/;
+export const DIGITS = /[0-9]/;
 export const ANNOTATION = '@';
 export const SIDE = '#';
 export const NEW_LINE = /\r?\n/;

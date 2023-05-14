@@ -57,6 +57,7 @@ export const EN = {
         select_song: 'Select song',
         show_chords: 'Show chords',
         show_transposition: 'Show transposition',
+        source: 'Source',
         search: 'Search',
         search_by_title: 'Search by title',
         title: 'Title',

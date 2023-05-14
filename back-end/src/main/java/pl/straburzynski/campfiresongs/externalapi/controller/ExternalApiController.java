@@ -20,6 +20,8 @@ import pl.straburzynski.campfiresongs.session.service.SessionService;
 import java.util.List;
 import java.util.UUID;
 
+import static pl.straburzynski.campfiresongs.externalapi.service.parser.ParserService.parseSongFromDocument;
+
 @RestController
 @RequestMapping(value = "external")
 @RequiredArgsConstructor
