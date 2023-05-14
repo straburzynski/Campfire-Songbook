@@ -1,10 +1,9 @@
 import { ChordModel } from '../model/ChordModel';
-import { Chord } from 'tonal';
-import { SPACE } from '../config/ChordConfig';
+import { Chord, Interval } from 'tonal';
+import { DIGITS, SPACE } from '../config/ChordConfig';
 import guitar from '../resources/chords/guitar.json';
 import ukulele from '../resources/chords/ukulele.json';
 import { InstrumentEnum } from '../model/InstrumentEnum';
-import { Interval } from 'tonal';
 
 export const getChordPositions = (instrument: InstrumentEnum, chord: ChordModel) => {
     if (chord != null) {
@@ -17,11 +16,16 @@ export const getChordPositions = (instrument: InstrumentEnum, chord: ChordModel)
     }
 };
 
-export const rowWithChordsOnly = (row: string): boolean => {
+const allElementsAreChords = (longestWord: number, elements: string[]): boolean =>
+    longestWord <= 4 && elements.map(el => getChord(el)).every(chord => !chord.empty);
+
+export const rowWithChordsOnlyDetected = (row: string): boolean => {
+    if (row === "") return false;
     const elements = row.split(SPACE);
-    const spaces = elements.filter(value => value === '').length;
-    const words = elements.filter(value => value !== '').length;
-    return spaces > words;
+    const spaces = elements.filter(value => value === '');
+    const words = elements.filter(value => value !== '');
+    const longestWord = Math.max(...(words.map(w => w.replace(DIGITS, '').length)));
+    return (spaces.length > words.length) || allElementsAreChords(longestWord, words.filter(el => el !== '|'));
 };
 
 export const getChord = (chordName: string, transposition: number = 0): ChordModel => {

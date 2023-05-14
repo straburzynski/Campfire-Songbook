@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { getChord, getMultipleChordPositions, rowWithChordsOnly } from '../../../service/ChordParserService';
+import { getChord, getMultipleChordPositions, rowWithChordsOnlyDetected } from '../../../service/ChordParserService';
 import instruments from '../../../resources/chords/instruments.json';
 import React, { useContext, useState } from 'react';
 import { Inplace, InplaceContent, InplaceDisplay } from 'primereact/inplace';
@@ -17,7 +17,7 @@ const SongChordDiagrams = ({ lyrics, transposition }) => {
     const ChordsDiagrams = () => {
         let songChords = new Set<string>();
         lyrics.split(NEW_LINE).forEach((row: string) => {
-            if (rowWithChordsOnly(row)) {
+            if (rowWithChordsOnlyDetected(row)) {
                 row.split(SPACE)
                     .filter(chord => chord)
                     .forEach(chord => songChords.add(chord))

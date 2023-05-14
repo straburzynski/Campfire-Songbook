@@ -1,0 +1,4 @@
+export enum ExternalApiSourceEnum {
+    SPIEWNIK_WYWROTA = 'SPIEWNIK_WYWROTA',
+    ULTIMATE_GUITAR = 'ULTIMATE_GUITAR',
+}

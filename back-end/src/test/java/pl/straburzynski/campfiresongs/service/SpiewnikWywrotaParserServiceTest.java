@@ -1,11 +1,11 @@
 package pl.straburzynski.campfiresongs.service;
 
 import org.junit.jupiter.api.Test;
-import pl.straburzynski.campfiresongs.externalapi.service.ExternalApiParserService;
+import pl.straburzynski.campfiresongs.externalapi.service.parser.SpiewnikWywrotaParserService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ExternalApiParserServiceTest {
+public class SpiewnikWywrotaParserServiceTest {
 
     @Test
     public void convertTagToChord_forAnnotationType() {
@@ -13,7 +13,7 @@ public class ExternalApiParserServiceTest {
         String code = "<code class=\"an\" data-chord=\"E\" data-suffix=\"m\" data-local=\"e\">e</code>";
 
         // when
-        String chord = ExternalApiParserService.convertTagToChord("code", code, true);
+        String chord = SpiewnikWywrotaParserService.convertTagToChord("code", code, true);
 
         //then
         assertEquals("|@Em|", chord);
@@ -25,7 +25,7 @@ public class ExternalApiParserServiceTest {
         String code = "<code data-chord=\"E\" data-suffix=\"m\" data-local=\"e\">e</code>";
 
         // when
-        String chord = ExternalApiParserService.convertTagToChord("code", code, false);
+        String chord = SpiewnikWywrotaParserService.convertTagToChord("code", code, false);
 
         //then
         assertEquals("|#Em|", chord);
@@ -37,7 +37,7 @@ public class ExternalApiParserServiceTest {
         String line = "<code class=\"an\" data-chord=\"B\" data-suffix=\"m\" data-local=\"h\">h</code>First part,<code class=\"an\" data-chord=\"A#\" data-suffix=\"\" data-local=\"B\">B</code> second part ";
 
         // when
-        String formattedLine = ExternalApiParserService.convertRawLineToChordFormatted(line);
+        String formattedLine = SpiewnikWywrotaParserService.convertRawLineToChordFormatted(line);
 
         //then
         assertEquals("|@Bm|First part,|@A#| second part ", formattedLine);
@@ -49,7 +49,7 @@ public class ExternalApiParserServiceTest {
         String line = "First part&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code data-chord=\"B\" data-suffix=\"m\" data-local=\"h\">h</code> <code data-chord=\"A\" data-suffix=\"\" data-local=\"A\">A</code> <code data-chord=\"D\" data-suffix=\"\" data-local=\"D\">D</code>";
 
         // when
-        String formattedLine = ExternalApiParserService.convertRawLineToChordFormatted(line);
+        String formattedLine = SpiewnikWywrotaParserService.convertRawLineToChordFormatted(line);
 
         //then
         assertEquals("First part&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |#Bm| |#A| |#D|", formattedLine);

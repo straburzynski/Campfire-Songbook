@@ -1,19 +1,24 @@
-package pl.straburzynski.campfiresongs.externalapi.service;
+package pl.straburzynski.campfiresongs.externalapi.service.parser;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import pl.straburzynski.campfiresongs.externalapi.exception.ExternalApiException;
+import pl.straburzynski.campfiresongs.externalapi.model.ExternalApiResponse;
+import pl.straburzynski.campfiresongs.externalapi.model.ExternalApiSong;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static pl.straburzynski.campfiresongs.externalapi.model.ExternalApiSource.SPIEWNIK_WYWROTA;
+
 @Slf4j
-public class ExternalApiParserService {
+public class SpiewnikWywrotaParserService {
 
     private final static String DEFAULT_TAG_NAME = "code";
     private final static String ANNOTATION_CLASS = "class=\"an\"";
@@ -71,7 +76,24 @@ public class ExternalApiParserService {
     public static String parseLyricsFromDocument(Document document) {
         List<String> lines = convertDocumentToLines(document);
         return lines.stream()
-                .map(ExternalApiParserService::convertRawLineToChordFormatted)
+                .map(SpiewnikWywrotaParserService::convertRawLineToChordFormatted)
                 .collect(Collectors.joining(NEW_LINE_CHARACTER));
+    }
+
+    public static List<ExternalApiSong> parseSearchResults(ExternalApiResponse response) {
+        if (response != null) {
+            if (response.getSongs() != null) {
+                return response.getSongs().stream()
+                        .map(song -> ExternalApiSong.builder()
+                                .artist(song.getArtist())
+                                .title(song.getTitle())
+                                .url(song.getUrl())
+                                .source(SPIEWNIK_WYWROTA)
+                                .build()
+                        )
+                        .collect(Collectors.toList());
+            }
+        }
+        return Collections.emptyList();
     }
 }

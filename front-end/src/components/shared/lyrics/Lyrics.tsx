@@ -11,7 +11,7 @@ import { Inplace, InplaceContent, InplaceDisplay } from 'primereact/inplace';
 import { useTranslation } from 'react-i18next';
 import { Chord } from 'tonal';
 import { ChordModel } from '../../../model/ChordModel';
-import { rowWithChordsOnly } from '../../../service/ChordParserService';
+import { rowWithChordsOnlyDetected } from '../../../service/ChordParserService';
 
 const Lyrics = ({ song, showChordDiagrams = false }) => {
     const { fontSize } = useContext(AppContext);
@@ -80,7 +80,7 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
                 <div className='lyrics' style={{ fontSize: fontSize + 'px' }}>
                     {song.lyrics.split(NEW_LINE).map((row, rowIndex) => {
                         row = row.trimStart();
-                        if (rowWithChordsOnly(row)) {
+                        if (rowWithChordsOnlyDetected(row)) {
                             return (
                                 <p className='chords' key={rowIndex}>
                                     {row.split(SPACE).map((part, partIndex) => renderChordsRow(part, rowIndex, partIndex))}

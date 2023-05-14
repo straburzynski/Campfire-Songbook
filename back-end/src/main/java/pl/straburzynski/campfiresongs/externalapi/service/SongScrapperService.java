@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.straburzynski.campfiresongs.externalapi.exception.ExternalApiException;
 
 @Service
-public class ExternalApiSongScrapperService {
+public class SongScrapperService {
 
     public Document getDocumentByUrl(String url) {
         try {

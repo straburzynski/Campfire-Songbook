@@ -9,7 +9,10 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class AppConfig {
 
-    @Value("${app.externalApiUrl}")
-    private String externalApiUrl;
+    @Value("${app.externalApiUrl.spiewnikWywrota}")
+    private String externalApiUrlSpiewnikWywrota;
+
+    @Value("${app.externalApiUrl.ultimateGuitar}")
+    private String externalApiUrlUltimateGuitar;
 
 }

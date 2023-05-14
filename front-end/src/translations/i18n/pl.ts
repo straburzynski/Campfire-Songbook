@@ -57,6 +57,7 @@ export const PL = {
         select_song: 'Wybierz piosenkę',
         show_chords: 'Pokaż chwyty',
         show_transposition: 'Pokaż transpozycję',
+        source: 'Źródło',
         search: 'Szukaj',
         search_by_title: 'Szukaj po tytule',
         title: 'Tytuł',

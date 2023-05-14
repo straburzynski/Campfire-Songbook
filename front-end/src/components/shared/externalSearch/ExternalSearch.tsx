@@ -20,6 +20,9 @@ import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 import { CustomExceptionModel } from '../../../model/CustomExceptionModel';
 import { handleError } from '../../../service/ExceptionService';
+import { ExternalApiSourceEnum } from '../../../model/ExternalApiSourceEnum';
+import spiewnikWywrotaLogo from '../../../resources/images/spiewnik-wywrota.png';
+import ultimateGuitarLogo from '../../../resources/images/ultimate-guitar.png';
 
 const ExternalSearch = ({ onSongSelected }) => {
     const { setSong, host, sessionName } = useContext(AppContext);
@@ -59,6 +62,15 @@ const ExternalSearch = ({ onSongSelected }) => {
                 onClick={(e) => showSongDetails(song, e)}
             />
         );
+    };
+
+    const sourceColumn = (song: ExternalApiSongModel) => {
+        switch (song.source) {
+            case ExternalApiSourceEnum.SPIEWNIK_WYWROTA:
+                return <img alt="Spiewnik Wywrota" src={spiewnikWywrotaLogo} height="37" />
+            case ExternalApiSourceEnum.ULTIMATE_GUITAR:
+                return <img alt="Ultimate-Guitar" src={ultimateGuitarLogo} height="37" />
+        }
     };
 
     const handleOnRowClick = (song: ExternalApiSongModel) => {
@@ -158,6 +170,7 @@ const ExternalSearch = ({ onSongSelected }) => {
                     >
                         <Column field="artist" header={t('common.author')} sortable />
                         <Column field="title" header={t('common.title')} sortable />
+                        <Column field="source" header={t('common.source')} body={sourceColumn} style={{ width: '100px' }} />
                         <Column header="" body={actionColumn} style={{ width: '100px' }} />
                     </DataTable>
                 ) : (
