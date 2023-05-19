@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ANNOTATION, NEW_LINE, SEPARATOR, SIDE, SPACE } from '../../../config/ChordConfig';
 import ChordName from './chordname/ChordName';
 import { SongModel } from '../../../model/SongModel';
@@ -18,6 +18,12 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
     const [transpositionActive, setTranspositionActive] = useState(false);
     const [transposition, setTransposition] = useState(0);
     const { t } = useTranslation();
+
+    useEffect(() => {
+        if (transposition !== 0) {
+            setTransposition(0);
+        }
+    }, [song]);
 
     const handlePlus = (): void => {
         setTransposition((prevState) => prevState + 1);

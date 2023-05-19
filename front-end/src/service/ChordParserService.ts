@@ -1,6 +1,6 @@
 import { ChordModel } from '../model/ChordModel';
 import { Chord, Interval } from 'tonal';
-import { DIGITS, SPACE } from '../config/ChordConfig';
+import { DIGITS, SEPARATOR, SPACE } from '../config/ChordConfig';
 import guitar from '../resources/chords/guitar.json';
 import ukulele from '../resources/chords/ukulele.json';
 import { InstrumentEnum } from '../model/InstrumentEnum';
@@ -20,12 +20,18 @@ const allElementsAreChords = (longestWord: number, elements: string[]): boolean 
     longestWord <= 4 && elements.map(el => getChord(el)).every(chord => !chord.empty);
 
 export const rowWithChordsOnlyDetected = (row: string): boolean => {
-    if (row === "") return false;
-    const elements = row.split(SPACE);
+    if (row === "" || row.includes(SEPARATOR)) return false;
+    const elements = row.trimEnd().split(SPACE);
     const spaces = elements.filter(value => value === '');
     const words = elements.filter(value => value !== '');
     const longestWord = Math.max(...(words.map(w => w.replace(DIGITS, '').length)));
-    return (spaces.length > words.length) || allElementsAreChords(longestWord, words.filter(el => el !== '|'));
+    return (
+        spaces.length > words.length ||
+        allElementsAreChords(
+            longestWord,
+            words.filter((el) => el !== '|')
+        )
+    );
 };
 
 export const getChord = (chordName: string, transposition: number = 0): ChordModel => {
