@@ -47,6 +47,7 @@ export const EN = {
         author: 'Author',
         close: 'Close',
         delete: 'Delete',
+        default: 'Default',
         home: 'Home',
         hide_chords: 'Hide chords',
         hide_transposition: 'Hide transposition',
@@ -64,6 +65,8 @@ export const EN = {
         yes: 'Yes',
     },
     preferences: {
+        autoColumnsOn: 'Auto columns on',
+        columnsCount: 'Columns count',
         language: 'Language',
         instrument: 'Instrument',
         font_size: 'Font size',

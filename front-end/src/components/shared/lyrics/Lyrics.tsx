@@ -14,7 +14,7 @@ import { ChordModel } from '../../../model/ChordModel';
 import { rowWithChordsOnlyDetected } from '../../../service/ChordParserService';
 
 const Lyrics = ({ song, showChordDiagrams = false }) => {
-    const { fontSize } = useContext(AppContext);
+    const { fontSize, columnsCount, autoColumnsOn } = useContext(AppContext);
     const [transpositionActive, setTranspositionActive] = useState(false);
     const [transposition, setTransposition] = useState(0);
     const { t } = useTranslation();
@@ -73,9 +73,9 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
         }
     };
 
-    const SelectedSong = (song: SongModel) => {
+    const renderSelectedSong = (song: SongModel) => {
         return (
-            <div>
+            <div className={autoColumnsOn ? 'auto-columns-on' : `lyrics-column-${columnsCount}`}>
                 <h3 className='p-mb-5'>{`${song.author} - ${song.title}`}</h3>
                 <div className='lyrics' style={{ fontSize: fontSize + 'px' }}>
                     {song.lyrics.split(NEW_LINE).map((row, rowIndex) => {
@@ -83,13 +83,17 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
                         if (rowWithChordsOnlyDetected(row)) {
                             return (
                                 <p className='chords' key={rowIndex}>
-                                    {row.split(SPACE).map((part, partIndex) => renderChordsRow(part, rowIndex, partIndex))}
+                                    {row
+                                        .split(SPACE)
+                                        .map((part, partIndex) => renderChordsRow(part, rowIndex, partIndex))}
                                 </p>
                             );
                         } else {
                             return (
                                 <p key={rowIndex}>
-                                    {row.split(SEPARATOR).map((part, partIndex) => renderChordsWithLyric(part, rowIndex, partIndex))}
+                                    {row
+                                        .split(SEPARATOR)
+                                        .map((part, partIndex) => renderChordsWithLyric(part, rowIndex, partIndex))}
                                 </p>
                             );
                         }
@@ -106,7 +110,7 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
                     <Inplace
                         active={transpositionActive}
                         onToggle={(e) => setTranspositionActive(e.value)}
-                        className='song-transposition-inplace'
+                        className='song-transposition-inplace non-printable'
                     >
                         <InplaceDisplay>
                             <Button
@@ -149,7 +153,7 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
                     <SongChordDiagrams lyrics={song.lyrics} transposition={transposition} />
                 </>
             )}
-            {song && SelectedSong(song)}
+            {song && renderSelectedSong(song)}
         </>
     );
 };

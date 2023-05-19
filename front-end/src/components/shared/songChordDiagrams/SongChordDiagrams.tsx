@@ -47,7 +47,7 @@ const SongChordDiagrams = ({ lyrics, transposition }) => {
     };
 
     return (
-        <Inplace active={chordsActive} onToggle={(e) => setChordsActive(e.value)} className='song-chords-inplace'>
+        <Inplace active={chordsActive} onToggle={(e) => setChordsActive(e.value)} className='song-chords-inplace non-printable'>
             <InplaceDisplay>
                 <Button
                     className='p-button-text'

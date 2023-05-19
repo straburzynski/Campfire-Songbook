@@ -158,7 +158,7 @@ const Header = () => {
                     <>
                         <Menu className="app-menu" model={items} popup ref={menu} id="popup_menu" />
                         <Button
-                            className="white-secondary"
+                            className="white-secondary non-printable"
                             label=""
                             icon="pi pi-bars"
                             onClick={(event) => menu.current.toggle(event)}
@@ -206,6 +206,7 @@ const Header = () => {
                 blockScroll={true}
                 fullScreen={false}
                 position="right"
+                className="preferences-sidebar"
                 modal={true}
                 onHide={() => setPreferencesModal(false)}
                 icons={<div className="modal-title">{t('header.preferences')}</div>}

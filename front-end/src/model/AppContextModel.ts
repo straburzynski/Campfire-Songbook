@@ -12,4 +12,8 @@ export interface AppContextModel {
     setInstrument?: any;
     fontSize?: number;
     setFontSize?: any;
+    autoColumnsOn?: boolean;
+    setAutoColumnsOn?: any;
+    columnsCount?: number;
+    setColumnsCount?: any;
 }

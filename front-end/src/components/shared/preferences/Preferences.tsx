@@ -10,9 +10,17 @@ import { saveItemToLocalStorage } from '../../../service/LocalStorageService';
 import { DEFAULT_FONT_SIZE } from '../../../config/AppConfig';
 
 const Preferences = () => {
-    const { instrument, setInstrument, fontSize, setFontSize } = useContext(AppContext);
+    const {
+        instrument,
+        setInstrument,
+        fontSize,
+        setFontSize,
+        autoColumnsOn,
+        setAutoColumnsOn,
+        columnsCount,
+        setColumnsCount,
+    } = useContext(AppContext);
     const { t } = useTranslation();
-
     const languages = [
         { name: t('language.polish'), value: 'pl' },
         { name: t('language.english'), value: 'en' },
@@ -22,26 +30,47 @@ const Preferences = () => {
         { name: t('instrument.ukulele'), value: InstrumentEnum.UKULELE },
     ];
 
+    const autoColumnsOptions = [
+        { name: t('common.yes'), value: true },
+        { name: t('common.no'), value: false },
+    ];
+
+    const columns = [
+        { name: `1 (${t('common.default')})`, value: 1 },
+        { name: '2', value: 2 },
+        { name: '3', value: 3 },
+    ];
+
     const changeLang = (e): void => {
         i18next.changeLanguage(e.value);
     };
 
     const changeInstrument = (e): void => {
-        saveItemToLocalStorage('instrument', e.value)
+        saveItemToLocalStorage('instrument', e.value);
         setInstrument(e.value);
     };
 
     const incrementFontSize = (): void => {
-        saveItemToLocalStorage('fontSize', fontSize! + 1)
+        saveItemToLocalStorage('fontSize', fontSize! + 1);
         setFontSize(fontSize! + 1);
     };
     const decrementFontSize = (): void => {
-        saveItemToLocalStorage('fontSize', fontSize! - 1)
+        saveItemToLocalStorage('fontSize', fontSize! - 1);
         setFontSize(fontSize! - 1);
     };
     const resetFontSize = (): void => {
-        saveItemToLocalStorage('fontSize', DEFAULT_FONT_SIZE)
+        saveItemToLocalStorage('fontSize', DEFAULT_FONT_SIZE);
         setFontSize(DEFAULT_FONT_SIZE);
+    };
+
+    const changeAutoColumns = (e): void => {
+        saveItemToLocalStorage('autoColumnsOn', e.value);
+        setAutoColumnsOn(e.value);
+    };
+
+    const changeColumnsCount = (e): void => {
+        saveItemToLocalStorage('columnsCount', e.value);
+        setColumnsCount(e.value);
     };
 
     return (
@@ -85,6 +114,31 @@ const Preferences = () => {
                             className="p-button-secondary p-button-outlined p-button-sm"
                         />
                     </span>
+                </div>
+            </div>
+            <hr />
+            <div className="p-field p-grid p-mt-3">
+                <label className="p-col-fixed p-width-50">{t('preferences.autoColumnsOn')}</label>
+                <div className="p-col">
+                    <Dropdown
+                        value={autoColumnsOn}
+                        options={autoColumnsOptions}
+                        onChange={changeAutoColumns}
+                        optionLabel="name"
+                    />
+                </div>
+            </div>
+            <hr />
+            <div className="p-field p-grid p-mt-3">
+                <label className="p-col-fixed p-width-50">{t('preferences.columnsCount')}</label>
+                <div className="p-col">
+                    <Dropdown
+                        disabled={autoColumnsOn}
+                        value={columnsCount}
+                        options={columns}
+                        onChange={changeColumnsCount}
+                        optionLabel="name"
+                    />
                 </div>
             </div>
             <hr />

@@ -46,6 +46,45 @@
   &.p-inplace .p-inplace-display:not(.p-disabled):hover {
     background: transparent;
   }
-
 }
 
+.auto-columns-on {
+  @media (min-width: 1000px) {
+    .lyrics {
+      -webkit-columns: 2;
+      -moz-columns: 2;
+      columns: 2;
+    }
+  }
+  @media (min-width: 1500px) {
+    .lyrics {
+      -webkit-columns: 3;
+      -moz-columns: 3;
+      columns: 3;
+    }
+  }
+}
+
+.lyrics-column-1 {
+  .lyrics {
+    -webkit-columns: 1;
+    -moz-columns: 1;
+    columns: 1;
+  }
+}
+
+.lyrics-column-2 {
+  .lyrics {
+    -webkit-columns: 2;
+    -moz-columns: 2;
+    columns: 2;
+  }
+}
+
+.lyrics-column-3 {
+  .lyrics {
+    -webkit-columns: 3;
+    -moz-columns: 3;
+    columns: 3;
+  }
+}

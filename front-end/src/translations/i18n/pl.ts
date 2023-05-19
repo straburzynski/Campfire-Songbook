@@ -46,6 +46,7 @@ export const PL = {
     common: {
         author: 'Autor',
         close: 'Zamknij',
+        default: 'Domyślnie',
         delete: 'Usuń',
         home: 'Strona główna',
         hide_chords: 'Ukryj chwyty',
@@ -64,6 +65,8 @@ export const PL = {
         yes: 'Tak',
     },
     preferences: {
+        autoColumnsOn: 'Automatyczne kolumny',
+        columnsCount: 'Liczba kolumn',
         language: 'Język',
         instrument: 'Instrument',
         font_size: 'Wielkość czcionki',
