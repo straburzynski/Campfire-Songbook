@@ -48,7 +48,7 @@ const getInstrument = (): InstrumentEnum => {
 
 const getAutoColumnsOn = (): boolean => {
     const autoColumnsOn = getItemFromLocalStorage('autoColumnsOn');
-    return autoColumnsOn ? autoColumnsOn == 'true' : DEFAULT_AUTO_COLUMNS_ON;
+    return autoColumnsOn ? autoColumnsOn === 'true' : DEFAULT_AUTO_COLUMNS_ON;
 };
 
 const getColumnsCount = (): number => {
