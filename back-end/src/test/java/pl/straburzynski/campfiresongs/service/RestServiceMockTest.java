@@ -1,12 +1,11 @@
 package pl.straburzynski.campfiresongs.service;
 
-import org.junit.jupiter.api.Assertions;
+import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.web.client.RestTemplate;
 import pl.straburzynski.campfiresongs.config.AppConfig;
-import pl.straburzynski.campfiresongs.externalapi.exception.ExternalApiException;
 import pl.straburzynski.campfiresongs.externalapi.model.ExternalApiResponse;
 import pl.straburzynski.campfiresongs.externalapi.model.ExternalApiSong;
 import pl.straburzynski.campfiresongs.externalapi.service.RestService;
@@ -17,8 +16,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class RestServiceTest {
+public class RestServiceMockTest {
 
+    private final String ultimateGuitarUrl = "https://ultimate-guitar.com/";
+    private final String spiewnikWywrotaUrl = "https://spiewnik-wywrota.com/";
+    private final String songTitle = "test";
     private AppConfig appConfig;
     private RestTemplate restTemplate;
     private RestService restService;
@@ -39,37 +41,13 @@ public class RestServiceTest {
                 .artists(new ArrayList<>())
                 .build();
         restService = new RestService(appConfig, restTemplate, scrapper);
-        Mockito.when(appConfig.getExternalApiUrlSpiewnikWywrota()).thenReturn("https://api.com/");
+        Mockito.when(appConfig.getExternalApiUrlSpiewnikWywrota()).thenReturn(spiewnikWywrotaUrl);
+        Mockito.when(appConfig.getExternalApiUrlUltimateGuitar()).thenReturn(ultimateGuitarUrl);
+        Mockito.when(scrapper.getDocumentByUrl(ultimateGuitarUrl + songTitle)).thenReturn(new Document(ultimateGuitarUrl));
         Mockito.when(restTemplate.getForObject(Mockito.any(String.class), Mockito.eq(ExternalApiResponse.class))).thenReturn(externalApiResponse);
 
         // when
-        List<ExternalApiSong> response = restService.searchByTitle("test");
-
-        // then
-        assertNotNull(response);
-    }
-
-    @Test
-    public void should_throw_externalApiException_mockApi() {
-        Assertions.assertThrows(ExternalApiException.class, () -> {
-            // given
-            restService = new RestService(appConfig, restTemplate, scrapper);
-            Mockito.when(appConfig.getExternalApiUrlSpiewnikWywrota()).thenReturn("https://api.com/");
-            Mockito.when(restTemplate.getForObject(Mockito.any(String.class), Mockito.eq(ExternalApiResponse.class))).thenThrow(new ExternalApiException("TestCase"));
-
-            // when
-            restService.searchByTitle("test");
-        });
-    }
-
-    @Test
-    public void should_Return_ExternalApiResponse_RealApi() {
-        // given
-        restService = new RestService(appConfig, new RestTemplate(), scrapper);
-        Mockito.when(appConfig.getExternalApiUrlSpiewnikWywrota()).thenReturn("https://api.wywrota.pl/api/suggest?q=");
-
-        // when
-        List<ExternalApiSong> response = restService.searchByTitle("test");
+        List<ExternalApiSong> response = restService.searchByTitle(songTitle);
 
         // then
         assertNotNull(response);

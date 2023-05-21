@@ -51,10 +51,14 @@ public class RestService {
     }
 
     private List<ExternalApiSong> searchSongsOnUltimateGuitar(String title) {
-        String searchUrl = appConfig.getExternalApiUrlUltimateGuitar() + title;
-        Document document = scrapper.getDocumentByUrl(searchUrl);
-        return UltimateGuitarParserService.parseSearchResults(document);
+        try {
+            String searchUrl = appConfig.getExternalApiUrlUltimateGuitar() + title;
+            Document document = scrapper.getDocumentByUrl(searchUrl);
+            return UltimateGuitarParserService.parseSearchResults(document);
+        } catch (Exception ex) {
+            log.error("External API error: cannot search songs: Ultimate Guitar - {}", title);
+            return Collections.emptyList();
+        }
     }
-
 
 }
