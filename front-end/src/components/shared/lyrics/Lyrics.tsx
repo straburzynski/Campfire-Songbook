@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { Chord } from 'tonal';
 import { ChordModel } from '../../../model/ChordModel';
 import { rowWithChordsOnlyDetected } from '../../../service/ChordParserService';
+import { APP_NAME } from '../../../config/AppConfig';
 
 const Lyrics = ({ song, showChordDiagrams = false }) => {
     const { fontSize, columnsCount, autoColumnsOn } = useContext(AppContext);
@@ -23,7 +24,12 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
         if (transposition !== 0) {
             setTransposition(0);
         }
-    }, [song]);
+        const currentSong = song ? ` | ${song?.title} - ${song?.author}` : ''
+        document.title = APP_NAME + currentSong;
+        return () => {
+            document.title = APP_NAME
+        }
+    }, [song]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handlePlus = (): void => {
         setTransposition((prevState) => prevState + 1);
