@@ -67,9 +67,9 @@ const ExternalSearch = ({ onSongSelected }) => {
     const sourceColumn = (song: ExternalApiSongModel) => {
         switch (song.source) {
             case ExternalApiSourceEnum.SPIEWNIK_WYWROTA:
-                return <img alt="Spiewnik Wywrota" src={spiewnikWywrotaLogo} height="37" />
+                return <img alt="Spiewnik Wywrota" src={spiewnikWywrotaLogo} height="40" />
             case ExternalApiSourceEnum.ULTIMATE_GUITAR:
-                return <img alt="Ultimate-Guitar" src={ultimateGuitarLogo} height="37" />
+                return <img alt="Ultimate-Guitar" src={ultimateGuitarLogo} height="40" />
         }
     };
 
@@ -170,8 +170,8 @@ const ExternalSearch = ({ onSongSelected }) => {
                     >
                         <Column field="artist" header={t('common.author')} sortable />
                         <Column field="title" header={t('common.title')} sortable />
-                        <Column field="source" header={t('common.source')} body={sourceColumn} style={{ width: '100px' }} />
-                        <Column header="" body={actionColumn} style={{ width: '100px' }} />
+                        <Column field="source" header="" body={sourceColumn} style={{ width: '70px' }} />
+                        <Column header="" body={actionColumn} style={{ width: '70px' }} />
                     </DataTable>
                 ) : (
                     <p className="p-text-center">{t('exception.no_songs_found')}</p>

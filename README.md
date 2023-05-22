@@ -50,11 +50,10 @@ Song editor screen - creating, updating and deleting songs
 ### To do:
 
 - [x] Scroll to top after song being changed in guest mode
-- [ ] More sources for external search integration
-- [ ] Prevent screen for dimming
-- [ ] Favourite songs for session
-- [ ] Playlist for session
-- [ ] PWA integration
+- [x] More sources for external search integration
+- [ ] Prevent screen from dimming
+- [X] Favourite songs for device
+- [ ] PWA integration (offline mode)
 - [ ] Highlighting chords in song editor
 
 ### Tech stack

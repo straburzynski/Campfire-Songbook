@@ -18,6 +18,7 @@ import { toast } from 'react-toastify';
 import ReactPlayer from 'react-player';
 import { Dialog } from 'primereact/dialog';
 import { getResultList, getYoutubeUrl } from '../../service/YouTubeService';
+import { SongsSourceEnum } from '../../model/SongsSourceEnum';
 
 const Header = () => {
     let history = useHistory();
@@ -26,6 +27,7 @@ const Header = () => {
     const menu = useRef<any>(null);
 
     const [songListModal, setSongListModal] = useState(false);
+    const [favoriteSongsModal, setFavoriteSongsModal] = useState(false);
     const [externalSearchModal, setExternalSearchModal] = useState(false);
     const [preferencesModal, setPreferencesModal] = useState(false);
     const [youtubeModal, setYoutubeModal] = useState(false);
@@ -33,6 +35,9 @@ const Header = () => {
 
     const closeSongListModal = (): void => {
         setSongListModal(false);
+    };
+    const closeFavoriteSongsModal = (): void => {
+        setFavoriteSongsModal(false);
     };
     const closeExternalSearchModal = (): void => {
         setExternalSearchModal(false);
@@ -81,6 +86,11 @@ const Header = () => {
             label: t('header.song_list'),
             icon: 'pi pi-list',
             command: () => setSongListModal(true),
+        },
+        {
+            label: t('header.favorite_songs'),
+            icon: 'pi pi-heart',
+            command: () => setFavoriteSongsModal(true),
         },
         {
             label: t('header.external_search'),
@@ -176,7 +186,17 @@ const Header = () => {
                 onHide={() => setSongListModal(false)}
                 icons={<div className="modal-title">{t('header.song_list')}</div>}
             >
-                <SongList onSongSelected={closeSongListModal} />
+                <SongList source={SongsSourceEnum.DATABASE} onSongSelected={closeSongListModal} />
+            </Sidebar>
+
+            <Sidebar
+                visible={favoriteSongsModal}
+                blockScroll={true}
+                fullScreen={true}
+                onHide={() => setFavoriteSongsModal(false)}
+                icons={<div className="modal-title">{t('header.favorite_songs')}</div>}
+            >
+                <SongList source={SongsSourceEnum.LOCALSTORAGE} onSongSelected={closeFavoriteSongsModal} />
             </Sidebar>
 
             <Sidebar

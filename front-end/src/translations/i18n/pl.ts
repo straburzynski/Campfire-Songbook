@@ -11,6 +11,7 @@ export const PL = {
         current_session: 'Aktualna sesja',
         exit_session: 'Zakończ sesję',
         external_search: 'Szukaj w Internecie',
+        favorite_songs: 'Ulubione piosenki',
         preferences: 'Opcje',
         play_on_youtube: 'Odtwórz na Youtube',
         share: 'Udostępnij',
@@ -44,6 +45,7 @@ export const PL = {
         video_not_found: 'Nie znaleziono video',
     },
     common: {
+        add: 'Dodaj',
         author: 'Autor',
         close: 'Zamknij',
         default: 'Domyślnie',
@@ -53,6 +55,7 @@ export const PL = {
         hide_transposition: 'Ukryj transpozycję',
         lyrics: 'Tekst',
         no: 'Nie',
+        remove: 'Usuń',
         save: 'Zapisz',
         select: 'Wybierz',
         select_song: 'Wybierz piosenkę',

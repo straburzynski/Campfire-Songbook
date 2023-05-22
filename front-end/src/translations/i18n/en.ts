@@ -11,6 +11,7 @@ export const EN = {
         current_session: 'Current session',
         exit_session: 'Exit session',
         external_search: 'External search',
+        favorite_songs: 'Favorite songs',
         preferences: 'Preferences',
         play_on_youtube: 'Play on Youtube',
         share: 'Share',
@@ -44,6 +45,7 @@ export const EN = {
         video_not_found: 'Video not found',
     },
     common: {
+        add: 'Add',
         author: 'Author',
         close: 'Close',
         delete: 'Delete',
@@ -53,6 +55,7 @@ export const EN = {
         hide_transposition: 'Hide transposition',
         lyrics: 'Lyrics',
         no: 'No',
+        remove: 'Remove',
         save: 'Save',
         select: 'Select',
         select_song: 'Select song',
