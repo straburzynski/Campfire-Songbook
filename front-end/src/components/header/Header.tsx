@@ -125,14 +125,17 @@ const Header = () => {
     ];
 
     const share = () => {
+        const url = `${window.location.origin}/join/${sessionName}`
         if (navigator.share) {
             navigator.share({
                 title: 'Campfire Songbook',
                 text: t('share.text', { sessionName: sessionName }),
-                url: `${window.location.origin}/join/${sessionName}`,
+                url: url,
             });
         } else {
-            toast.warning(t('exception.cannot_share'));
+            navigator.clipboard.writeText(url)
+                .then(() =>  toast.success(t('share.success')))
+                .catch(() =>  toast.warning(t('exception.cannot_share')));
         }
     };
 

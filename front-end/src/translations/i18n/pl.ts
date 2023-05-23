@@ -27,7 +27,7 @@ export const PL = {
         author_required: 'Autor jest wymagany',
         lyrics_required: 'Tekst jest wymagany',
         title_required: 'Tytuł jest wymagany',
-        song_deleted: 'Piosenka zosała usunięta',
+        song_deleted: 'Piosenka została usunięta',
         song_editor: 'Edycja piosenek',
         song_updated: 'Piosenka została zapisana',
     },
@@ -84,5 +84,6 @@ export const PL = {
     },
     share: {
         text: 'Campfire Songbook - dołącz do sesji: {{sessionName}}',
+        success: 'URL sesji został skopiowany do schowka',
     },
 };

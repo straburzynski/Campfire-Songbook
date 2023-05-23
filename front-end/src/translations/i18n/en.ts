@@ -84,5 +84,6 @@ export const EN = {
     },
     share: {
         text: 'Campfire Songbook - join session: {{sessionName}}',
+        success: 'URL session was copied to clipboard',
     },
 };
