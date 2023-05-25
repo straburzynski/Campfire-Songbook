@@ -8,6 +8,7 @@ export const PL = {
         start: 'Start',
     },
     header: {
+        about: "O aplikacji",
         current_session: 'Aktualna sesja',
         exit_session: 'Zakończ sesję',
         external_search: 'Szukaj w Internecie',
@@ -47,6 +48,7 @@ export const PL = {
     common: {
         add: 'Dodaj',
         author: 'Autor',
+        changelog: 'Lista zmian',
         close: 'Zamknij',
         default: 'Domyślnie',
         delete: 'Usuń',
@@ -65,6 +67,7 @@ export const PL = {
         search: 'Szukaj',
         search_by_title: 'Szukaj po tytule',
         title: 'Tytuł',
+        version: 'Wersja',
         yes: 'Tak',
     },
     preferences: {
@@ -86,4 +89,16 @@ export const PL = {
         text: 'Campfire Songbook - dołącz do sesji: {{sessionName}}',
         success: 'URL sesji został skopiowany do schowka',
     },
+    changelog: {
+        '0.10.0': 'Sekcja \'O aplikacji\' z listą zmian i aktualną wersją.',
+        '0.9.0': 'Ulubione piosenki - nowe menu z listą piosenek. Dodawanie i usuwanie z ekranu listy - menu w ikonce lupy.',
+        '0.8.0': 'Automatyczna i ręczna obsługa kolumn w opcjach. Maksymalnie 3 kolumny.',
+        '0.7.0': 'Dodanie nowego źródła danych w wyszukiwaniu - Ultimate Guitar. W wynikach na liście pokazuje się ikonka źródła.',
+        '0.6.0': 'Dostosowanie widoku piosenki do drukowania.',
+        '0.5.0': 'Transpozycja chwytów piosenek. Widoczna tylko dla hosta sesji na ekranie wybranej piosenki.',
+        '0.4.0': 'Konfiguracja wielkości czcionki, języka aplikacji i typu instrumentu (gitara lub ukulele).',
+        '0.3.0': 'Wyszukiwanie i odtwarzanie aktywnej piosenki z Youtube.',
+        '0.2.0': 'Udostępnianie linku dołączenia do sesji na urządzeniach mobilnych i w przeglądarce',
+        '0.1.0': 'Tworzenie i dołączanie do istniejących sesji, wyszukiwanie piosenek ze Śpiewnika Wywrota i zapisywanie do lokalnej bazy danych.',
+    }
 };

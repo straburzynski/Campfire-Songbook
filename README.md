@@ -39,7 +39,7 @@ Horizontal screen with example chord diagram (with switchable variations)
 
 ![](img/horizontal_chord_screen.jpg)
 
-Preferences screen with language, instrument (guitar / ukulele) and font size options 
+About screen with language, instrument (guitar / ukulele) and font size options 
 
 ![](img/preferences_horizontal_screen.jpg)
 
@@ -47,14 +47,18 @@ Song editor screen - creating, updating and deleting songs
 
 ![](img/song_editor.jpg)
 
-### To do:
+### Changelog:
 
-- [x] Scroll to top after song being changed in guest mode
-- [x] More sources for external search integration
-- [ ] Prevent screen from dimming
-- [X] Favourite songs for device
-- [ ] PWA integration (offline mode)
-- [ ] Highlighting chords in song editor
+- 0.10.0 - 'About' section with changelog and current version.
+- 0.9.0 - Favorite songs - new song list menu. Adding and removing from the list screen - menu in the magnifying glass icon.
+- 0.8.0 - Automatic and manual column handling in options. Maximum 3 columns.
+- 0.7.0 - Adding new data source in search - Ultimate Guitar. The source icon is shown in the results list.
+- 0.6.0 - Adjusting the song view for printing.
+- 0.5.0 - Song chord transposition. Only visible to the session host on the screen of the selected song.
+- 0.4.0 - Configure font size, application language and instrument type (guitar or ukulele).
+- 0.3.0 - Searching and playing the active song from Youtube.
+- 0.2.0 - Sharing a link to join a session on mobile devices and in the browser
+- 0.1.0 - Creating and joining existing sessions, searching songs from Songbook Wywrota and saving to local database.
 
 ### Tech stack
 

@@ -8,6 +8,7 @@ export const EN = {
         start: 'Start',
     },
     header: {
+        about: "About app",
         current_session: 'Current session',
         exit_session: 'Exit session',
         external_search: 'External search',
@@ -47,6 +48,7 @@ export const EN = {
     common: {
         add: 'Add',
         author: 'Author',
+        changelog: 'Changelog',
         close: 'Close',
         delete: 'Delete',
         default: 'Default',
@@ -65,6 +67,7 @@ export const EN = {
         search: 'Search',
         search_by_title: 'Search by title',
         title: 'Title',
+        version: 'Version',
         yes: 'Yes',
     },
     preferences: {
@@ -86,4 +89,16 @@ export const EN = {
         text: 'Campfire Songbook - join session: {{sessionName}}',
         success: 'URL session was copied to clipboard',
     },
+    changelog: {
+        '0.10.0': '\'About\' section with changelog and current version.',
+        '0.9.0': 'Favorite songs - new song list menu. Adding and removing from the list screen - menu in the magnifying glass icon.',
+        '0.8.0': 'Automatic and manual column handling in options. Maximum 3 columns.',
+        '0.7.0': 'Adding new data source in search - Ultimate Guitar. The source icon is shown in the results list.',
+        '0.6.0': 'Adjusting the song view for printing.',
+        '0.5.0': 'Song chord transposition. Only visible to the session host on the screen of the selected song.',
+        '0.4.0': 'Configure font size, application language and instrument type (guitar or ukulele).',
+        '0.3.0': 'Searching and playing the active song from Youtube.',
+        '0.2.0': 'Sharing a link to join a session on mobile devices and in the browser',
+        '0.1.0': 'Creating and joining existing sessions, searching songs from Songbook Wywrota and saving to local database.',
+    }
 };

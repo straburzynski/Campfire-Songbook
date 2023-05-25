@@ -19,6 +19,7 @@ import ReactPlayer from 'react-player';
 import { Dialog } from 'primereact/dialog';
 import { getResultList, getYoutubeUrl } from '../../service/YouTubeService';
 import { SongsSourceEnum } from '../../model/SongsSourceEnum';
+import About from '../shared/about/About';
 
 const Header = () => {
     let history = useHistory();
@@ -31,6 +32,8 @@ const Header = () => {
     const [externalSearchModal, setExternalSearchModal] = useState(false);
     const [preferencesModal, setPreferencesModal] = useState(false);
     const [youtubeModal, setYoutubeModal] = useState(false);
+    const [aboutAppModal, setAboutAppModal] = useState(false);
+
     const [url, setUrl] = useState('');
 
     const closeSongListModal = (): void => {
@@ -113,6 +116,11 @@ const Header = () => {
             label: t('header.share'),
             icon: 'pi pi-share-alt',
             command: () => share(),
+        },
+        {
+            label: t('header.about'),
+            icon: 'pi pi-info-circle',
+            command: () => setAboutAppModal(true),
         },
         {
             template: <Divider />,
@@ -235,6 +243,19 @@ const Header = () => {
                 icons={<div className="modal-title">{t('header.preferences')}</div>}
             >
                 <Preferences />
+            </Sidebar>
+
+            <Sidebar
+                visible={aboutAppModal}
+                blockScroll={true}
+                fullScreen={false}
+                position="right"
+                className="about-app-sidebar"
+                modal={true}
+                onHide={() => setAboutAppModal(false)}
+                icons={<div className="modal-title">{t('header.about')}</div>}
+            >
+                <About />
             </Sidebar>
         </div>
     );
