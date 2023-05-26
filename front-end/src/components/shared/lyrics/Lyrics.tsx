@@ -88,7 +88,7 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
     const renderSelectedSong = (song: SongModel) => {
         return (
             <div className={autoColumnsOn ? 'auto-columns-on' : `lyrics-column-${columnsCount}`}>
-                <h3 className='p-mb-5'>{`${song.author} - ${song.title}`}</h3>
+                <h3 className='mb-5'>{`${song.author} - ${song.title}`}</h3>
                 <div className='lyrics' style={{ fontSize: fontSize + 'px' }}>
                     {song.lyrics.split(NEW_LINE).map((row, rowIndex) => {
                         row = row.trimStart();
@@ -126,7 +126,8 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
                     >
                         <InplaceDisplay>
                             <Button
-                                className='p-button-text'
+                                text
+                                severity='secondary'
                                 label={t('common.show_transposition')}
                                 icon='pi pi-angle-down'
                                 iconPos='right'
@@ -134,27 +135,34 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
                         </InplaceDisplay>
                         <InplaceContent>
                             <Button
-                                className='p-button-text'
+                                text
+                                severity='secondary'
                                 label={t('common.hide_transposition')}
                                 icon='pi pi-angle-up'
                                 iconPos='right'
                                 onClick={() => setTranspositionActive(!transpositionActive)}
                             />
-                            <div className='flex-item p-mt-0 p-as-center'>
+                            <div className='flex-item mt-0 align-self-center'>
                                 <Button
+                                    text
+                                    severity='secondary'
                                     onClick={handleMinus}
-                                    className='p-button-text p-mx-4'
+                                    className='mx-4'
                                     icon='pi pi-minus'
                                     iconPos='left'
                                 />
                                 <Button
+                                    text
+                                    severity='secondary'
                                     onClick={handleReset}
-                                    className='p-button-text p-mx-4'
+                                    className='mx-4'
                                     label={transposition.toString()}
                                 />
                                 <Button
+                                    text
+                                    severity='secondary'
                                     onClick={handlePlus}
-                                    className='p-button-text p-mx-4'
+                                    className='mx-4'
                                     icon='pi pi-plus'
                                     iconPos='right'
                                 />

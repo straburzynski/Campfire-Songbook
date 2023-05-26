@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from 'react';
 import AppContext from '../../context/AppContext';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Menu } from 'primereact/menu';
 import { Button } from 'primereact/button';
 import { Toolbar } from 'primereact/toolbar';
@@ -20,9 +20,10 @@ import { Dialog } from 'primereact/dialog';
 import { getResultList, getYoutubeUrl } from '../../service/YouTubeService';
 import { SongsSourceEnum } from '../../model/SongsSourceEnum';
 import About from '../shared/about/About';
+import { APP_NAME } from '../../config/AppConfig';
 
 const Header = () => {
-    let history = useHistory();
+    let navigate = useNavigate();
     const { t } = useTranslation();
     const { sessionName, setSessionName, song, setSong, host, setHost } = useContext(AppContext);
     const menu = useRef<any>(null);
@@ -77,10 +78,10 @@ const Header = () => {
             template: (
                 <>
                     <p className="menu-item session-name">
-                        <span className={host ? 'p-menuitem-icon pi pi-user' : 'p-menuitem-icon pi pi-users'} />
+                        <span className={host ? 'menuitem-icon mr-2 pi pi-user' : 'menuitem-icon mr-2 pi pi-users'} />
                         {t('header.current_session')}:
                     </p>
-                    <p className="menu-item p-text-bold p-ml-4">{sessionName || '---'}</p>
+                    <p className="menu-item font-bold ml-4">{sessionName || '---'}</p>
                     <Divider />
                 </>
             ),
@@ -136,8 +137,8 @@ const Header = () => {
         const url = `${window.location.origin}/join/${sessionName}`
         if (navigator.share) {
             navigator.share({
-                title: 'Campfire Songbook',
-                text: t('share.text', { sessionName: sessionName }),
+                title: APP_NAME,
+                text: t('share.text', { sessionName: sessionName }).toString(),
                 url: url,
             });
         } else {
@@ -150,10 +151,10 @@ const Header = () => {
     const confirmExitSession = () => {
         confirmDialog({
             showHeader: false,
-            message: <div className="p-mt-6">{t('dialog.exit_session_confirmation')}</div>,
+            message: <div className="mt-6">{t('dialog.exit_session_confirmation')}</div>,
             accept: () => exitSession(),
-            rejectLabel: t('common.no'),
-            acceptLabel: t('common.yes'),
+            rejectLabel: t('common.no').toString(),
+            acceptLabel: t('common.yes').toString(),
         });
     };
 
@@ -163,7 +164,7 @@ const Header = () => {
         setSessionName(undefined);
         setSong(undefined);
         setHost(false);
-        history.push('/');
+        navigate('/');
     };
 
     return (

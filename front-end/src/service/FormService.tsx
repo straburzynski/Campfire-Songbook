@@ -6,7 +6,7 @@ export const isFormFieldValid = (formik: any, fieldName: string) => {
 };
 
 export const getErrorClassName = (formik: any, fieldName: string) => {
-    return classNames({ 'p-invalid': isFormFieldValid(formik, fieldName) });
+    return classNames({ 'invalid': isFormFieldValid(formik, fieldName) });
 };
 
 export const getFormErrorMessage = (formik, name) => {

@@ -19,14 +19,14 @@ public class SongService {
     private final SongRepository songRepository;
     private final SongConverter songConverter;
 
-    public void create(SongDto songDto) {
+    public Song create(SongDto songDto) {
         Song song = songConverter.convertFromSongDto(songDto);
         boolean exists = songRepository.existsByAuthorLikeAndTitleLikeAllIgnoreCase(song.getAuthor(), song.getTitle());
         if (exists) {
             throw new SongExistsException(song);
         } else {
             song.setId(UUID.randomUUID());
-            songRepository.save(song);
+            return songRepository.save(song);
         }
     }
 
@@ -41,10 +41,10 @@ public class SongService {
         return songConverter.convertFromSong(song);
     }
 
-    public void update(UUID id, SongDto songDto) {
+    public Song update(UUID id, SongDto songDto) {
         Song song = songConverter.convertFromSongDto(songDto);
         song.setId(id);
-        songRepository.save(song);
+        return songRepository.save(song);
     }
 
     public void deleteById(UUID id) {

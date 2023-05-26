@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { createSession, getSession } from '../../service/SessionService';
 import AppContext from '../../context/AppContext';
 import { InputText } from 'primereact/inputtext';
@@ -17,7 +17,7 @@ import './home.scss';
 import { CustomExceptionModel } from '../../model/CustomExceptionModel';
 
 const Home = () => {
-    let history = useHistory();
+    let navigate = useNavigate();
     const { setSong, sessionName, setSessionName, setHost } = useContext<AppContextModel>(AppContext);
     const { t } = useTranslation();
     const [sessionType, setSessionType] = useState(SessionTypeEnum.JOIN);
@@ -45,12 +45,12 @@ const Home = () => {
                     setSessionName(res.name);
                     setSong(res.song);
                     setHost(true);
-                    history.push({ pathname: `/host/${sessionName}` });
+                    navigate({ pathname: `/host/${sessionName}` });
                 })
                 .catch((err) => {
                     const ex = err.response?.data as CustomExceptionModel;
-                    if (ex.translationKey) {
-                        toast.error(t(ex.translationKey));
+                    if (ex?.translationKey) {
+                        toast.error(t(ex?.translationKey));
                     } else {
                         handleError(err);
                     }
@@ -65,15 +65,14 @@ const Home = () => {
                 setSong(res.song);
                 setHost(false);
                 saveItemToLocalStorage('sessionName', sessionName);
-                history.push({
-                    pathname: `/join/${sessionName}`,
+                navigate(`/join/${sessionName}`, {
                     state: {
                         authorized: true,
                     },
                 });
             })
             .catch((err) => {
-                history.push('/');
+                navigate('/');
                 const ex = err.response?.data as CustomExceptionModel;
                 if (ex.params.hasOwnProperty('name')) {
                     toast.warning(t(ex.translationKey, { name: ex.params['name'] }));
@@ -98,11 +97,11 @@ const Home = () => {
         <div className="home">
             <div className="flex-container">
                 <div className="row">
-                    <div className="flex-item p-mb-2">
+                    <div className="flex-item mb-2">
                         <img src={logo} className="logo" alt="Campfire Songs Logo" />
                     </div>
-                    <div className="flex-item p-mb-6 title">Campfire Songbook</div>
-                    <div className="flex-item p-mb-3">
+                    <div className="flex-item mb-6 title">Campfire Songbook</div>
+                    <div className="flex-item mb-3">
                         <SelectButton
                             className="session-type-select"
                             unselectable={false}
@@ -120,7 +119,7 @@ const Home = () => {
                         />
                         {sessionType === SessionTypeEnum.CREATE && (
                             <InputText
-                                className="p-ml-2"
+                                className="ml-2"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder={t('home.password')}
@@ -128,8 +127,8 @@ const Home = () => {
                             />
                         )}
                     </div>
-                    <div className="flex-item p-mb-1 p-mt-3">
-                        <Button onClick={() => handleButton()} className="white-primary p-button-rounded">
+                    <div className="flex-item mb-1 mt-3">
+                        <Button onClick={() => handleButton()} className="white-primary button-rounded">
                             <span className="start-button">{t('home.start')}</span>
                         </Button>
                     </div>

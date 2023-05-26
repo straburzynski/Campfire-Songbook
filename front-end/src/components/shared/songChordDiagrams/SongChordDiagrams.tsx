@@ -33,10 +33,10 @@ const SongChordDiagrams = ({ lyrics, transposition }) => {
         const chordList = Array.from(songChords).map(chordName => getChord(chordName, transposition));
         const multipleChordPositions = getMultipleChordPositions(instrument!, chordList);
         return (
-            <div className='p-d-flex p-flex-row p-flex-wrap p-justify-center'>
+            <div className='flex flex-row flex-wrap p-justify-center'>
                 {multipleChordPositions.map((chord, index) => {
                     return chord ? (
-                        <div key={index} className='chord-container p-d-flex p-flex-column p-ai-center p-jc-center'>
+                        <div key={index} className='chord-container flex flex-column p-ai-center justify-content-center'>
                             <h2>{chordList[index].symbol.replace('M', '')}</h2>
                             <Chord key={index} chord={chord[0]} instrument={instruments[instrument!]} />
                         </div>
@@ -50,7 +50,8 @@ const SongChordDiagrams = ({ lyrics, transposition }) => {
         <Inplace active={chordsActive} onToggle={(e) => setChordsActive(e.value)} className='song-chords-inplace non-printable'>
             <InplaceDisplay>
                 <Button
-                    className='p-button-text'
+                    text
+                    severity='secondary'
                     label={t('common.show_chords')}
                     icon='pi pi-angle-down'
                     iconPos='right'
@@ -58,7 +59,8 @@ const SongChordDiagrams = ({ lyrics, transposition }) => {
             </InplaceDisplay>
             <InplaceContent>
                 <Button
-                    className='p-button-text'
+                    text
+                    severity='secondary'
                     label={t('common.hide_chords')}
                     icon='pi pi-angle-up'
                     iconPos='right'

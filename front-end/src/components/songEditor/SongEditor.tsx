@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import './songEditor.scss';
 import { Divider } from 'primereact/divider';
 import { confirmDialog } from 'primereact/confirmdialog';
+import { Button } from 'primereact/button';
 
 const SongEditor = () => {
     const { t } = useTranslation();
@@ -44,11 +45,11 @@ const SongEditor = () => {
         onSubmit: (song) => {
             if (songForm.isValid) {
                 saveSong(song)
-                    .then(() => {
+                    .then((s) => {
                         toast.success(t('editor.song_updated'));
                         getAllSongs().then((songs: SongModel[]) => {
                             setSongs(songs);
-                            setSelectedSong(song);
+                            setSelectedSong(s);
                         });
                     })
                     .catch(() => {
@@ -99,7 +100,7 @@ const SongEditor = () => {
     const showConfirmationDialog = (song: SongModel) => {
         confirmDialog({
             showHeader: false,
-            message: <div className="p-mt-6">{t('dialog.delete_song_confirmation')}</div>,
+            message: <div className="mt-6">{t('dialog.delete_song_confirmation')}</div>,
             accept: () => handleDeleteSong(song),
             rejectLabel: t('common.no'),
             acceptLabel: t('common.yes'),
@@ -107,14 +108,14 @@ const SongEditor = () => {
     };
 
     return (
-        <div className="editor p-p-3">
+        <div className="editor p-3">
             <div className="card">
                 {songs && (
                     <Dropdown
                         value={selectedSong}
                         options={songs}
                         onChange={onSongSelect}
-                        optionLabel={t('common.title')}
+                        optionLabel={t('common.title').toString()}
                         filter
                         showClear
                         showFilterClear
@@ -129,8 +130,8 @@ const SongEditor = () => {
                     <p>{t('editor.song_editor')}</p>
                 </Divider>
 
-                <form onSubmit={songForm.handleSubmit} className="p-fluid p-formgrid p-grid">
-                    <div className="p-field p-col-12 p-md-6">
+                <form onSubmit={songForm.handleSubmit} className="p-fluid p-formgrid grid">
+                    <div className="field col-12 p-md-6">
                         <span className="p-float-label">
                             <InputText
                                 id="author"
@@ -147,7 +148,7 @@ const SongEditor = () => {
                         {getFormErrorMessage(songForm, 'author')}
                     </div>
 
-                    <div className="p-field p-col-12 p-md-6">
+                    <div className="field col-12 p-md-6">
                         <span className="p-float-label">
                             <InputText
                                 id="title"
@@ -163,7 +164,7 @@ const SongEditor = () => {
                         {getFormErrorMessage(songForm, 'title')}
                     </div>
 
-                    <div className="p-field p-col-12">
+                    <div className="field col-12">
                         <span className="p-float-label">
                             <InputTextarea
                                 id="lyrics"
@@ -171,7 +172,6 @@ const SongEditor = () => {
                                 value={songForm.values?.lyrics}
                                 onChange={songForm.handleChange}
                                 className={getErrorClassName(songForm, 'lyrics')}
-                                rows={5}
                                 cols={30}
                                 autoResize
                             />
@@ -182,23 +182,24 @@ const SongEditor = () => {
                         </span>
                         {getFormErrorMessage(songForm, 'lyrics')}
                     </div>
-                    <div className="p-d-flex p-jc-evenly p-width-100">
-                        <div className="p-mr-2">
-                            <button
+                    <div className="flex justify-content-evenly p-width-100">
+                        <div className="mr-2">
+                            <Button
                                 disabled={!selectedSong}
-                                className="p-button p-component p-button-danger"
                                 type="button"
+                                label={t('common.delete')}
+                                icon="pi pi-trash"
+                                severity="danger"
                                 onClick={() => showConfirmationDialog(selectedSong!)}
-                            >
-                                <span className="p-button-icon p-c pi pi-trash p-button-icon-left" />
-                                <span className="p-button-label p-c p-d-sm-inline-flex">{t('common.delete')}</span>
-                            </button>
+                            />
                         </div>
                         <div>
-                            <button className="p-button p-component button-primary" type="submit">
-                                <span className="p-button-icon p-c pi pi-save p-button-icon-left" />
-                                <span className="p-button-label p-c p-d-sm-inline-flex">{t('common.save')}</span>
-                            </button>
+                            <Button
+                                type="submit"
+                                label={t('common.save')}
+                                icon="pi pi-save"
+                                className="button-primary"
+                            />
                         </div>
                     </div>
                 </form>

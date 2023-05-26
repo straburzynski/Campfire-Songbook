@@ -9,7 +9,7 @@ const SelectSong = (props) => {
         <>
             {!props.song && props.host && (
                 <div className="select-song">
-                    <p className="p-mb-0">
+                    <p className="mb-0">
                         <span className="pi pi-arrow-up" />
                     </p>
                     <p>{t('common.select_song')}</p>

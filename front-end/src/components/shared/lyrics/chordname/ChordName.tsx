@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import './chordName.css';
 import { Dialog } from 'primereact/dialog';
-import { getChord, getChordPositions, getChordName } from '../../../../service/ChordParserService';
+import { getChord, getChordName, getChordPositions } from '../../../../service/ChordParserService';
 import Chord from '@tombatossals/react-chords/lib/Chord';
 import { Button } from 'primereact/button';
 import { useTranslation } from 'react-i18next';
@@ -49,24 +49,22 @@ const ChordName = ({ chordId, chordName, chordPosition, transposition }) => {
                 dismissableMask={true}
                 blockScroll={true}
             >
-                <div className="p-d-flex p-ai-center p-jc-center p-flex-column">
+                <div className="flex p-ai-center justify-content-center flex-column">
                     <h2>{getChordName(chordName, transposition)}</h2>
                     {chordDiagrams ? (
                         <>
                             <Chord chord={chordDiagrams[currentChordIndex]} instrument={instruments[instrument!]} />
-                            <div className="flex-item p-mt-2 p-as-center">
+                            <div className="flex-item mt-2 align-self-center">
                                 <Button
                                     onClick={handlePrev}
                                     icon="pi pi-arrow-left"
-                                    className={`p-button-secondary p-mx-4 ${
-                                        currentChordIndex === 0 && 'p-button-text'
-                                    }`}
+                                    className={`button-secondary mx-4 ${currentChordIndex === 0 && 'button-text'}`}
                                 />
                                 <Button
                                     onClick={handleNext}
                                     icon="pi pi-arrow-right"
-                                    className={`p-button-secondary p-mx-4 ${
-                                        currentChordIndex === chordDiagrams.length - 1 && 'p-button-text'
+                                    className={`button-secondary mx-4 ${
+                                        currentChordIndex === chordDiagrams.length - 1 && 'button-text'
                                     }`}
                                 />
                             </div>

@@ -43,10 +43,21 @@ body {
     border-color: var(--app-secondary-dark) !important;
   }
 
-  .p-button.p-button-text:not(a):not(.p-disabled):active {
+  .p-button.button-text:not(a):not(.p-disabled):active {
     background: transparent !important;
   }
+}
 
+.color-primary {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  color: var(--app-primary) !important;
+}
+
+.secondary-color {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  color: var(--app-secondary) !important;
 }
 
 .p-scrolltop {
@@ -56,6 +67,10 @@ body {
 .p-divider.p-divider-horizontal {
   height: 1px;
   background-color: #dadada;
+}
+
+.p-sortable-column-icon {
+  display: flex;
 }
 
 .p-width-50 {

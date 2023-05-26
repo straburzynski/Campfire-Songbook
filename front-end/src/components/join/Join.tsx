@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import Lyrics from '../shared/lyrics/Lyrics';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { DEBUG, SOCKET_URL, TOPIC } from '../../config/WebSocketConfig';
 import SockJsClient from 'react-stomp';
 import AppContext from '../../context/AppContext';
@@ -15,12 +15,12 @@ import { handleError } from '../../service/ExceptionService';
 
 export default function Join() {
     let { sessionName: sessionNameFromUrl } = useParams();
-    let history = useHistory();
+    let navigate = useNavigate();
     const { t } = useTranslation();
     const { host, setHost, sessionName, setSessionName, song, setSong } = useContext(AppContext);
 
     useEffect(() => {
-        if (sessionName) {
+        if (sessionName || sessionNameFromUrl === undefined) {
             return;
         }
         getSession(sessionNameFromUrl)
@@ -31,7 +31,7 @@ export default function Join() {
                 saveItemToLocalStorage('sessionName', res.name);
             })
             .catch((err) => {
-                history.push('/');
+                navigate('/');
                 const ex = err.response?.data as CustomExceptionModel;
                 if (ex.params.hasOwnProperty('name')) {
                     toast.warning(t(ex.translationKey, { name: ex.params['name'] }));
@@ -62,7 +62,7 @@ export default function Join() {
     }
 
     return (
-        <div className="p-p-2">
+        <div className="p-2">
             <Lyrics song={song} />
             {sessionName && (
                 <SockJsClient

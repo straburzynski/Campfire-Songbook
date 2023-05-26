@@ -9,6 +9,7 @@ import { handleError } from '../../../service/ExceptionService';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 import { CustomExceptionModel } from '../../../model/CustomExceptionModel';
+import { Button } from 'primereact/button';
 
 interface SongDetailsDialogModel {
     song: SongModel;
@@ -41,7 +42,7 @@ const SongDetailsDialog: FC<SongDetailsDialogModel> = ({ song, host, showDialog,
                 .catch((err: AxiosError) => {
                     const ex = err.response?.data as CustomExceptionModel;
                     if (ex.params.hasOwnProperty('song')) {
-                        toast.warning(t(ex.translationKey, ex.params['song']));
+                        toast.warning(t(ex.translationKey, ex.params['song']).toString());
                     } else {
                         handleError(err);
                     }
@@ -56,30 +57,28 @@ const SongDetailsDialog: FC<SongDetailsDialogModel> = ({ song, host, showDialog,
             style={{ width: '90vw' }}
             footer={
                 <div>
-                    <button
-                        className="p-button p-component button-secondary float-left"
+                    <Button
+                        label={t('common.save')}
+                        icon="pi pi-save"
+                        className="button-secondary float-left"
                         onClick={() => onSaveButton(song)}
-                    >
-                        <span className="p-button-icon p-c pi pi-save p-button-icon-left" />
-                        <span className="p-button-label p-c p-d-none p-d-sm-inline-flex">{t('common.save')}</span>
-                    </button>
+                    />
 
-                    <button
-                        className="p-button p-component p-confirm-dialog-reject"
+                    <Button
+                        label={t('common.close')}
+                        icon="pi pi-times"
+                        className='color-primary'
+                        text
                         onClick={() => onDialogHide(false)}
-                    >
-                        <span className="p-button-icon p-c pi pi-times p-button-icon-left" />
-                        <span className="p-button-label p-c p-d-none p-d-sm-inline-flex">{t('common.close')}</span>
-                    </button>
+                    />
 
                     {host && (
-                        <button
-                            className="p-button p-component button-primary"
+                        <Button
+                            label={t('common.select')}
+                            icon="pi pi-check"
+                            className="button-primary"
                             onClick={() => onDialogHide(true, song)}
-                        >
-                            <span className="p-button-icon p-c pi pi-check p-button-icon-left" />
-                            <span className="p-button-label p-c">{t('common.select')}</span>
-                        </button>
+                        />
                     )}
                 </div>
             }

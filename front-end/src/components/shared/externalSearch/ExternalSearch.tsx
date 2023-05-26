@@ -27,7 +27,6 @@ import ultimateGuitarLogo from '../../../resources/images/ultimate-guitar.png';
 const ExternalSearch = ({ onSongSelected }) => {
     const { setSong, host, sessionName } = useContext(AppContext);
     const { t } = useTranslation();
-
     const [songs, setSongs] = useState<ExternalApiSongModel[]>([]);
     const [query, setQuery] = useState<string>('');
     const [showDialog, setShowDialog] = useState(false);
@@ -58,7 +57,9 @@ const ExternalSearch = ({ onSongSelected }) => {
         return (
             <Button
                 icon="pi pi-search"
-                className="p-button-rounded p-button-secondary p-button-outlined"
+                severity='secondary'
+                outlined
+                rounded
                 onClick={(e) => showSongDetails(song, e)}
             />
         );
@@ -139,9 +140,9 @@ const ExternalSearch = ({ onSongSelected }) => {
 
     return (
         <>
-            <div className="p-d-flex p-jc-end p-mb-2 p-mr-2">
-                <div className="p-grid p-justify-center">
-                    <div className="p-col-12">
+            <div className="flex justify-content-end mb-2 mr-2">
+                <div className="grid justify-content-center">
+                    <div className="col-12">
                         <form onSubmit={(event) => handleOnSubmit(event)} className="p-inputgroup">
                             <InputText
                                 className="custom-input"
@@ -166,7 +167,7 @@ const ExternalSearch = ({ onSongSelected }) => {
                         value={songs}
                         sortField="artist"
                         sortOrder={1}
-                        onRowClick={(row) => handleOnRowClick(row.data)}
+                        onRowClick={(row) => handleOnRowClick(row.data as ExternalApiSongModel)}
                     >
                         <Column field="artist" header={t('common.author')} sortable />
                         <Column field="title" header={t('common.title')} sortable />
@@ -174,7 +175,7 @@ const ExternalSearch = ({ onSongSelected }) => {
                         <Column header="" body={actionColumn} style={{ width: '70px' }} />
                     </DataTable>
                 ) : (
-                    <p className="p-text-center">{t('exception.no_songs_found')}</p>
+                    <p className="text-center">{t('exception.no_songs_found')}</p>
                 )}
             </div>
             {temporarySong && (

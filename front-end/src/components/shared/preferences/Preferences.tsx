@@ -74,10 +74,10 @@ const Preferences = () => {
     };
 
     return (
-        <div className="preferences p-p-3">
-            <div className="p-field p-grid p-mt-3">
-                <label className="p-col-fixed p-width-50">{t('preferences.language')}</label>
-                <div className="p-col">
+        <div className="preferences p-3">
+            <div className="field grid mt-3">
+                <label className="col-fixed p-width-50">{t('preferences.language')}</label>
+                <div className="col">
                     <Dropdown
                         value={i18next.resolvedLanguage}
                         options={languages}
@@ -87,39 +87,41 @@ const Preferences = () => {
                 </div>
             </div>
             <hr />
-            <div className="p-field p-grid p-mt-3">
-                <label className="p-col-fixed p-width-50">{t('preferences.instrument')}</label>
-                <div className="p-col">
+            <div className="field grid mt-3">
+                <label className="col-fixed p-width-50">{t('preferences.instrument')}</label>
+                <div className="col">
                     <Dropdown value={instrument} options={instruments} onChange={changeInstrument} optionLabel="name" />
                 </div>
             </div>
             <hr />
-            <div className="p-field p-grid p-mt-3">
-                <label className="p-col-fixed p-width-50">{t('preferences.font_size')}</label>
-                <div className="p-col">
+            <div className="field grid mt-3">
+                <label className="col-fixed p-width-50">{t('preferences.font_size')}</label>
+                <div className="col">
                     <span className="p-buttonset">
                         <Button
                             icon="pi pi-minus"
                             onClick={decrementFontSize}
-                            className="p-button-secondary p-button-outlined p-button-sm"
+                            severity="secondary"
+                            size="small"
+                            outlined
+                            text
                         />
-                        <Button
-                            label={fontSize?.toString()}
-                            onClick={resetFontSize}
-                            className="p-button-secondary p-button-text"
-                        />
+                        <Button label={fontSize?.toString()} onClick={resetFontSize} severity="secondary" text />
                         <Button
                             icon="pi pi-plus"
                             onClick={incrementFontSize}
-                            className="p-button-secondary p-button-outlined p-button-sm"
+                            severity="secondary"
+                            size="small"
+                            outlined
+                            text
                         />
                     </span>
                 </div>
             </div>
             <hr />
-            <div className="p-field p-grid p-mt-3">
-                <label className="p-col-fixed p-width-50">{t('preferences.autoColumnsOn')}</label>
-                <div className="p-col">
+            <div className="field grid mt-3">
+                <label className="col-fixed p-width-50">{t('preferences.autoColumnsOn')}</label>
+                <div className="col">
                     <Dropdown
                         value={autoColumnsOn}
                         options={autoColumnsOptions}
@@ -129,9 +131,9 @@ const Preferences = () => {
                 </div>
             </div>
             <hr />
-            <div className="p-field p-grid p-mt-3">
-                <label className="p-col-fixed p-width-50">{t('preferences.columnsCount')}</label>
-                <div className="p-col">
+            <div className="field grid mt-3">
+                <label className="col-fixed p-width-50">{t('preferences.columnsCount')}</label>
+                <div className="col">
                     <Dropdown
                         disabled={autoColumnsOn}
                         value={columnsCount}

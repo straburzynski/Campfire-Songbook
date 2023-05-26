@@ -23,7 +23,6 @@
     width: 100%;
   }
 
-
   .p-toolbar {
     background-color: var(--app-primary);
     color: white;
@@ -42,12 +41,11 @@
     }
   }
 
-  .p-button.p-button-text {
+  .p-button.button-text {
     background-color: transparent;
     color: white;
     border-color: var(--app-secondary);
   }
-
 }
 
 .app-menu {

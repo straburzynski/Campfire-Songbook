@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.straburzynski.campfiresongs.song.model.Song;
 import pl.straburzynski.campfiresongs.song.model.SongDto;
 import pl.straburzynski.campfiresongs.song.service.SongService;
 
@@ -30,13 +31,13 @@ public class SongController {
     }
 
     @PostMapping
-    public void create(@RequestBody SongDto songDto) {
-        songService.create(songDto);
+    public Song create(@RequestBody SongDto songDto) {
+        return songService.create(songDto);
     }
 
     @PutMapping("{id}")
-    public void update(@PathVariable UUID id, @RequestBody SongDto songDto) {
-        songService.update(id, songDto);
+    public Song update(@PathVariable UUID id, @RequestBody SongDto songDto) {
+        return songService.update(id, songDto);
     }
 
     @GetMapping("{id}")

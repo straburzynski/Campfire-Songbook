@@ -4,9 +4,16 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { PL } from './i18n/pl';
 import { EN } from './i18n/en';
 
+declare module 'i18next' {
+    interface CustomTypeOptions {
+        returnNull: false
+    }
+}
+
 i18n.use(LanguageDetector)
     .use(initReactI18next)
     .init({
+        returnNull: false,
         resources: {
             en: {
                 translation: EN,

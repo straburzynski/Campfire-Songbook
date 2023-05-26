@@ -80,7 +80,8 @@ const SongList = ({ source, onSongSelected }: SongListProps) => {
                     <Button
                         label={t('common.remove')}
                         icon='pi pi-heart'
-                        className='p-button-secondary p-button-outlined p-text-left'
+                        severity="secondary"
+                        outlined
                         onClick={(e) => onFavRemove()}
                     />
                 )}
@@ -88,23 +89,25 @@ const SongList = ({ source, onSongSelected }: SongListProps) => {
                     <Button
                         label={t('common.add')}
                         icon='pi pi-heart'
-                        className='p-button-secondary p-button-outlined'
+                        severity="secondary"
+                        outlined
                         onClick={(e) => onFavAdd()}
                     />
                 )}
                 <Button
                     label={t('common.close')}
                     icon='pi pi-times'
+                    className='color-primary'
+                    text
                     onClick={() => onDialogHide(false)}
-                    className='p-confirm-dialog-reject'
                 />
                 {host && (
                     <Button
-                        className='p-confirm-dialog-accept'
+                        // className='confirm-dialog-accept'
                         label={t('common.select')}
+                        severity='secondary'
                         icon='pi pi-check'
                         onClick={() => onDialogHide(true)}
-                        autoFocus
                     />
                 )}
             </div>
@@ -159,7 +162,9 @@ const SongList = ({ source, onSongSelected }: SongListProps) => {
         return (
             <Button
                 icon='pi pi-search'
-                className='p-button-rounded p-button-secondary p-button-outlined'
+                rounded
+                outlined
+                severity='secondary'
                 onClick={(e) => showSong(song, e)}
             />
         );
@@ -167,8 +172,8 @@ const SongList = ({ source, onSongSelected }: SongListProps) => {
 
     return (
         <>
-            <div className='p-d-flex p-jc-end p-mb-2 p-mr-2'>
-                <div className='p-input-icon-left'>
+            <div className='flex justify-content-end mb-2 mr-2'>
+                <span className='p-input-icon-left'>
                     <i className='pi pi-search' />
                     <InputText
                         className='custom-input'
@@ -177,7 +182,7 @@ const SongList = ({ source, onSongSelected }: SongListProps) => {
                         onChange={(e) => setGlobalFilter(e.target.value)}
                         placeholder={t('common.search')}
                     />
-                </div>
+                </span>
             </div>
             <div className='card'>
                 <DataTable
@@ -185,7 +190,7 @@ const SongList = ({ source, onSongSelected }: SongListProps) => {
                     value={songs}
                     sortField='author'
                     sortOrder={1}
-                    onRowClick={(row) => selectSong(row.data)}
+                    onRowClick={(row) => selectSong(row.data as SongModel)}
                     globalFilter={globalFilter}
                     emptyMessage={t('exception.no_songs_found')}
                 >
