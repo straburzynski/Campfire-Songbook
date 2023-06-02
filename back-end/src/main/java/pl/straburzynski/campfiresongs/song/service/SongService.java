@@ -6,6 +6,7 @@ import pl.straburzynski.campfiresongs.song.exception.SongExistsException;
 import pl.straburzynski.campfiresongs.song.exception.SongNotFoundException;
 import pl.straburzynski.campfiresongs.song.model.Song;
 import pl.straburzynski.campfiresongs.song.model.SongDto;
+import pl.straburzynski.campfiresongs.song.model.SongHeadersDto;
 import pl.straburzynski.campfiresongs.song.repository.SongRepository;
 
 import java.util.List;
@@ -33,6 +34,12 @@ public class SongService {
     public List<SongDto> findAll() {
         return songRepository.findAll().stream()
                 .map(songConverter::convertFromSong)
+                .collect(Collectors.toList());
+    }
+
+    public List<SongHeadersDto> findAllHeaders() {
+        return findAll().stream()
+                .map(songDto -> new SongHeadersDto(songDto.getId(), songDto.getAuthor(), songDto.getTitle()))
                 .collect(Collectors.toList());
     }
 

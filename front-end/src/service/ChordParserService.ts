@@ -72,10 +72,16 @@ const selectSuffix = (chord: ChordModel): string => {
 };
 
 const normalizeTransposition = (chordName: string) => chordName
+    .replace('Cb', 'B')
     .replace('Db', 'C#')
     .replace('Eb', 'D#')
     .replace('Gb', 'F#')
     .replace('Ab', 'G#')
     .replace('Bb', 'A#')
     .replace('E#', 'F')
-    .replace('B#', 'A');
+    .replace('B#', 'A')
+    .replace('C##', 'D')
+    .replace('D##', 'E')
+    .replace('F##', 'G')
+    .replace('G##', 'A')
+    .replace('A##', 'B');

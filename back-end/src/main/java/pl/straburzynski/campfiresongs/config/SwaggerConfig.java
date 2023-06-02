@@ -26,7 +26,7 @@ public class SwaggerConfig {
 
     private ApiInfo metaData() {
         return new ApiInfoBuilder()
-                .title("Campfire Songs")
+                .title("Campfire Songbook")
                 .description("")
                 .version("0.0.1")
                 .build();

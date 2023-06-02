@@ -18,10 +18,10 @@ export default function Host() {
 
     useEffect(() => {
         if (!sessionName) {
-            const sessionNameFromStorage =  window.location.pathname.split('/').pop();
+            const sessionNameFromUrl =  window.location.pathname.split('/').pop();
             const passwordFromStorage = getItemFromLocalStorage('password');
-            if (sessionNameFromStorage && passwordFromStorage) {
-                createSession(sessionNameFromStorage, passwordFromStorage)
+            if (sessionNameFromUrl && passwordFromStorage) {
+                createSession(sessionNameFromUrl, passwordFromStorage)
                     .then((res: SessionModel) => {
                         setSessionName(res.name);
                         setSong(res.song);

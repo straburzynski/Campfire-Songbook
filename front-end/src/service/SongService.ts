@@ -24,6 +24,6 @@ export function deleteSong(id: string): Promise<void> {
     return trackPromise(API.delete('songs/' + id,).then((result: AxiosResponse<void>) => result.data));
 }
 
-export function getAllSongs(): Promise<SongModel[]> {
-    return trackPromise(API.get('songs').then((result: AxiosResponse<SongModel[]>) => result.data));
+export function getAllSongs(offline: boolean = false): Promise<SongModel[]> {
+    return trackPromise(API.get(`songs?offline=${offline}`, ).then((result: AxiosResponse<SongModel[]>) => result.data));
 }

@@ -33,10 +33,10 @@ const SongChordDiagrams = ({ lyrics, transposition }) => {
         const chordList = Array.from(songChords).map(chordName => getChord(chordName, transposition));
         const multipleChordPositions = getMultipleChordPositions(instrument!, chordList);
         return (
-            <div className='flex flex-row flex-wrap p-justify-center'>
+            <div className='flex flex-row flex-wrap justify-content-center'>
                 {multipleChordPositions.map((chord, index) => {
                     return chord ? (
-                        <div key={index} className='chord-container flex flex-column p-ai-center justify-content-center'>
+                        <div key={index} className='chord-container flex flex-column align-items-center justify-content-center'>
                             <h2>{chordList[index].symbol.replace('M', '')}</h2>
                             <Chord key={index} chord={chord[0]} instrument={instruments[instrument!]} />
                         </div>

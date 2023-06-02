@@ -49,7 +49,7 @@ const ChordName = ({ chordId, chordName, chordPosition, transposition }) => {
                 dismissableMask={true}
                 blockScroll={true}
             >
-                <div className="flex p-ai-center justify-content-center flex-column">
+                <div className="flex align-items-center justify-content-center flex-column">
                     <h2>{getChordName(chordName, transposition)}</h2>
                     {chordDiagrams ? (
                         <>

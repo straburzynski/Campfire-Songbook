@@ -1,5 +1,7 @@
 package pl.straburzynski.campfiresongs.song.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.straburzynski.campfiresongs.song.model.Song;
 import pl.straburzynski.campfiresongs.song.model.SongDto;
@@ -26,8 +29,8 @@ public class SongController {
     }
 
     @GetMapping
-    public List<SongDto> findAll() {
-        return songService.findAll();
+    public ResponseEntity<?> findAll(@RequestParam(defaultValue = "true") Boolean offline) {
+        return new ResponseEntity<>(offline ? songService.findAll() : songService.findAllHeaders(), HttpStatus.OK);
     }
 
     @PostMapping

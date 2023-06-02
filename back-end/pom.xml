@@ -11,8 +11,8 @@
 	<groupId>pl.straburzynski</groupId>
 	<artifactId>campfiresongs</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>campfire songs</name>
-	<description>campfire song book</description>
+	<name>campfire songbook</name>
+	<description>campfire songbook</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

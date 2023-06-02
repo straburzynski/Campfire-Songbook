@@ -90,7 +90,7 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
             <div className={autoColumnsOn ? 'auto-columns-on' : `lyrics-column-${columnsCount}`}>
                 <h3 className='mb-5'>{`${song.author} - ${song.title}`}</h3>
                 <div className='lyrics' style={{ fontSize: fontSize + 'px' }}>
-                    {song.lyrics.split(NEW_LINE).map((row, rowIndex) => {
+                    {song.lyrics?.split(NEW_LINE).map((row, rowIndex) => {
                         row = row.trimStart();
                         if (rowWithChordsOnlyDetected(row)) {
                             return (
