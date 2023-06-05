@@ -6,10 +6,12 @@ import './preferences.scss';
 import AppContext from '../../../context/AppContext';
 import { InstrumentEnum } from '../../../model/InstrumentEnum';
 import { Button } from 'primereact/button';
-import { saveItemToLocalStorage } from '../../../service/LocalStorageService';
+import { removeItemFromLocalStorage, saveItemToLocalStorage } from '../../../service/LocalStorageService';
 import { DEFAULT_FONT_SIZE } from '../../../config/AppConfig';
+import { useNavigate } from 'react-router-dom';
+import { getAllSongs } from '../../../service/SongService';
 
-const Preferences = () => {
+const Preferences = ({ onDisableOfflineNode }) => {
     const {
         instrument,
         setInstrument,
@@ -19,7 +21,13 @@ const Preferences = () => {
         setAutoColumnsOn,
         columnsCount,
         setColumnsCount,
+        offlineMode,
+        setOfflineMode,
+        setSong,
+        setSessionName,
+        setHost,
     } = useContext(AppContext);
+    let navigate = useNavigate();
     const { t } = useTranslation();
     const languages = [
         { name: t('language.polish'), value: 'pl' },
@@ -30,7 +38,7 @@ const Preferences = () => {
         { name: t('instrument.ukulele'), value: InstrumentEnum.UKULELE },
     ];
 
-    const autoColumnsOptions = [
+    const booleanOptions = [
         { name: t('common.yes'), value: true },
         { name: t('common.no'), value: false },
     ];
@@ -71,6 +79,25 @@ const Preferences = () => {
     const changeColumnsCount = (e): void => {
         saveItemToLocalStorage('columnsCount', e.value);
         setColumnsCount(e.value);
+    };
+    const changeOfflineMode = (e): void => {
+        if (e.value) {
+            getAllSongs(true).then((songs) => {
+                saveItemToLocalStorage('songs', JSON.stringify(songs));
+            });
+        } else {
+            onDisableOfflineNode();
+            removeItemFromLocalStorage('session');
+            removeItemFromLocalStorage('sessionName');
+            removeItemFromLocalStorage('password');
+            setOfflineMode(false);
+            setSessionName(undefined);
+            setSong(undefined);
+            setHost(false);
+            navigate('/');
+        }
+        saveItemToLocalStorage('offlineMode', e.value);
+        setOfflineMode(e.value);
     };
 
     return (
@@ -124,7 +151,7 @@ const Preferences = () => {
                 <div className="col">
                     <Dropdown
                         value={autoColumnsOn}
-                        options={autoColumnsOptions}
+                        options={booleanOptions}
                         onChange={changeAutoColumns}
                         optionLabel="name"
                     />
@@ -139,6 +166,18 @@ const Preferences = () => {
                         value={columnsCount}
                         options={columns}
                         onChange={changeColumnsCount}
+                        optionLabel="name"
+                    />
+                </div>
+            </div>
+            <hr />
+            <div className="field grid mt-3">
+                <label className="col-fixed p-width-50">{t('preferences.offlineMode')}</label>
+                <div className="col">
+                    <Dropdown
+                        value={offlineMode}
+                        options={booleanOptions}
+                        onChange={changeOfflineMode}
                         optionLabel="name"
                     />
                 </div>

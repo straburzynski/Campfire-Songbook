@@ -16,4 +16,6 @@ export interface AppContextModel {
     setAutoColumnsOn?: any;
     columnsCount?: number;
     setColumnsCount?: any;
+    offlineMode?: boolean;
+    setOfflineMode?: any;
 }

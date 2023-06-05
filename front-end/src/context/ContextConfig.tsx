@@ -6,7 +6,7 @@ import {
     DEFAULT_AUTO_COLUMNS_ON,
     DEFAULT_COLUMNS_COUNT,
     DEFAULT_FONT_SIZE,
-    DEFAULT_INSTRUMENT,
+    DEFAULT_INSTRUMENT, DEFAULT_OFFLINE_MODE,
 } from '../config/AppConfig';
 
 export const CreateAppContext = () => {
@@ -17,6 +17,7 @@ export const CreateAppContext = () => {
     const [instrument, setInstrument] = useState<InstrumentEnum>(getInstrument);
     const [autoColumnsOn, setAutoColumnsOn] = useState<boolean>(getAutoColumnsOn);
     const [columnsCount, setColumnsCount] = useState<number>(getColumnsCount);
+    const [offlineMode, setOfflineMode] = useState<boolean>(getOfflineMode);
 
     return {
         sessionName,
@@ -33,6 +34,8 @@ export const CreateAppContext = () => {
         setAutoColumnsOn,
         columnsCount,
         setColumnsCount,
+        offlineMode,
+        setOfflineMode,
     };
 };
 
@@ -54,4 +57,9 @@ const getAutoColumnsOn = (): boolean => {
 const getColumnsCount = (): number => {
     const columnsCount = getItemFromLocalStorage('columnsCount');
     return columnsCount ? parseInt(columnsCount) || DEFAULT_COLUMNS_COUNT : DEFAULT_COLUMNS_COUNT;
+};
+
+const getOfflineMode = (): boolean => {
+    const offlineMode = getItemFromLocalStorage('offlineMode');
+    return offlineMode ? offlineMode === 'true' : DEFAULT_OFFLINE_MODE;
 };

@@ -20,7 +20,7 @@ export default function Host() {
         if (!sessionName) {
             const sessionNameFromUrl =  window.location.pathname.split('/').pop();
             const passwordFromStorage = getItemFromLocalStorage('password');
-            if (sessionNameFromUrl && passwordFromStorage) {
+            if (sessionNameFromUrl && passwordFromStorage !== null) {
                 createSession(sessionNameFromUrl, passwordFromStorage)
                     .then((res: SessionModel) => {
                         setSessionName(res.name);

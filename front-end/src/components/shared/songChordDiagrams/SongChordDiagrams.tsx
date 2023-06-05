@@ -16,7 +16,7 @@ const SongChordDiagrams = ({ lyrics, transposition }) => {
 
     const ChordsDiagrams = () => {
         let songChords = new Set<string>();
-        lyrics.split(NEW_LINE).forEach((row: string) => {
+        lyrics?.split(NEW_LINE).forEach((row: string) => {
             if (rowWithChordsOnlyDetected(row)) {
                 row.split(SPACE)
                     .filter(chord => chord)

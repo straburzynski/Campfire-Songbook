@@ -20,6 +20,7 @@ export const EN = {
     },
     dialog: {
         delete_song_confirmation: 'Are you sure you want to delete this song?',
+        exit_offline_mode_confirmation: 'Exit offline mode?',
         exit_session_confirmation: 'Are you sure you want to exit session?',
         song_added: 'Song saved',
         no_song_selected: 'The song has not been selected yet',
@@ -76,6 +77,7 @@ export const EN = {
         language: 'Language',
         instrument: 'Instrument',
         font_size: 'Font size',
+        offlineMode: 'Offline mode',
     },
     instrument: {
         guitar: 'Guitar',
@@ -90,6 +92,7 @@ export const EN = {
         success: 'URL session was copied to clipboard',
     },
     changelog: {
+        '0.11.0': 'Offline mode - using the application without access to the Internet. Internet connection is required to download songs.',
         '0.10.0': '\'About\' section with changelog and current version.',
         '0.9.0': 'Favorite songs - new song list menu. Adding and removing from the list screen - menu in the magnifying glass icon.',
         '0.8.0': 'Automatic and manual column handling in options. Maximum 3 columns.',

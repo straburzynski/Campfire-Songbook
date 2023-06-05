@@ -17,7 +17,7 @@ export default function Join() {
     let { sessionName: sessionNameFromUrl } = useParams();
     let navigate = useNavigate();
     const { t } = useTranslation();
-    const { host, setHost, sessionName, setSessionName, song, setSong } = useContext(AppContext);
+    const { offlineMode, host, setHost, sessionName, setSessionName, song, setSong } = useContext(AppContext);
 
     useEffect(() => {
         if (sessionName || sessionNameFromUrl === undefined) {
@@ -33,7 +33,7 @@ export default function Join() {
             .catch((err) => {
                 navigate('/');
                 const ex = err.response?.data as CustomExceptionModel;
-                if (ex.params.hasOwnProperty('name')) {
+                if (ex?.params?.hasOwnProperty('name')) {
                     toast.warning(t(ex.translationKey, { name: ex.params['name'] }));
                 } else {
                     handleError(err);
@@ -64,7 +64,7 @@ export default function Join() {
     return (
         <div className="p-2">
             <Lyrics song={song} />
-            {sessionName && (
+            {sessionName && !offlineMode && (
                 <SockJsClient
                     url={SOCKET_URL}
                     topics={[TOPIC + sessionName]}

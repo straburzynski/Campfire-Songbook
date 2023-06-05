@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { SongModel } from '../../../model/SongModel';
 import AppContext from '../../../context/AppContext';
 import { updateSession } from '../../../service/SessionService';
-import { getAllSongs } from '../../../service/SongService';
+import { getAllSongs, getSong } from '../../../service/SongService';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { SessionModel } from '../../../model/SessionModel';
@@ -52,14 +52,16 @@ const SongList = ({ source, onSongSelected }: SongListProps) => {
 
     const selectSong = (song: SongModel): void => {
         if (song.id && host && sessionName) {
-            setSong(song);
-            onSongSelected();
-            const session: SessionModel = {
-                name: sessionName,
-                temporary: false,
-                song: song,
-            };
-            handleSessionUpdate(session);
+            getSong(song.id).then((res: SongModel) => {
+                setSong(res);
+                onSongSelected();
+                const session: SessionModel = {
+                    name: sessionName,
+                    temporary: false,
+                    song: res,
+                };
+                handleSessionUpdate(session);
+            });
         }
     };
 
@@ -75,20 +77,20 @@ const SongList = ({ source, onSongSelected }: SongListProps) => {
 
     const renderFooter = () => {
         return (
-            <div className='app-dialog-buttons'>
-                {host && source === SongsSourceEnum.LOCALSTORAGE && (
+            <div className="app-dialog-buttons">
+                {source === SongsSourceEnum.LOCALSTORAGE && (
                     <Button
                         label={t('common.remove')}
-                        icon='pi pi-heart'
+                        icon="pi pi-heart"
                         severity="secondary"
                         outlined
                         onClick={(e) => onFavRemove()}
                     />
                 )}
-                {host && source === SongsSourceEnum.DATABASE && (
+                {source === SongsSourceEnum.DATABASE && (
                     <Button
                         label={t('common.add')}
-                        icon='pi pi-heart'
+                        icon="pi pi-heart"
                         severity="secondary"
                         outlined
                         onClick={(e) => onFavAdd()}
@@ -96,17 +98,16 @@ const SongList = ({ source, onSongSelected }: SongListProps) => {
                 )}
                 <Button
                     label={t('common.close')}
-                    icon='pi pi-times'
-                    className='color-primary'
+                    icon="pi pi-times"
+                    className="color-primary"
                     text
                     onClick={() => onDialogHide(false)}
                 />
                 {host && (
                     <Button
-                        // className='confirm-dialog-accept'
                         label={t('common.select')}
-                        severity='secondary'
-                        icon='pi pi-check'
+                        severity="secondary"
+                        icon="pi pi-check"
                         onClick={() => onDialogHide(true)}
                     />
                 )}
@@ -139,7 +140,7 @@ const SongList = ({ source, onSongSelected }: SongListProps) => {
 
     const SongDetails = () => (
         <Dialog
-            className='song-details-dialog'
+            className="song-details-dialog"
             visible={showDialog}
             style={{ width: '90vw' }}
             footer={renderFooter}
@@ -152,51 +153,47 @@ const SongList = ({ source, onSongSelected }: SongListProps) => {
         </Dialog>
     );
 
-    const showSong = (song: SongModel, e) => {
+    const showSong = (songId: string, e) => {
         e.stopPropagation();
         setShowDialog(true);
-        setPreviewSong(song);
+        getSong(songId).then((res: SongModel) => {
+            setPreviewSong(res);
+        });
     };
 
     const actionColumn = (song: SongModel) => {
         return (
-            <Button
-                icon='pi pi-search'
-                rounded
-                outlined
-                severity='secondary'
-                onClick={(e) => showSong(song, e)}
-            />
+            <Button icon="pi pi-search" rounded outlined severity="secondary" onClick={(e) => showSong(song.id, e)} />
         );
     };
 
     return (
         <>
-            <div className='flex justify-content-end mb-2 mr-2'>
-                <span className='p-input-icon-left'>
-                    <i className='pi pi-search' />
+            <div className="flex justify-content-end mb-2 mr-2">
+                <span className="p-input-icon-left">
+                    <i className="pi pi-search" />
                     <InputText
-                        className='custom-input'
-                        type='search'
+                        className="custom-input"
+                        type="search"
                         value={globalFilter}
                         onChange={(e) => setGlobalFilter(e.target.value)}
                         placeholder={t('common.search')}
                     />
                 </span>
             </div>
-            <div className='card'>
+            <div className="card">
                 <DataTable
-                    className='song-list-table'
+                    className="song-list-table"
                     value={songs}
-                    sortField='author'
+                    sortField="author"
                     sortOrder={1}
                     onRowClick={(row) => selectSong(row.data as SongModel)}
                     globalFilter={globalFilter}
                     emptyMessage={t('exception.no_songs_found')}
                 >
-                    <Column field='author' header={t('common.author')} sortable />
-                    <Column field='title' header={t('common.title')} sortable />
-                    <Column header='' body={actionColumn} style={{ width: '100px' }} />
+                    <Column field="author" header={t('common.author')} sortable />
+                    <Column field="title" header={t('common.title')} sortable />
+                    <Column header="" body={actionColumn} style={{ width: '100px' }} />
                 </DataTable>
             </div>
             <SongDetails />

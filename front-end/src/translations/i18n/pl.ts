@@ -20,6 +20,7 @@ export const PL = {
     },
     dialog: {
         delete_song_confirmation: 'Czy jesteś pewien, że chcesz usunąć tę piosenkę?',
+        exit_offline_mode_confirmation: 'Wyjść z trybu offline?',
         exit_session_confirmation: 'Czy jesteś pewien, że chcesz zakończyć sesję?',
         song_added: 'Zapisano piosenkę',
         no_song_selected: 'Nie wybrano jeszcze piosenki',
@@ -76,6 +77,7 @@ export const PL = {
         language: 'Język',
         instrument: 'Instrument',
         font_size: 'Wielkość czcionki',
+        offlineMode: 'Tryb offline',
     },
     instrument: {
         guitar: 'Gitara',
@@ -90,6 +92,7 @@ export const PL = {
         success: 'URL sesji został skopiowany do schowka',
     },
     changelog: {
+        '0.11.0': 'Tryb offline - możliwość korzystania z aplikacji bez dostępu do Internetu. Wymagane jest wcześniejsze połączenie z Internetem, aby pobrać piosenki.',
         '0.10.0': 'Sekcja \'O aplikacji\' z listą zmian i aktualną wersją.',
         '0.9.0': 'Ulubione piosenki - nowe menu z listą piosenek. Dodawanie i usuwanie z ekranu listy - menu w ikonce lupy.',
         '0.8.0': 'Automatyczna i ręczna obsługa kolumn w opcjach. Maksymalnie 3 kolumny.',

@@ -11,7 +11,7 @@ import logo from '../../resources/logo.png';
 import SongList from '../shared/songList/SongList';
 import ExternalSearch from '../shared/externalSearch/ExternalSearch';
 import './header.scss';
-import { removeItemFromLocalStorage } from '../../service/LocalStorageService';
+import { removeItemFromLocalStorage, saveItemToLocalStorage } from '../../service/LocalStorageService';
 import { useTranslation } from 'react-i18next';
 import Preferences from '../shared/preferences/Preferences';
 import { toast } from 'react-toastify';
@@ -25,7 +25,8 @@ import { APP_NAME } from '../../config/AppConfig';
 const Header = () => {
     let navigate = useNavigate();
     const { t } = useTranslation();
-    const { sessionName, setSessionName, song, setSong, host, setHost } = useContext(AppContext);
+    const { offlineMode, setOfflineMode, sessionName, setSessionName, song, setSong, host, setHost } =
+        useContext(AppContext);
     const menu = useRef<any>(null);
 
     const [songListModal, setSongListModal] = useState(false);
@@ -65,6 +66,7 @@ const Header = () => {
                 label: t('header.play_on_youtube'),
                 icon: 'pi pi-youtube',
                 command: () => getYoutubeResults(),
+                disabled: offlineMode,
             };
         } else {
             return {
@@ -100,6 +102,7 @@ const Header = () => {
             label: t('header.external_search'),
             icon: 'pi pi-search',
             command: () => setExternalSearchModal(true),
+            disabled: offlineMode,
         },
         createYoutubeMenuItem(),
         {
@@ -134,7 +137,7 @@ const Header = () => {
     ];
 
     const share = () => {
-        const url = `${window.location.origin}/join/${sessionName}`
+        const url = `${window.location.origin}/join/${sessionName}`;
         if (navigator.share) {
             navigator.share({
                 title: APP_NAME,
@@ -142,9 +145,10 @@ const Header = () => {
                 url: url,
             });
         } else {
-            navigator.clipboard.writeText(url)
-                .then(() =>  toast.success(t('share.success')))
-                .catch(() =>  toast.warning(t('exception.cannot_share')));
+            navigator.clipboard
+                .writeText(url)
+                .then(() => toast.success(t('share.success')))
+                .catch(() => toast.warning(t('exception.cannot_share')));
         }
     };
 
@@ -158,7 +162,18 @@ const Header = () => {
         });
     };
 
+    const confirmExitOfflineMode = () => {
+        confirmDialog({
+            showHeader: false,
+            message: <div className="mt-6">{t('dialog.exit_offline_mode_confirmation')}</div>,
+            accept: () => exitOfflineMode(),
+            rejectLabel: t('common.no').toString(),
+            acceptLabel: t('common.yes').toString(),
+        });
+    };
+
     const exitSession = () => {
+        removeItemFromLocalStorage('session');
         removeItemFromLocalStorage('sessionName');
         removeItemFromLocalStorage('password');
         setSessionName(undefined);
@@ -167,21 +182,39 @@ const Header = () => {
         navigate('/');
     };
 
+    const exitOfflineMode = () => {
+        exitSession();
+        saveItemToLocalStorage('offlineMode', false);
+        setOfflineMode(false);
+    };
+
     return (
         <div className="app-toolbar">
             <Toolbar
-                left={
+                start={
                     <>
                         <img alt="logo" src={logo} height="40" />
-                        <div className="toolbar-title">Campfire Songbook</div>
+                        <div className="toolbar-title">
+                            {APP_NAME} <span className="offline-mode">{offlineMode ? '(offline)' : ''}</span>
+                        </div>
                     </>
                 }
-                right={
+                end={
                     <>
+                        {offlineMode && (
+                            <Button
+                                className="white-secondary non-printable mr-3"
+                                label=""
+                                severity="secondary"
+                                icon="pi pi-sync"
+                                onClick={confirmExitOfflineMode}
+                            />
+                        )}
                         <Menu className="app-menu" model={items} popup ref={menu} id="popup_menu" />
                         <Button
                             className="white-secondary non-printable"
                             label=""
+                            severity="secondary"
                             icon="pi pi-bars"
                             onClick={(event) => menu.current.toggle(event)}
                             aria-controls="popup_menu"
@@ -243,7 +276,7 @@ const Header = () => {
                 onHide={() => setPreferencesModal(false)}
                 icons={<div className="modal-title">{t('header.preferences')}</div>}
             >
-                <Preferences />
+                <Preferences onDisableOfflineNode={() => setPreferencesModal(false)} />
             </Sidebar>
 
             <Sidebar

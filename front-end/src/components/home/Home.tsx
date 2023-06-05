@@ -15,6 +15,7 @@ import { getItemFromLocalStorage, saveItemToLocalStorage } from '../../service/L
 import { useTranslation } from 'react-i18next';
 import './home.scss';
 import { CustomExceptionModel } from '../../model/CustomExceptionModel';
+import { APP_NAME } from '../../config/AppConfig';
 
 const Home = () => {
     let navigate = useNavigate();
@@ -98,9 +99,9 @@ const Home = () => {
             <div className="flex-container">
                 <div className="row">
                     <div className="flex-item mb-2">
-                        <img src={logo} className="logo" alt="Campfire Songs Logo" />
+                        <img src={logo} className="logo" alt="Campfire Songbook Logo" />
                     </div>
-                    <div className="flex-item mb-6 title">Campfire Songbook</div>
+                    <div className="flex-item mb-6 title">${APP_NAME}</div>
                     <div className="flex-item mb-3">
                         <SelectButton
                             className="session-type-select"
@@ -128,7 +129,7 @@ const Home = () => {
                         )}
                     </div>
                     <div className="flex-item mb-1 mt-3">
-                        <Button onClick={() => handleButton()} className="white-primary button-rounded">
+                        <Button rounded onClick={() => handleButton()} className="white-primary">
                             <span className="start-button">{t('home.start')}</span>
                         </Button>
                     </div>

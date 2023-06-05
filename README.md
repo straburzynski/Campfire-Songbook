@@ -49,6 +49,7 @@ Song editor screen - creating, updating and deleting songs
 
 ### Changelog:
 
+- 0.10.0 - Offline mode - using the application without access to the Internet. Internet connection required to download songs.
 - 0.10.0 - 'About' section with changelog and current version.
 - 0.9.0 - Favorite songs - new song list menu. Adding and removing from the list screen - menu in the magnifying glass icon.
 - 0.8.0 - Automatic and manual column handling in options. Maximum 3 columns.
