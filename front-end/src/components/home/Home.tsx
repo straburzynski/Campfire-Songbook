@@ -101,7 +101,7 @@ const Home = () => {
                     <div className="flex-item mb-2">
                         <img src={logo} className="logo" alt="Campfire Songbook Logo" />
                     </div>
-                    <div className="flex-item mb-6 title">${APP_NAME}</div>
+                    <div className="flex-item mb-6 title">{APP_NAME}</div>
                     <div className="flex-item mb-3">
                         <SelectButton
                             className="session-type-select"

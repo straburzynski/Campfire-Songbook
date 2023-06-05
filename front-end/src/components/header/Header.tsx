@@ -195,7 +195,8 @@ const Header = () => {
                     <>
                         <img alt="logo" src={logo} height="40" />
                         <div className="toolbar-title">
-                            {APP_NAME} <span className="offline-mode">{offlineMode ? '(offline)' : ''}</span>
+                            {APP_NAME} <br />
+                            <span className="offline-mode">{offlineMode ? '(offline)' : ''}</span>
                         </div>
                     </>
                 }
