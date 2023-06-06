@@ -2,13 +2,13 @@
   display: block;
   position: relative;
   font-family: monospace;
-  min-height: 1px;
+  min-height: 1em;
   white-space: pre-wrap;
   margin: 0;
-  padding: 1em 0 0;
+  padding: 0;
 
   &.chords {
-    margin: -1em 0 -1em;
+    margin: 0;
   }
 }
 

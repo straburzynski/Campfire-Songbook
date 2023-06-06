@@ -35,16 +35,16 @@ export const rowWithChordsOnlyDetected = (row: string): boolean => {
 };
 
 export const getChord = (chordName: string, transposition: number = 0): ChordModel => {
-    const chord = Chord.get(chordName);
+    const chord = Chord.get(normalizeChordName(chordName));
     if (transposition !== 0 && !chord.empty) {
-        const transposedChord = normalizeTransposition(Chord.transpose(chord.symbol, Interval.fromSemitones(transposition)));
+        const transposedChord = normalizeChordName(Chord.transpose(chord.symbol, Interval.fromSemitones(transposition)));
         return Chord.get(transposedChord);
     }
     return chord;
 };
 
 export const getChordName = (chordName: string, transposition: number = 0): string => {
-    return transposition === 0 ? chordName : getChord(chordName, transposition).symbol.replace('M', '');
+    return transposition === 0 ? normalizeChordName(chordName) : getChord(chordName, transposition).symbol.replace('M', '');
 };
 
 export const getMultipleChordPositions = (instrument: InstrumentEnum, chords: ChordModel[]) => {
@@ -71,7 +71,7 @@ const selectSuffix = (chord: ChordModel): string => {
     return chord.tonic ? chord.symbol.replace(chord.tonic, '') : chord.symbol;
 };
 
-const normalizeTransposition = (chordName: string) => chordName
+const normalizeChordName = (chordName: string) => chordName
     .replace('Cb', 'B')
     .replace('Db', 'C#')
     .replace('Eb', 'D#')
