@@ -12,6 +12,13 @@
     border-color: var(--app-primary);
   }
 }
+
 .song-list-table .p-datatable .p-datatable-tbody > tr > td {
-  text-align: center!important;
+  text-align: center !important;
+}
+
+@media only screen and (max-width: 450px) {
+  .p-button-label {
+    display: none;
+  }
 }
