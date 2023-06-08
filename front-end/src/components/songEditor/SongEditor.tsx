@@ -61,7 +61,7 @@ const SongEditor = () => {
 
     useEffect(() => {
         const handleGetAllSongs = async () => {
-            getAllSongs().then((songs: SongModel[]) => {
+            getAllSongs(true).then((songs: SongModel[]) => {
                 setSongs(songs);
             });
         };

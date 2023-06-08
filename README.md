@@ -19,7 +19,9 @@ Host can choose and select a song which will be updated immediately on screen of
 - Password protected session as host
 - Multilingual support
 - Changeable font size
-- Built in database with stored songs
+- Offline mode - songs stored on the device
+- Configurable columns count
+
 
 ### Screenshots
 
