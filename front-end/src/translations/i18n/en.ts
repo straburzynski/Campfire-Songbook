@@ -58,6 +58,7 @@ export const EN = {
         hide_transposition: 'Hide transposition',
         lyrics: 'Lyrics',
         no: 'No',
+        pull_to_refresh: 'Pull to refresh',
         remove: 'Remove',
         save: 'Save',
         select: 'Select',
@@ -92,6 +93,7 @@ export const EN = {
         success: 'URL session was copied to clipboard',
     },
     changelog: {
+        '0.12.0': '\'Pull to refresh\' available for session participant.',
         '0.11.0': 'Offline mode - using the application without access to the Internet. Internet connection is required to download songs.',
         '0.10.0': '\'About\' section with changelog and current version.',
         '0.9.0': 'Favorite songs - new song list menu. Adding and removing from the list screen - menu in the magnifying glass icon.',

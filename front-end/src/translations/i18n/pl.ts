@@ -58,6 +58,7 @@ export const PL = {
         hide_transposition: 'Ukryj transpozycję',
         lyrics: 'Tekst',
         no: 'Nie',
+        pull_to_refresh: 'Pociągnij, aby odświeżyć',
         remove: 'Usuń',
         save: 'Zapisz',
         select: 'Wybierz',
@@ -92,6 +93,7 @@ export const PL = {
         success: 'URL sesji został skopiowany do schowka',
     },
     changelog: {
+        '0.12.0': '\'Pociągnij, aby odświeżyć\' dostępne dla ekranu uczestnika sesji.',
         '0.11.0': 'Tryb offline - możliwość korzystania z aplikacji bez dostępu do Internetu. Wymagane jest wcześniejsze połączenie z Internetem, aby pobrać piosenki.',
         '0.10.0': 'Sekcja \'O aplikacji\' z listą zmian i aktualną wersją.',
         '0.9.0': 'Ulubione piosenki - nowe menu z listą piosenek. Dodawanie i usuwanie z ekranu listy - menu w ikonce lupy.',

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Lyrics from '../shared/lyrics/Lyrics';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DEBUG, SOCKET_URL, TOPIC } from '../../config/WebSocketConfig';
@@ -12,12 +12,20 @@ import { saveItemToLocalStorage } from '../../service/LocalStorageService';
 import { useTranslation } from 'react-i18next';
 import { CustomExceptionModel } from '../../model/CustomExceptionModel';
 import { handleError } from '../../service/ExceptionService';
+import ReactPullToRefresh from 'react-pull-to-refresh';
+import './join.scss'
 
 export default function Join() {
     let { sessionName: sessionNameFromUrl } = useParams();
+    const [topics, setTopics] = useState<string[]>([]);
     let navigate = useNavigate();
     const { t } = useTranslation();
     const { offlineMode, host, setHost, sessionName, setSessionName, song, setSong } = useContext(AppContext);
+
+    const refresh = async () => {
+        window.location.reload();
+        await Promise.resolve();
+    };
 
     useEffect(() => {
         if (sessionName || sessionNameFromUrl === undefined) {
@@ -43,6 +51,7 @@ export default function Join() {
 
     let onConnected = () => {
         console.log('Connected!!');
+        setTopics([TOPIC + sessionName]);
     };
 
     let onDisconnected = () => {
@@ -59,22 +68,33 @@ export default function Join() {
             top: 0,
             behavior: 'smooth',
         });
-    }
+    };
 
     return (
-        <div className="p-2">
-            <Lyrics song={song} />
-            {sessionName && !offlineMode && (
-                <SockJsClient
-                    url={SOCKET_URL}
-                    topics={[TOPIC + sessionName]}
-                    onConnect={onConnected}
-                    onDisconnect={onDisconnected}
-                    onMessage={(msg) => onMessageReceived(msg)}
-                    debug={DEBUG}
-                />
-            )}
-            <SelectSong song={song} host={host} />
+        <div className='p-2'>
+            <ReactPullToRefresh
+                onRefresh={refresh}
+                loading={<></>}
+                icon={
+                    <div className='pull-to-refresh'>
+                        <i className='pi pi-arrow-right genericon' style={{ fontSize: '2rem' }}></i>
+                        <p>{t('common.pull_to_refresh')}</p>
+                    </div>
+                }
+            >
+                <Lyrics song={song} />
+                {sessionName && !offlineMode && (
+                    <SockJsClient
+                        url={SOCKET_URL}
+                        topics={topics}
+                        onConnect={onConnected}
+                        onDisconnect={onDisconnected}
+                        onMessage={(msg) => onMessageReceived(msg)}
+                        debug={DEBUG}
+                    />
+                )}
+                <SelectSong song={song} host={host} />
+            </ReactPullToRefresh>
         </div>
     );
 }
