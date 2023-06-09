@@ -60,6 +60,8 @@ export const EN = {
         no: 'No',
         pull_to_refresh: 'Pull to refresh',
         remove: 'Remove',
+        refreshing: 'Refreshing',
+        release_to_refresh: 'Release to refresh',
         save: 'Save',
         select: 'Select',
         select_song: 'Select song',

@@ -60,6 +60,8 @@ export const PL = {
         no: 'Nie',
         pull_to_refresh: 'Pociągnij, aby odświeżyć',
         remove: 'Usuń',
+        refreshing: 'Odświeżanie',
+        release_to_refresh: 'Puść, aby odświeżyć',
         save: 'Zapisz',
         select: 'Wybierz',
         select_song: 'Wybierz piosenkę',

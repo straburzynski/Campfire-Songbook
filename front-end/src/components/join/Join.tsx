@@ -12,8 +12,8 @@ import { saveItemToLocalStorage } from '../../service/LocalStorageService';
 import { useTranslation } from 'react-i18next';
 import { CustomExceptionModel } from '../../model/CustomExceptionModel';
 import { handleError } from '../../service/ExceptionService';
-import ReactPullToRefresh from 'react-pull-to-refresh';
-import './join.scss'
+import PullToRefresh from 'pulltorefreshjs';
+import ReactDOMServer from 'react-dom/server';
 
 export default function Join() {
     let { sessionName: sessionNameFromUrl } = useParams();
@@ -21,11 +21,6 @@ export default function Join() {
     let navigate = useNavigate();
     const { t } = useTranslation();
     const { offlineMode, host, setHost, sessionName, setSessionName, song, setSong } = useContext(AppContext);
-
-    const refresh = async () => {
-        window.location.reload();
-        await Promise.resolve();
-    };
 
     useEffect(() => {
         if (sessionName || sessionNameFromUrl === undefined) {
@@ -49,6 +44,24 @@ export default function Join() {
             });
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+    useEffect(() => {
+        PullToRefresh.init({
+            mainElement: '.lyrics',
+            onRefresh() {
+                window.location.reload();
+            },
+            iconArrow: ReactDOMServer.renderToString(
+                <i className='pi pi-arrow-down genericon' style={{ fontSize: '2rem' }}></i>,
+            ),
+            instructionsPullToRefresh: t('common.pull_to_refresh'),
+            instructionsReleaseToRefresh: t('common.release_to_refresh'),
+            instructionsRefreshing: t('common.refreshing'),
+        });
+        return () => {
+            PullToRefresh.destroyAll();
+        };
+    });
+
     let onConnected = () => {
         console.log('Connected!!');
         setTopics([TOPIC + sessionName]);
@@ -71,30 +84,37 @@ export default function Join() {
     };
 
     return (
-        <div className='p-2'>
-            <ReactPullToRefresh
-                onRefresh={refresh}
-                loading={<></>}
-                icon={
-                    <div className='pull-to-refresh'>
-                        <i className='pi pi-arrow-right genericon' style={{ fontSize: '2rem' }}></i>
-                        <p>{t('common.pull_to_refresh')}</p>
-                    </div>
-                }
-            >
-                <Lyrics song={song} />
-                {sessionName && !offlineMode && (
-                    <SockJsClient
-                        url={SOCKET_URL}
-                        topics={topics}
-                        onConnect={onConnected}
-                        onDisconnect={onDisconnected}
-                        onMessage={(msg) => onMessageReceived(msg)}
-                        debug={DEBUG}
-                    />
-                )}
-                <SelectSong song={song} host={host} />
-            </ReactPullToRefresh>
+        <div className='p-2 lyrics'>
+            {/*<ReactPullToRefresh*/}
+            {/*    onRefresh={refresh}*/}
+            {/*    loading={<></>}*/}
+            {/*    icon={*/}
+            {/*        <div className='pull-to-refresh'>*/}
+            {/*            <i className='pi pi-arrow-right genericon' style={{ fontSize: '2rem' }}></i>*/}
+            {/*            <p>{t('common.pull_to_refresh')}</p>*/}
+            {/*        </div>*/}
+            {/*    }*/}
+            {/*    hammerOptions={*/}
+            {/*        {*/}
+            {/*            enable: true,*/}
+            {/*            touchAction: 'auto',*/}
+            {/*        }*/}
+            {/*    }*/}
+            {/*>*/}
+
+
+            <Lyrics song={song} />
+            {sessionName && !offlineMode && (
+                <SockJsClient
+                    url={SOCKET_URL}
+                    topics={topics}
+                    onConnect={onConnected}
+                    onDisconnect={onDisconnected}
+                    onMessage={(msg) => onMessageReceived(msg)}
+                    debug={DEBUG}
+                />
+            )}
+            <SelectSong song={song} host={host} />
         </div>
     );
 }
