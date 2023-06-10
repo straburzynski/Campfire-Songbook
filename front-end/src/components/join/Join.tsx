@@ -21,6 +21,7 @@ export default function Join() {
     let navigate = useNavigate();
     const { t } = useTranslation();
     const { offlineMode, host, setHost, sessionName, setSessionName, song, setSong } = useContext(AppContext);
+    const [loadingFinished, setLoadingFinished] = useState<boolean>(false);
 
     useEffect(() => {
         if (sessionName || sessionNameFromUrl === undefined) {
@@ -41,6 +42,9 @@ export default function Join() {
                 } else {
                     handleError(err);
                 }
+            })
+            .finally(() => {
+                setLoadingFinished(true);
             });
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -85,24 +89,6 @@ export default function Join() {
 
     return (
         <div className='p-2 lyrics'>
-            {/*<ReactPullToRefresh*/}
-            {/*    onRefresh={refresh}*/}
-            {/*    loading={<></>}*/}
-            {/*    icon={*/}
-            {/*        <div className='pull-to-refresh'>*/}
-            {/*            <i className='pi pi-arrow-right genericon' style={{ fontSize: '2rem' }}></i>*/}
-            {/*            <p>{t('common.pull_to_refresh')}</p>*/}
-            {/*        </div>*/}
-            {/*    }*/}
-            {/*    hammerOptions={*/}
-            {/*        {*/}
-            {/*            enable: true,*/}
-            {/*            touchAction: 'auto',*/}
-            {/*        }*/}
-            {/*    }*/}
-            {/*>*/}
-
-
             <Lyrics song={song} />
             {sessionName && !offlineMode && (
                 <SockJsClient
@@ -114,7 +100,7 @@ export default function Join() {
                     debug={DEBUG}
                 />
             )}
-            <SelectSong song={song} host={host} />
+            {loadingFinished && <SelectSong song={song} host={host} />}
         </div>
     );
 }

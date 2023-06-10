@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Lyrics from '../shared/lyrics/Lyrics';
 import AppContext from '../../context/AppContext';
@@ -15,10 +15,11 @@ export default function Host() {
     let navigate = useNavigate();
     const { sessionName, setSessionName, song, setSong, host, setHost } = useContext(AppContext);
     const { t } = useTranslation();
+    const [loadingFinished, setLoadingFinished] = useState<boolean>(false);
 
     useEffect(() => {
         if (!sessionName) {
-            const sessionNameFromUrl =  window.location.pathname.split('/').pop();
+            const sessionNameFromUrl = window.location.pathname.split('/').pop();
             const passwordFromStorage = getItemFromLocalStorage('password');
             if (sessionNameFromUrl && passwordFromStorage !== null) {
                 createSession(sessionNameFromUrl, passwordFromStorage)
@@ -35,6 +36,9 @@ export default function Host() {
                         } else {
                             handleError(err);
                         }
+                    })
+                    .finally(() => {
+                        setLoadingFinished(true);
                     });
             } else {
                 toast.error(t('exception.not_authorized_to_session'));
@@ -44,9 +48,9 @@ export default function Host() {
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
-        <div className="p-2">
+        <div className='p-2'>
             <Lyrics song={song} showChordDiagrams={true} />
-            <SelectSong song={song} host={host} />
+            {loadingFinished && <SelectSong song={song} host={host} />}
         </div>
     );
 }
