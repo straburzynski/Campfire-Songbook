@@ -13,6 +13,7 @@ import { getAllSongs } from '../../../service/SongService';
 
 const Preferences = ({ onDisableOfflineNode }) => {
     const {
+        sessionName,
         instrument,
         setInstrument,
         fontSize,
@@ -84,6 +85,7 @@ const Preferences = ({ onDisableOfflineNode }) => {
         if (e.value) {
             getAllSongs(true).then((songs) => {
                 saveItemToLocalStorage('songs', JSON.stringify(songs));
+                saveItemToLocalStorage('session', JSON.stringify({ name: sessionName }));
             });
         } else {
             onDisableOfflineNode();
@@ -101,44 +103,44 @@ const Preferences = ({ onDisableOfflineNode }) => {
     };
 
     return (
-        <div className="preferences p-3">
-            <div className="field grid mt-3">
-                <label className="col-fixed p-width-50">{t('preferences.language')}</label>
-                <div className="col">
+        <div className='preferences p-3'>
+            <div className='field grid mt-3'>
+                <label className='col-fixed p-width-50'>{t('preferences.language')}</label>
+                <div className='col'>
                     <Dropdown
                         value={i18next.resolvedLanguage}
                         options={languages}
                         onChange={changeLang}
-                        optionLabel="name"
+                        optionLabel='name'
                     />
                 </div>
             </div>
             <hr />
-            <div className="field grid mt-3">
-                <label className="col-fixed p-width-50">{t('preferences.instrument')}</label>
-                <div className="col">
-                    <Dropdown value={instrument} options={instruments} onChange={changeInstrument} optionLabel="name" />
+            <div className='field grid mt-3'>
+                <label className='col-fixed p-width-50'>{t('preferences.instrument')}</label>
+                <div className='col'>
+                    <Dropdown value={instrument} options={instruments} onChange={changeInstrument} optionLabel='name' />
                 </div>
             </div>
             <hr />
-            <div className="field grid mt-3">
-                <label className="col-fixed p-width-50">{t('preferences.font_size')}</label>
-                <div className="col">
-                    <span className="p-buttonset">
+            <div className='field grid mt-3'>
+                <label className='col-fixed p-width-50'>{t('preferences.font_size')}</label>
+                <div className='col'>
+                    <span className='p-buttonset'>
                         <Button
-                            icon="pi pi-minus"
+                            icon='pi pi-minus'
                             onClick={decrementFontSize}
-                            severity="secondary"
-                            size="small"
+                            severity='secondary'
+                            size='small'
                             outlined
                             text
                         />
-                        <Button label={fontSize?.toString()} onClick={resetFontSize} severity="secondary" text />
+                        <Button label={fontSize?.toString()} onClick={resetFontSize} severity='secondary' text />
                         <Button
-                            icon="pi pi-plus"
+                            icon='pi pi-plus'
                             onClick={incrementFontSize}
-                            severity="secondary"
-                            size="small"
+                            severity='secondary'
+                            size='small'
                             outlined
                             text
                         />
@@ -146,39 +148,39 @@ const Preferences = ({ onDisableOfflineNode }) => {
                 </div>
             </div>
             <hr />
-            <div className="field grid mt-3">
-                <label className="col-fixed p-width-50">{t('preferences.autoColumnsOn')}</label>
-                <div className="col">
+            <div className='field grid mt-3'>
+                <label className='col-fixed p-width-50'>{t('preferences.autoColumnsOn')}</label>
+                <div className='col'>
                     <Dropdown
                         value={autoColumnsOn}
                         options={booleanOptions}
                         onChange={changeAutoColumns}
-                        optionLabel="name"
+                        optionLabel='name'
                     />
                 </div>
             </div>
             <hr />
-            <div className="field grid mt-3">
-                <label className="col-fixed p-width-50">{t('preferences.columnsCount')}</label>
-                <div className="col">
+            <div className='field grid mt-3'>
+                <label className='col-fixed p-width-50'>{t('preferences.columnsCount')}</label>
+                <div className='col'>
                     <Dropdown
                         disabled={autoColumnsOn}
                         value={columnsCount}
                         options={columns}
                         onChange={changeColumnsCount}
-                        optionLabel="name"
+                        optionLabel='name'
                     />
                 </div>
             </div>
             <hr />
-            <div className="field grid mt-3">
-                <label className="col-fixed p-width-50">{t('preferences.offlineMode')}</label>
-                <div className="col">
+            <div className='field grid mt-3'>
+                <label className='col-fixed p-width-50'>{t('preferences.offlineMode')}</label>
+                <div className='col'>
                     <Dropdown
                         value={offlineMode}
                         options={booleanOptions}
                         onChange={changeOfflineMode}
-                        optionLabel="name"
+                        optionLabel='name'
                     />
                 </div>
             </div>
