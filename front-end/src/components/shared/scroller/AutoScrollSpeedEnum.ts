@@ -5,3 +5,10 @@ export enum AutoScrollSpeedEnum {
     FAST = 40,
     VERY_FAST = 20
 }
+export const autoScrollSpeedOptions = [
+    AutoScrollSpeedEnum.VERY_SLOW,
+    AutoScrollSpeedEnum.SLOW,
+    AutoScrollSpeedEnum.NORMAL,
+    AutoScrollSpeedEnum.FAST,
+    AutoScrollSpeedEnum.VERY_FAST,
+]
