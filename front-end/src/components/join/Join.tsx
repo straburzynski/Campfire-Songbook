@@ -14,6 +14,7 @@ import { CustomExceptionModel } from '../../model/CustomExceptionModel';
 import { handleError } from '../../service/ExceptionService';
 import PullToRefresh from 'pulltorefreshjs';
 import ReactDOMServer from 'react-dom/server';
+import AutoScroll from '../shared/scroller/AutoScroll';
 
 export default function Join() {
     let { sessionName: sessionNameFromUrl } = useParams();
@@ -101,6 +102,7 @@ export default function Join() {
                 />
             )}
             {loadingFinished && <SelectSong song={song} host={host} />}
+            <AutoScroll />
         </div>
     );
 }
