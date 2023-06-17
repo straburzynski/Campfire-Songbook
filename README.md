@@ -38,13 +38,21 @@ Song preview with saving to local db and selecting as current song
 
 ![](img/preview_screen.jpg)
 
-Horizontal screen with example chord diagram (with switchable variations)
+Chord diagram (with switchable variations)
 
 ![](img/horizontal_chord_screen.jpg)
 
-About screen with language, instrument (guitar / ukulele) and font size options 
+App options screen
+
+![](img/app_options.jpg)
+
+Preferences screen with language and instrument selection (guitar / ukulele), font size, columns settings and offline mode
 
 ![](img/preferences_horizontal_screen.jpg)
+
+Host options: chords transposition and autoscroll
+
+![](img/transposition_and_autoscroll.jpg)
 
 Song editor screen - creating, updating and deleting songs
 
