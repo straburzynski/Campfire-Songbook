@@ -20,6 +20,7 @@ import { Dialog } from 'primereact/dialog';
 import { getResultList, getYoutubeUrl } from '../../service/YouTubeService';
 import { SongsSourceEnum } from '../../model/SongsSourceEnum';
 import About from '../shared/about/About';
+import Tuner from '../tuner/Tuner';
 import { APP_NAME } from '../../config/AppConfig';
 
 const Header = () => {
@@ -35,6 +36,7 @@ const Header = () => {
     const [preferencesModal, setPreferencesModal] = useState(false);
     const [youtubeModal, setYoutubeModal] = useState(false);
     const [aboutAppModal, setAboutAppModal] = useState(false);
+    const [tunerModal, setTunerModal] = useState(false);
 
     const [url, setUrl] = useState('');
 
@@ -120,6 +122,11 @@ const Header = () => {
             label: t('header.share'),
             icon: 'pi pi-share-alt',
             command: () => share(),
+        },
+        {
+            label: t('header.tuner'),
+            icon: 'pi pi-microphone',
+            command: () => setTunerModal(true),
         },
         {
             label: t('header.about'),
@@ -291,6 +298,19 @@ const Header = () => {
                 icons={<div className="modal-title">{t('header.about')}</div>}
             >
                 <About />
+            </Sidebar>
+
+            <Sidebar
+                visible={tunerModal}
+                blockScroll={true}
+                fullScreen={true}
+                position="right"
+                className="tuner-sidebar"
+                modal={true}
+                onHide={() => setTunerModal(false)}
+                icons={<div className="modal-title">{t('header.tuner')}</div>}
+            >
+                <Tuner />
             </Sidebar>
         </div>
     );

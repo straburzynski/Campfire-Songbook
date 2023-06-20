@@ -17,6 +17,7 @@ export const PL = {
         play_on_youtube: 'Odtwórz na Youtube',
         share: 'Udostępnij',
         song_list: 'Lista piosenek',
+        tuner: 'Stroik',
     },
     dialog: {
         delete_song_confirmation: 'Czy jesteś pewien, że chcesz usunąć tę piosenkę?',

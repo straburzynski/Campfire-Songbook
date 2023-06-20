@@ -17,6 +17,7 @@ export const EN = {
         play_on_youtube: 'Play on Youtube',
         share: 'Share',
         song_list: 'Song list',
+        tuner: 'Tuner',
     },
     dialog: {
         delete_song_confirmation: 'Are you sure you want to delete this song?',
