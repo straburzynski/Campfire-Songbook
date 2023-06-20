@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Lyrics from '../shared/lyrics/Lyrics';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DEBUG, SOCKET_URL, TOPIC } from '../../config/WebSocketConfig';
@@ -12,12 +12,16 @@ import { saveItemToLocalStorage } from '../../service/LocalStorageService';
 import { useTranslation } from 'react-i18next';
 import { CustomExceptionModel } from '../../model/CustomExceptionModel';
 import { handleError } from '../../service/ExceptionService';
+import PullToRefresh from 'pulltorefreshjs';
+import ReactDOMServer from 'react-dom/server';
 
 export default function Join() {
     let { sessionName: sessionNameFromUrl } = useParams();
+    const [topics, setTopics] = useState<string[]>([]);
     let navigate = useNavigate();
     const { t } = useTranslation();
     const { offlineMode, host, setHost, sessionName, setSessionName, song, setSong } = useContext(AppContext);
+    const [loadingFinished, setLoadingFinished] = useState<boolean>(false);
 
     useEffect(() => {
         if (sessionName || sessionNameFromUrl === undefined) {
@@ -38,11 +42,33 @@ export default function Join() {
                 } else {
                     handleError(err);
                 }
+            })
+            .finally(() => {
+                setLoadingFinished(true);
             });
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+    useEffect(() => {
+        PullToRefresh.init({
+            mainElement: '.lyrics',
+            onRefresh() {
+                window.location.reload();
+            },
+            iconArrow: ReactDOMServer.renderToString(
+                <i className='pi pi-arrow-down genericon' style={{ fontSize: '2rem' }}></i>,
+            ),
+            instructionsPullToRefresh: t('common.pull_to_refresh'),
+            instructionsReleaseToRefresh: t('common.release_to_refresh'),
+            instructionsRefreshing: t('common.refreshing'),
+        });
+        return () => {
+            PullToRefresh.destroyAll();
+        };
+    });
+
     let onConnected = () => {
         console.log('Connected!!');
+        setTopics([TOPIC + sessionName]);
     };
 
     let onDisconnected = () => {
@@ -59,22 +85,22 @@ export default function Join() {
             top: 0,
             behavior: 'smooth',
         });
-    }
+    };
 
     return (
-        <div className="p-2">
+        <div className='p-2 lyrics'>
             <Lyrics song={song} />
             {sessionName && !offlineMode && (
                 <SockJsClient
                     url={SOCKET_URL}
-                    topics={[TOPIC + sessionName]}
+                    topics={topics}
                     onConnect={onConnected}
                     onDisconnect={onDisconnected}
                     onMessage={(msg) => onMessageReceived(msg)}
                     debug={DEBUG}
                 />
             )}
-            <SelectSong song={song} host={host} />
+            {loadingFinished && <SelectSong song={song} host={host} />}
         </div>
     );
 }

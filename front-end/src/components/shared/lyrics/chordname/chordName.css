@@ -6,7 +6,7 @@
 
 .annotation {
     position: absolute;
-    top: 0;
+    top: -1em;
 }
 
 .side {

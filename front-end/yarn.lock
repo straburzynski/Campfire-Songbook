@@ -8404,6 +8404,11 @@ psl@^1.1.33:
   resolved "https://registry.yarnpkg.com/psl/-/psl-1.9.0.tgz#d0df2a137f00794565fcaf3b2c00cd09f8d5a5a7"
   integrity sha512-E/ZsdU4HLs/68gYzgGTkMicWTLPdAftJLfJFlLUAAKZGkStNU72sZjT66SnMDVOfOWY/YAoiD7Jxa9iHvngcag==
 
+pulltorefreshjs@^0.1.22:
+  version "0.1.22"
+  resolved "https://registry.yarnpkg.com/pulltorefreshjs/-/pulltorefreshjs-0.1.22.tgz#ddb5e3feee0b2a49fd46e1b18e84fffef2c47ac0"
+  integrity sha512-haxNVEHnS4NCQA7NeG7TSV69z4uqy/N7nfPRuc4dPWe8H6ygUrMjdNeohE+6v0lVVX/ukSjbLYwPUGUYtFKfvQ==
+
 punycode@^2.1.0, punycode@^2.1.1:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.3.0.tgz#f67fa67c94da8f4d0cfff981aee4118064199b8f"

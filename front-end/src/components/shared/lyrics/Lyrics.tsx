@@ -13,6 +13,7 @@ import { Chord } from 'tonal';
 import { ChordModel } from '../../../model/ChordModel';
 import { rowWithChordsOnlyDetected } from '../../../service/ChordParserService';
 import { APP_NAME } from '../../../config/AppConfig';
+import AutoScroll from '../scroller/AutoScroll';
 
 const Lyrics = ({ song, showChordDiagrams = false }) => {
     const { fontSize, columnsCount, autoColumnsOn } = useContext(AppContext);
@@ -128,7 +129,7 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
                             <Button
                                 text
                                 severity='secondary'
-                                label={t('common.show_transposition')}
+                                label={t('common.show_options')}
                                 icon='pi pi-angle-down'
                                 iconPos='right'
                             />
@@ -137,35 +138,34 @@ const Lyrics = ({ song, showChordDiagrams = false }) => {
                             <Button
                                 text
                                 severity='secondary'
-                                label={t('common.hide_transposition')}
+                                label={t('common.hide_options')}
                                 icon='pi pi-angle-up'
                                 iconPos='right'
                                 onClick={() => setTranspositionActive(!transpositionActive)}
                             />
-                            <div className='flex-item mt-0 align-self-center'>
-                                <Button
-                                    text
-                                    severity='secondary'
-                                    onClick={handleMinus}
-                                    className='mx-4'
-                                    icon='pi pi-minus'
-                                    iconPos='left'
-                                />
-                                <Button
-                                    text
-                                    severity='secondary'
-                                    onClick={handleReset}
-                                    className='mx-4'
-                                    label={transposition.toString()}
-                                />
-                                <Button
-                                    text
-                                    severity='secondary'
-                                    onClick={handlePlus}
-                                    className='mx-4'
-                                    icon='pi pi-plus'
-                                    iconPos='right'
-                                />
+                            <div className='mt-0 mb-2 mx-2 flex justify-content-center flex-wrap'>
+                               <div className='p-buttonset flex align-items-center justify-content-center'>
+                                   <Button
+                                       severity='secondary'
+                                       onClick={handleMinus}
+                                       icon='pi pi-chevron-down'
+                                       outlined
+                                   />
+                                   <Button
+                                       severity='secondary'
+                                       onClick={handleReset}
+                                       label={t('common.transposition') + ': ' + transposition.toString()}
+                                       outlined
+                                   />
+                                   <Button
+                                       severity='secondary'
+                                       onClick={handlePlus}
+                                       icon='pi pi-chevron-up'
+                                       outlined
+                                       className='mr-3'
+                                   />
+                               </div>
+                                <AutoScroll />
                             </div>
                         </InplaceContent>
                     </Inplace>
