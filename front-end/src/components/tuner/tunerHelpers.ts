@@ -1,5 +1,5 @@
-const noteFromPitch = (frequency) => {
-    var noteNum = 12 * (Math.log(frequency / 440) / Math.log(2));
+const noteFromPitch = (frequency): number => {
+    const noteNum = 12 * (Math.log(frequency / 440) / Math.log(2));
     return Math.round(noteNum) + 69;
 };
 
