@@ -64,7 +64,7 @@ const Tuner = () => {
     return (
         <div className="flex flex-col align-items-center justify-content-center h-full">
             <div className="flex flex-col items-center tuner-container">
-                <div className="w-full flex justify-center items-center flex-column">
+                <div className="w-full flex justify-center items-center flex-column tuner-box">
                     <div className="flex flex-row justify-content-center">
                         <div className="text-8xl">{pitchNote}</div>
                         <Badge value={pitchScale} severity="secondary"></Badge>
