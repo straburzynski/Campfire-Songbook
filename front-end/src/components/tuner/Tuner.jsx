@@ -44,8 +44,9 @@ const Tuner = () => {
     };
 
     useEffect(() => {
+        let input;
         const start = async () => {
-            const input = await getMicInput();
+            input = await getMicInput();
             if (audioCtx.state === 'suspended') {
                 await audioCtx.resume();
             }
@@ -56,31 +57,33 @@ const Tuner = () => {
         setInterval(updatePitch, 400);
         return () => {
             source.current.disconnect(analyserNode);
+            audioCtx.suspend();
+            input.getTracks().forEach(track => track.stop());
         };
     }, []);
 
     return (
-        <div className="tuner-sidebar flex flex-col align-items-center justify-content-center mt-2">
-            <div className="flex flex-col items-center tuner-container">
+        <div className='tuner-sidebar flex flex-col align-items-center justify-content-center mt-2'>
+            <div className='flex flex-col items-center tuner-container'>
                 <div
-                    className="w-full flex justify-center items-center flex-column tuner-box"
+                    className='w-full flex justify-center items-center flex-column tuner-box'
                     style={{ backgroundColor: Math.abs(detune) < 10 ? '#0bf800' : '#ededed' }}
                 >
-                    <div className="flex flex-row justify-content-center relative">
-                        <div className="note-name">{pitchNote.substring(0, 1)}</div>
-                        <Badge value={pitchScale} severity="secondary" size="large" className="pitch-scale"></Badge>
-                        <div className="pitch-scale-sharp">{pitchNote.substring(1)}</div>
+                    <div className='flex flex-row justify-content-center relative'>
+                        <div className='note-name'>{pitchNote.substring(0, 1)}</div>
+                        <Badge value={pitchScale} severity='secondary' size='large' className='pitch-scale'></Badge>
+                        <div className='pitch-scale-sharp'>{pitchNote.substring(1)}</div>
                     </div>
                     <div>
-                        <div className="flex justify-content-center align-items-center detune-gradient mt-5">
-                            <span className="tuner-pointer" style={{ left: detune + '%' }}>
-                                <i className="pi pi-caret-down text-2xl"></i>
+                        <div className='flex justify-content-center align-items-center detune-gradient mt-5'>
+                            <span className='tuner-pointer' style={{ left: detune + '%' }}>
+                                <i className='pi pi-caret-down text-2xl'></i>
                             </span>
                         </div>
-                        <div className="mt-2 w-full text-center font-semibold text-2xl my-3">
-                            <span>{detune > 0 ? `+${detune}` : detune < 0 ? detune : '---'}</span>
+                        <div className='mt-2 w-full text-center font-semibold text-2xl my-3'>
+                            <span>{detune > 0 ? `+${detune}` : (detune < 0 ? detune : '---')}</span>
                         </div>
-                        <div className="mt-2 w-full text-center">
+                        <div className='mt-2 w-full text-center'>
                             <span>{frequency}</span>
                         </div>
                     </div>
