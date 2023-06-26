@@ -67,3 +67,15 @@
     padding: 0 1rem;
   }
 }
+
+.tuner-dialog {
+  & .p-confirm-dialog-message {
+    margin-left: 0!important;
+  }
+  & .tuner-reject-button {
+    display: none;
+  }
+  & .p-dialog-content {
+    padding: 0 1.5rem 0 1.5rem!important;
+  }
+}

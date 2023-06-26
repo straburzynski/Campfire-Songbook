@@ -36,7 +36,6 @@ const Header = () => {
     const [preferencesModal, setPreferencesModal] = useState(false);
     const [youtubeModal, setYoutubeModal] = useState(false);
     const [aboutAppModal, setAboutAppModal] = useState(false);
-    const [tunerModal, setTunerModal] = useState(false);
 
     const [url, setUrl] = useState('');
 
@@ -62,7 +61,7 @@ const Header = () => {
         });
     };
 
-    function createYoutubeMenuItem() {
+    const createYoutubeMenuItem = () => {
         if (song) {
             return {
                 label: t('header.play_on_youtube'),
@@ -75,17 +74,30 @@ const Header = () => {
                 template: <></>,
             };
         }
-    }
+    };
+
+    const openTuner = () => {
+        confirmDialog({
+            showHeader: true,
+            className: 'tuner-dialog',
+            header: <div> {t('header.tuner')}</div>,
+            message: <Tuner />,
+            rejectLabel: '',
+            rejectClassName: 'tuner-reject-button',
+            acceptLabel: t('common.close').toString(),
+            dismissableMask: true,
+        });
+    };
 
     const items = [
         {
             template: (
                 <>
-                    <p className="menu-item session-name">
+                    <p className='menu-item session-name'>
                         <span className={host ? 'menuitem-icon mr-2 pi pi-user' : 'menuitem-icon mr-2 pi pi-users'} />
                         {t('header.current_session')}:
                     </p>
-                    <p className="menu-item font-bold ml-4">{sessionName || '---'}</p>
+                    <p className='menu-item font-bold ml-4'>{sessionName || '---'}</p>
                     <Divider />
                 </>
             ),
@@ -126,7 +138,7 @@ const Header = () => {
         {
             label: t('header.tuner'),
             icon: 'pi pi-microphone',
-            command: () => setTunerModal(true),
+            command: () => openTuner(),
         },
         {
             label: t('header.about'),
@@ -162,7 +174,7 @@ const Header = () => {
     const confirmExitSession = () => {
         confirmDialog({
             showHeader: false,
-            message: <div className="mt-6">{t('dialog.exit_session_confirmation')}</div>,
+            message: <div className='mt-6'>{t('dialog.exit_session_confirmation')}</div>,
             accept: () => exitSession(),
             rejectLabel: t('common.no').toString(),
             acceptLabel: t('common.yes').toString(),
@@ -172,7 +184,7 @@ const Header = () => {
     const confirmExitOfflineMode = () => {
         confirmDialog({
             showHeader: false,
-            message: <div className="mt-6">{t('dialog.exit_offline_mode_confirmation')}</div>,
+            message: <div className='mt-6'>{t('dialog.exit_offline_mode_confirmation')}</div>,
             accept: () => exitOfflineMode(),
             rejectLabel: t('common.no').toString(),
             acceptLabel: t('common.yes').toString(),
@@ -196,14 +208,14 @@ const Header = () => {
     };
 
     return (
-        <div className="app-toolbar">
+        <div className='app-toolbar'>
             <Toolbar
                 start={
                     <>
-                        <img alt="logo" src={logo} height="40" />
-                        <div className="toolbar-title">
+                        <img alt='logo' src={logo} height='40' />
+                        <div className='toolbar-title'>
                             {APP_NAME} <br />
-                            <span className="offline-mode">{offlineMode ? '(offline)' : ''}</span>
+                            <span className='offline-mode'>{offlineMode ? '(offline)' : ''}</span>
                         </div>
                     </>
                 }
@@ -211,21 +223,21 @@ const Header = () => {
                     <>
                         {offlineMode && (
                             <Button
-                                className="white-secondary non-printable mr-3"
-                                label=""
-                                severity="secondary"
-                                icon="pi pi-sync"
+                                className='white-secondary non-printable mr-3'
+                                label=''
+                                severity='secondary'
+                                icon='pi pi-sync'
                                 onClick={confirmExitOfflineMode}
                             />
                         )}
-                        <Menu className="app-menu" model={items} popup ref={menu} id="popup_menu" />
+                        <Menu className='app-menu' model={items} popup ref={menu} id='popup_menu' />
                         <Button
-                            className="white-secondary non-printable"
-                            label=""
-                            severity="secondary"
-                            icon="pi pi-bars"
+                            className='white-secondary non-printable'
+                            label=''
+                            severity='secondary'
+                            icon='pi pi-bars'
                             onClick={(event) => menu.current.toggle(event)}
-                            aria-controls="popup_menu"
+                            aria-controls='popup_menu'
                             aria-haspopup
                         />
                     </>
@@ -237,7 +249,7 @@ const Header = () => {
                 blockScroll={true}
                 fullScreen={true}
                 onHide={() => setSongListModal(false)}
-                icons={<div className="modal-title">{t('header.song_list')}</div>}
+                icons={<div className='modal-title'>{t('header.song_list')}</div>}
             >
                 <SongList source={SongsSourceEnum.DATABASE} onSongSelected={closeSongListModal} />
             </Sidebar>
@@ -247,7 +259,7 @@ const Header = () => {
                 blockScroll={true}
                 fullScreen={true}
                 onHide={() => setFavoriteSongsModal(false)}
-                icons={<div className="modal-title">{t('header.favorite_songs')}</div>}
+                icons={<div className='modal-title'>{t('header.favorite_songs')}</div>}
             >
                 <SongList source={SongsSourceEnum.LOCALSTORAGE} onSongSelected={closeFavoriteSongsModal} />
             </Sidebar>
@@ -257,7 +269,7 @@ const Header = () => {
                 blockScroll={true}
                 fullScreen={true}
                 onHide={() => setExternalSearchModal(false)}
-                icons={<div className="modal-title">{t('header.external_search')}</div>}
+                icons={<div className='modal-title'>{t('header.external_search')}</div>}
             >
                 <ExternalSearch onSongSelected={closeExternalSearchModal} />
             </Sidebar>
@@ -271,18 +283,18 @@ const Header = () => {
                 focusOnShow={false}
                 modal={true}
             >
-                <ReactPlayer url={url} playing width="100%" height="100%" />
+                <ReactPlayer url={url} playing width='100%' height='100%' />
             </Dialog>
 
             <Sidebar
                 visible={preferencesModal}
                 blockScroll={true}
                 fullScreen={false}
-                position="right"
-                className="preferences-sidebar"
+                position='right'
+                className='preferences-sidebar'
                 modal={true}
                 onHide={() => setPreferencesModal(false)}
-                icons={<div className="modal-title">{t('header.preferences')}</div>}
+                icons={<div className='modal-title'>{t('header.preferences')}</div>}
             >
                 <Preferences onDisableOfflineNode={() => setPreferencesModal(false)} />
             </Sidebar>
@@ -291,26 +303,13 @@ const Header = () => {
                 visible={aboutAppModal}
                 blockScroll={true}
                 fullScreen={false}
-                position="right"
-                className="about-app-sidebar"
+                position='right'
+                className='about-app-sidebar'
                 modal={true}
                 onHide={() => setAboutAppModal(false)}
-                icons={<div className="modal-title">{t('header.about')}</div>}
+                icons={<div className='modal-title'>{t('header.about')}</div>}
             >
                 <About />
-            </Sidebar>
-
-            <Sidebar
-                visible={tunerModal}
-                blockScroll={true}
-                fullScreen={false}
-                position="right"
-                className="tuner-sidebar"
-                modal={true}
-                onHide={() => setTunerModal(false)}
-                icons={<div className="modal-title">{t('header.tuner')}</div>}
-            >
-                <Tuner />
             </Sidebar>
         </div>
     );
