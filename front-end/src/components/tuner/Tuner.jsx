@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import AudioContext from '../../context/AudioContext';
 import './tuner.scss';
 import autoCorrelate from './AutoCorrelate';
-import { centsOffFromPitch, getDetunePercent, noteFromPitch } from './tunerHelpers';
+import { centsOffFromPitch, noteFromPitch } from './tunerHelpers';
 import { Badge } from 'primereact/badge';
 
 const audioCtx = AudioContext.getAudioContext();
@@ -26,7 +26,7 @@ const Tuner = () => {
     const [pitchNote, setPitchNote] = useState('C');
     const [pitchScale, setPitchScale] = useState(4);
     const [frequency, setFrequency] = useState('--- Hz');
-    const [detune, setDetune] = useState(0);
+    const [detune, setDetune] = useState(undefined);
 
     const updatePitch = () => {
         analyserNode.getFloatTimeDomainData(buf);
@@ -40,7 +40,6 @@ const Tuner = () => {
             setPitchNote(note);
             setPitchScale(pitchClass);
             setDetune(detuneValue);
-            console.log(note, pitchClass, detuneValue, calculatedFrequency);
         }
     };
 
@@ -54,34 +53,32 @@ const Tuner = () => {
             source.current.connect(analyserNode);
         };
         start();
+        setInterval(updatePitch, 400);
         return () => {
             source.current.disconnect(analyserNode);
         };
     }, []);
 
-    setInterval(updatePitch, 10);
-
     return (
-        <div className="flex flex-col align-items-center justify-content-center h-full">
+        <div className="tuner-sidebar flex flex-col align-items-center justify-content-center mt-2">
             <div className="flex flex-col items-center tuner-container">
-                <div className="w-full flex justify-center items-center flex-column tuner-box">
-                    <div className="flex flex-row justify-content-center">
-                        <div className="text-8xl">{pitchNote}</div>
-                        <Badge value={pitchScale} severity="secondary"></Badge>
+                <div
+                    className="w-full flex justify-center items-center flex-column tuner-box"
+                    style={{ backgroundColor: Math.abs(detune) < 10 ? '#0bf800' : '#ededed' }}
+                >
+                    <div className="flex flex-row justify-content-center relative">
+                        <div className="note-name">{pitchNote.substring(0, 1)}</div>
+                        <Badge value={pitchScale} severity="secondary" size="large" className="pitch-scale"></Badge>
+                        <div className="pitch-scale-sharp">{pitchNote.substring(1)}</div>
                     </div>
                     <div>
-                        <div className="flex justify-content-center align-items-center detune-gradient">
-                            <div
-                                style={{
-                                    width: (detune < 0 ? getDetunePercent(detune) : '50') + '%',
-                                }}
-                            ></div>
-                            <span className="">I</span>
-                            <div
-                                style={{
-                                    width: (detune > 0 ? getDetunePercent(detune) : '50') + '%',
-                                }}
-                            ></div>
+                        <div className="flex justify-content-center align-items-center detune-gradient mt-5">
+                            <span className="tuner-pointer" style={{ left: detune + '%' }}>
+                                <i className="pi pi-caret-down text-2xl"></i>
+                            </span>
+                        </div>
+                        <div className="mt-2 w-full text-center font-semibold text-2xl my-3">
+                            <span>{detune > 0 ? `+${detune}` : detune < 0 ? detune : '---'}</span>
                         </div>
                         <div className="mt-2 w-full text-center">
                             <span>{frequency}</span>

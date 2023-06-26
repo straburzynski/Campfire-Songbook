@@ -98,6 +98,7 @@ export const PL = {
         success: 'URL sesji został skopiowany do schowka',
     },
     changelog: {
+        '0.14.0': 'Stroik do gitary i ukulele.',
         '0.13.0': 'Auto przewijanie tekstu piosenki z wyborem prędkości.',
         '0.12.0': '\'Pociągnij, aby odświeżyć\' dostępne dla ekranu uczestnika sesji.',
         '0.11.0': 'Tryb offline - możliwość korzystania z aplikacji bez dostępu do Internetu. Wymagane jest wcześniejsze połączenie z Internetem, aby pobrać piosenki.',

@@ -13,12 +13,4 @@ const centsOffFromPitch = (frequency, note) => {
     );
 };
 
-const getDetunePercent = (detune) => {
-    if (detune > 0) {
-        return 50 + detune;
-    } else {
-        return 50 + -detune;
-    }
-};
-
-export { noteFromPitch, centsOffFromPitch, getDetunePercent };
+export { noteFromPitch, centsOffFromPitch };

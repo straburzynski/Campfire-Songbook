@@ -303,7 +303,7 @@ const Header = () => {
             <Sidebar
                 visible={tunerModal}
                 blockScroll={true}
-                fullScreen={true}
+                fullScreen={false}
                 position="right"
                 className="tuner-sidebar"
                 modal={true}

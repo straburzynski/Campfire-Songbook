@@ -60,6 +60,7 @@ Song editor screen - creating, updating and deleting songs
 
 ### Changelog:
 
+- 0.14.0 - Tuner for guitar and ukulele.
 - 0.13.0 - Lyrics autoscroll with different speed options.
 - 0.12.0 - 'Pull to refresh' available for session participant.
 - 0.11.0 - Offline mode - using the application without access to the Internet. Internet connection required to download songs.
