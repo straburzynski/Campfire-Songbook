@@ -53,6 +53,7 @@ const SongDetailsDialog: FC<SongDetailsDialogModel> = ({ song, host, showDialog,
 
     return (
         <Dialog
+            className="song-details-dialog"
             visible={showDialog}
             style={{ width: '90vw' }}
             footer={
