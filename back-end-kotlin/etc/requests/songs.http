@@ -1,0 +1,26 @@
+### Find by id
+GET http://localhost:8090/api/songs/1
+
+### Find all
+GET http://localhost:8090/api/songs
+
+### Create
+POST http://localhost:8090/api/songs
+Content-Type: application/json
+
+{
+  "author": "value",
+  "title": "value",
+  "lyrics": "value"
+}
+
+### Update
+PUT http://localhost:8090/api/songs/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "author": "new value 2",
+  "title": "new value 2",
+  "lyrics": "new value 2"
+}
