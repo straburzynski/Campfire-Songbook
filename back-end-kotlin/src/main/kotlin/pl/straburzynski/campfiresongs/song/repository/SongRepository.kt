@@ -6,11 +6,11 @@ import org.springframework.stereotype.Repository
 import pl.straburzynski.campfiresongs.song.model.Song
 
 @Repository
-interface SongRepository : CoroutineCrudRepository<Song, String> {
+interface SongRepository : CoroutineCrudRepository<Song, Int> {
     override fun findAll(): Flow<Song>
-    override suspend fun findById(id: String): Song?
-    override suspend fun existsById(id: String): Boolean
+    override suspend fun findById(id: Int): Song?
+    override suspend fun existsById(id: Int): Boolean
     override suspend fun <S : Song> save(entity: S): Song
-    override suspend fun deleteById(id: String)
+    override suspend fun deleteById(id: Int)
     suspend fun existsByAuthorLikeAndTitleLikeAllIgnoreCase(author: String, title: String): Boolean
 }

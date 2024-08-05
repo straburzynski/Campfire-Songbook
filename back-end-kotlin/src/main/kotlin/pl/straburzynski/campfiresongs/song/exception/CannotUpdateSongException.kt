@@ -8,10 +8,10 @@ import pl.straburzynski.campfiresongs.song.model.SongDto
 
 
 @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-class SongExistsException(songDto: SongDto) : CustomException(
+class CannotUpdateSongException(songDto: SongDto) : CustomException(
     ErrorResponse(
         mapOf("song" to songDto),
-        "exception.song_exists",
-        "Song " + songDto.title + " by author " + songDto.author + " already exists in database"
+        "exception.cannot_update_song",
+        "Cannot update song " + songDto.title + " by author " + songDto.author
     ),
 )

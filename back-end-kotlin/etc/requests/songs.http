@@ -20,7 +20,7 @@ Content-Type: application/json
 
 {
   "id": 1,
-  "author": "new value 2",
-  "title": "new value 2",
-  "lyrics": "new value 2"
+  "author": "new value",
+  "title": "new value",
+  "lyrics": "new value"
 }

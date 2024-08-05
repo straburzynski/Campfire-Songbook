@@ -9,7 +9,5 @@ data class Song(
     val author: String,
     val title: String,
     val lyrics: String
-) {
-    fun toDto() = id?.let { SongDto(it, author, title, lyrics) }
-}
+)
 
