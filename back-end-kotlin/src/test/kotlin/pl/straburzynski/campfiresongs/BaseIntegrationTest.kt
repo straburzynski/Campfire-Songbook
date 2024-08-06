@@ -16,6 +16,7 @@ class BaseIntegrationTest {
 
     @Autowired
     lateinit var client: WebTestClient
+
     @Autowired
     lateinit var songRepository: SongRepository
 

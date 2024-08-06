@@ -10,6 +10,7 @@ import pl.straburzynski.campfiresongs.song.model.Song
 import pl.straburzynski.campfiresongs.song.model.SongDto
 import pl.straburzynski.campfiresongs.song.model.SongHeadersDto
 import pl.straburzynski.campfiresongs.song.repository.SongRepository
+import java.util.UUID
 
 
 @Service
@@ -42,12 +43,12 @@ class SongService(
             }
     }
 
-    suspend fun findById(id: Int): SongDto {
+    suspend fun findById(id: UUID): SongDto {
         val song = songRepository.findById(id) ?: throw SongNotFoundException(id.toString())
         return songConverter.convertFromSong(song)
     }
 
-    suspend fun update(id: Int, songDto: SongDto): Song {
+    suspend fun update(id: UUID, songDto: SongDto): Song {
         val song = songConverter.convertFromSongDto(songDto)
         return try {
             songRepository.save(song.copy(id = id))
@@ -56,7 +57,7 @@ class SongService(
         }
     }
 
-    suspend fun deleteById(id: Int) {
+    suspend fun deleteById(id: UUID) {
         songRepository.deleteById(id)
     }
 }

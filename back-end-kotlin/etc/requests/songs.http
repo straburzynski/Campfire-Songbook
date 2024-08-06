@@ -1,5 +1,5 @@
 ### Find by id
-GET http://localhost:8090/api/songs/1
+GET http://localhost:8090/api/songs/42f6a46a-4da7-49c8-ba5f-33b9a69fc048
 
 ### Find all
 GET http://localhost:8090/api/songs
@@ -15,11 +15,10 @@ Content-Type: application/json
 }
 
 ### Update
-PUT http://localhost:8090/api/songs/1
+PUT http://localhost:8090/api/songs/42f6a46a-4da7-49c8-ba5f-33b9a69fc048
 Content-Type: application/json
 
 {
-  "id": 1,
   "author": "new value",
   "title": "new value",
   "lyrics": "new value"

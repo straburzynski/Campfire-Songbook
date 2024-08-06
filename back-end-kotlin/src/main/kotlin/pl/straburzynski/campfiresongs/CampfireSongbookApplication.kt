@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class CampfiresongsApplication
+class CampfireSongbookApplication
 
 fun main(args: Array<String>) {
-    runApplication<CampfiresongsApplication>(*args)
+    runApplication<CampfireSongbookApplication>(*args)
 }
