@@ -6,7 +6,7 @@ import pl.straburzynski.campfiresongs.exception.CustomException
 import pl.straburzynski.campfiresongs.exception.ErrorResponse
 
 
-@ResponseStatus(HttpStatus.BAD_REQUEST)
+@ResponseStatus(HttpStatus.NOT_FOUND)
 class SongNotFoundException(id: String) : CustomException(
     ErrorResponse(
         mapOf(),

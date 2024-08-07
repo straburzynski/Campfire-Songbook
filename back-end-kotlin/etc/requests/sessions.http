@@ -1,0 +1,27 @@
+### Create new session
+POST {{baseUrl}}/api/sessions
+Content-Type: application/json
+
+{
+  "name": "test-name",
+  "password": "pass"
+}
+
+### Get session by name
+GET {{baseUrl}}/api/sessions/{{name}}
+
+### Update session with song
+PUT {{baseUrl}}/api/sessions
+Content-Type: application/json
+
+{
+  "id": "9e985d79-6c60-4d2f-a365-649878b99872",
+  "song": {
+    "id": "43176ffd-dd74-42f9-98da-5ff440253ea2",
+    "author": "new value",
+    "title": "new value",
+    "lyrics": "new value"
+  },
+  "temporary": false,
+  "name": "test-name"
+}

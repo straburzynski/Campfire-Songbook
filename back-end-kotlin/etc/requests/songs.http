@@ -1,11 +1,11 @@
 ### Find by id
-GET http://localhost:8090/api/songs/42f6a46a-4da7-49c8-ba5f-33b9a69fc048
+GET {{baseUrl}}/api/songs/42f6a46a-4da7-49c8-ba5f-33b9a69fc048
 
 ### Find all
-GET http://localhost:8090/api/songs
+GET {{baseUrl}}/api/songs
 
 ### Create
-POST http://localhost:8090/api/songs
+POST {{baseUrl}}/api/songs
 Content-Type: application/json
 
 {
@@ -15,7 +15,7 @@ Content-Type: application/json
 }
 
 ### Update
-PUT http://localhost:8090/api/songs/42f6a46a-4da7-49c8-ba5f-33b9a69fc048
+PUT {{baseUrl}}/api/songs/8a09d388-3504-4476-8fe9-9e9efe1b12ca
 Content-Type: application/json
 
 {
