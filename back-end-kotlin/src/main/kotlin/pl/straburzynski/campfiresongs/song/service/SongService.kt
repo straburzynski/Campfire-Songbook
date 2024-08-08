@@ -1,6 +1,5 @@
 package pl.straburzynski.campfiresongs.song.service
 
-import org.springframework.dao.DataAccessException
 import org.springframework.stereotype.Service
 import pl.straburzynski.campfiresongs.song.exception.CannotUpdateSongException
 import pl.straburzynski.campfiresongs.song.exception.SongExistsException
@@ -27,21 +26,17 @@ class SongService(
         return savedSong
     }
 
-    fun findAll(): List<SongDto> {
-        return songRepository.findAll().toList()
-            .map(songConverter::convertFromSong)
-    }
+    fun findAll(): List<SongDto> = songRepository.findAll().toList()
+        .map(songConverter::convertFromSong)
 
-    fun findAllHeaders(): List<SongHeadersDto> {
-        return findAll()
-            .map { songDto: SongDto ->
-                SongHeadersDto(
-                    songDto.id,
-                    songDto.author,
-                    songDto.title
-                )
-            }
-    }
+    fun findAllHeaders(): List<SongHeadersDto> = findAll()
+        .map { songDto: SongDto ->
+            SongHeadersDto(
+                songDto.id,
+                songDto.author,
+                songDto.title
+            )
+        }
 
     fun findById(id: UUID): SongDto {
         val song = songRepository.findById(id).getOrNull() ?: throw SongNotFoundException(id.toString())
@@ -50,14 +45,9 @@ class SongService(
 
     fun update(id: UUID, songDto: SongDto): Song {
         val song = songConverter.convertFromSongDto(songDto)
-        return try {
-            songRepository.save(song.copy(id = id))
-        } catch (ex: DataAccessException) {
-            throw CannotUpdateSongException(songDto)
-        }
+        if (songRepository.existsById(id)) return songRepository.save(song)
+        else throw CannotUpdateSongException(id, songDto)
     }
 
-    fun deleteById(id: UUID) {
-        songRepository.deleteById(id)
-    }
+    fun deleteById(id: UUID) = songRepository.deleteById(id)
 }
