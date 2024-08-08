@@ -21,26 +21,24 @@ import java.util.UUID
 @RequestMapping(value = ["songs"])
 class SongController(val songService: SongService) {
 
-    @GetMapping
-    fun findAll(@RequestParam(defaultValue = "true") offline: Boolean): ResponseEntity<*> {
-        return ResponseEntity<Any>(
-            if (offline) songService.findAll()
-            else songService.findAllHeaders(), HttpStatus.OK
-        )
-    }
-
     @PostMapping
     fun create(@RequestBody songDto: SongDto): Song = songService.create(songDto)
 
-    @PutMapping("{id}")
-    fun update(@PathVariable id: UUID, @RequestBody songDto: SongDto): Song = songService.update(id, songDto)
+    @PostMapping("batch")
+    fun batchCreate(@RequestBody songs: List<SongDto>) = songs.map { song -> songService.create(song) }
 
     @GetMapping("{id}")
     fun findById(@PathVariable id: UUID): SongDto = songService.findById(id)
 
+    @GetMapping
+    fun findAll(@RequestParam(defaultValue = "true") offline: Boolean): ResponseEntity<*> = ResponseEntity<Any>(
+        if (offline) songService.findAll()
+        else songService.findAllHeaders(), HttpStatus.OK
+    )
+
+    @PutMapping("{id}")
+    fun update(@PathVariable id: UUID, @RequestBody songDto: SongDto): Song = songService.update(id, songDto)
+
     @DeleteMapping("{id}")
     fun deleteById(@PathVariable id: UUID) = songService.deleteById(id)
-
-    @PostMapping("batch")
-    fun batchCreate(@RequestBody songs: List<SongDto>) = songs.forEach { song -> songService.create(song) }
 }

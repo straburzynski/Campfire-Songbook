@@ -5,36 +5,42 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.returnResult
 import org.springframework.web.reactive.function.BodyInserters
 import pl.straburzynski.campfiresongs.song.model.SongDto
+import pl.straburzynski.campfiresongs.utils.Utils.randomString
 import java.util.UUID
 
 object SongFactory {
     fun createSong(
         client: WebTestClient,
-        requestBody: String = DEFAULT_NEW_SONG_PAYLOAD
-    ): SongDto? = client.post()
-        .uri("/songs")
-        .contentType(MediaType.APPLICATION_JSON)
-        .body(BodyInserters.fromValue(requestBody))
-        .accept(MediaType.APPLICATION_JSON)
-        .exchange()
-        .returnResult<SongDto>()
-        .responseBody
-        .blockFirst()
+        requestBody: String = createSongPayload()
+    ): SongDto = checkNotNull(
+        client.post()
+            .uri("/songs")
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(BodyInserters.fromValue(requestBody))
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange()
+            .returnResult<SongDto>()
+            .responseBody
+            .blockFirst()
+    )
 
-    fun createMultipleSongs(client: WebTestClient, count: Int) =
-        (1..count).forEach { _ -> createSong(client, createSongPayloadWithId(randomString(5))) }
+    fun createMultipleSongs(client: WebTestClient, count: Int): List<SongDto> =
+        (1..count).map { _ -> createSong(client, createSongPayload(randomString(5))) }
 
-    fun randomString(length: Int) =
-        ('a'..'z').map { it }.shuffled().subList(0, length).joinToString("")
+    fun createSongPayloadWithId(id: UUID, value: String = "test") =
+        "{ \"id\": \"$id\",  \"title\": \"$value\", \"author\": \"$value\", \"lyrics\": \"$value\"}"
 
-    fun createSongPayloadWithId(value: String): String =
+    fun createSongPayload(value: String = "test"): String =
         "{ \"title\": \"$value\", \"author\": \"$value\", \"lyrics\": \"$value\"}"
 
-    const val DEFAULT_NEW_SONG_PAYLOAD =
-        "{ \"title\": \"test title\", \"author\": \"test author\", \"lyrics\": \"test lyrics\"}"
-
-    fun createSongPayloadWithId(id: UUID) =
-        "{ \"id\": \"$id\", \"title\": \"test title\", \"author\": \"test author\", \"lyrics\": \"test lyrics\"}"
-
+    fun buildMultipleSongs(count: Int): List<SongDto> =
+        (1..count).map { i ->
+            SongDto(
+                null,
+                "${i}_${randomString(5)}",
+                "${i}_${randomString(5)}",
+                "${i}_${randomString(5)}"
+            )
+        }
 }
 

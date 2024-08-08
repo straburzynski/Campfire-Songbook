@@ -1,8 +1,11 @@
 ### Find by id
 GET {{baseUrl}}/api/songs/42f6a46a-4da7-49c8-ba5f-33b9a69fc048
 
-### Find all
+### Find all (default offline mode = true)
 GET {{baseUrl}}/api/songs
+
+### Find all (default offline mode = false)
+GET {{baseUrl}}/api/songs?offline=false
 
 ### Create
 POST {{baseUrl}}/api/songs
@@ -14,6 +17,23 @@ Content-Type: application/json
   "lyrics": "value"
 }
 
+### Create bath
+POST {{baseUrl}}/api/songs/batch
+Content-Type: application/json
+
+[
+  {
+    "author": "value1",
+    "title": "value1",
+    "lyrics": "value1"
+  },
+  {
+    "author": "value2",
+    "title": "value2",
+    "lyrics": "value2"
+  }
+]
+
 ### Update
 PUT {{baseUrl}}/api/songs/8a09d388-3504-4476-8fe9-9e9efe1b12ca
 Content-Type: application/json
@@ -23,3 +43,6 @@ Content-Type: application/json
   "title": "new value",
   "lyrics": "new value"
 }
+
+### Delete
+DELETE {{baseUrl}}/api/songs/8a09d388-3504-4476-8fe9-9e9efe1b12ca
