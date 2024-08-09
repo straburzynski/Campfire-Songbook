@@ -13,7 +13,7 @@ class SessionConverter(val songConverter: SongConverter) {
         session.id,
         if (session.temporary)
             songConverter.parseFromSongData(session.songData) else
-            songConverter.convertFromSong(session.song),
+            session.song?.let { songConverter.convertFromSong(it) },
         session.name,
         session.password,
         session.temporary,

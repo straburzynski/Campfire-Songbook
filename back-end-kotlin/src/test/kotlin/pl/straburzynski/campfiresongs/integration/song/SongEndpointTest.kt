@@ -1,4 +1,4 @@
-package pl.straburzynski.campfiresongs.integration
+package pl.straburzynski.campfiresongs.integration.song
 
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test

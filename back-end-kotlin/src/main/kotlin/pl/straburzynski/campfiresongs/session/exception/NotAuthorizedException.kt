@@ -10,7 +10,7 @@ import pl.straburzynski.campfiresongs.exception.ErrorResponse
 class NotAuthorizedException : CustomException(
     ErrorResponse(
         emptyMap(),
-        "Not authorized to session",
-        "exception.not_authorized_to_session"
+        "exception.not_authorized_to_session",
+        "Not authorized to session"
     )
 )

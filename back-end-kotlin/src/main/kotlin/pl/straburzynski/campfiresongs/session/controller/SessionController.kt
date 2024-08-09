@@ -19,11 +19,11 @@ import java.util.UUID
 @CrossOrigin("*")
 class SessionController(val sessionService: SessionService) {
 
-    @GetMapping("{name}")
-    fun findByName(@PathVariable name: String): SessionDto = sessionService.findBySessionName(name)
-
     @PostMapping
     fun createSession(@RequestBody sessionDto: SessionDto): SessionDto = sessionService.createSession(sessionDto)
+
+    @GetMapping("{name}")
+    fun findByName(@PathVariable name: String): SessionDto = sessionService.findBySessionName(name)
 
     @PutMapping
     fun updateSession(@RequestBody sessionDto: SessionDto): SessionDto = sessionService.updateSession(sessionDto)

@@ -26,6 +26,5 @@ class SongConverter(private val objectMapper: ObjectMapper) {
         throw JsonParseException("parseFromSongData")
     }
 
-    fun convertFromSong(song: Song?): SongDto =
-        objectMapper.convertValue(song, SongDto::class.java)
+    fun convertFromSong(song: Song): SongDto = objectMapper.convertValue(song, SongDto::class.java)
 }
