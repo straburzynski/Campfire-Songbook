@@ -11,7 +11,7 @@ data class SessionDto(
     val name: String,
     @JsonProperty(access = WRITE_ONLY)
     val password: String?,
-    @JsonProperty(access = WRITE_ONLY)
     val temporary: Boolean,
+    @JsonProperty(access = WRITE_ONLY)
     val songData: String?
 )

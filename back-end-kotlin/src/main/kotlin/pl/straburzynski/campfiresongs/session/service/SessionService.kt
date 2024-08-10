@@ -50,14 +50,14 @@ class SessionService(
 
     fun updateSession(sessionDto: SessionDto): SessionDto {
         val sessionId = sessionDto.id ?: throw SessionNotFoundException()
-        val foundSession =
-            sessionRepository.findById(sessionId).getOrNull() ?: throw SessionNotFoundException(sessionDto.name)
+        val foundSession = sessionRepository.findById(sessionId).getOrNull()
+            ?: throw SessionNotFoundException(sessionDto.name)
         foundSession.temporary = sessionDto.temporary
         if (sessionDto.temporary) {
             foundSession.song = null
-            foundSession.songData = songConverter.stringifyFromSongDto(sessionDto.song)
+            foundSession.songData = sessionDto.song?.let { songConverter.stringifyFromSongDto(sessionDto.song) }
         } else {
-            foundSession.song = songConverter.convertFromSongDto(sessionDto.song)
+            foundSession.song = sessionDto.song?.let { songConverter.convertFromSongDto(sessionDto.song) }
             foundSession.songData = null
         }
         val updatedSession = sessionRepository.save(foundSession)
@@ -65,7 +65,9 @@ class SessionService(
             "Update session, name: ${updatedSession.name}, temporary: ${updatedSession.temporary}, " +
                     "songId: ${if (updatedSession.temporary) "---" else updatedSession.song?.id}"
         )
-        template.convertAndSend("/topic/message/" + updatedSession.name, updatedSession.song as Any)
+        updatedSession.song?.let {
+            template.convertAndSend("/topic/message/" + updatedSession.name, it)
+        }
         return sessionConverter.convertFromSession(updatedSession)
     }
 
