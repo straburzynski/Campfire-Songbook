@@ -1,5 +1,6 @@
 package pl.straburzynski.campfiresongs.integration.session
 
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.MediaType
@@ -9,6 +10,8 @@ import pl.straburzynski.campfiresongs.session.model.SessionDto
 import pl.straburzynski.campfiresongs.song.model.SongDto
 import pl.straburzynski.campfiresongs.utils.SessionFactory.createNewSessionPayload
 import pl.straburzynski.campfiresongs.utils.SessionFactory.createSession
+import pl.straburzynski.campfiresongs.utils.SongFactory.createSong
+import pl.straburzynski.campfiresongs.utils.SongFactory.createSongPayload
 
 
 class SessionEndpointTest : BaseIntegrationTest() {
@@ -114,7 +117,6 @@ class SessionEndpointTest : BaseIntegrationTest() {
             title = "test title",
             lyrics = "test lyrics"
         )
-
         val updateSessionPayload = SessionDto(
             createdSession.id,
             temporarySong,
@@ -144,5 +146,59 @@ class SessionEndpointTest : BaseIntegrationTest() {
             .jsonPath("$.song.lyrics").isEqualTo(temporarySong.lyrics)
             .jsonPath("$.songData").doesNotExist()
             .jsonPath("$.temporary").isEqualTo(true)
+    }
+
+
+    @Test
+    fun `should update existing session with saved song`() {
+        // given
+        val createdSong = createSong(client, createSongPayload())
+        val createdSession = createSession(client, createNewSessionPayload(password = "pass"))
+        val updateSessionPayload = SessionDto(
+            createdSession.id,
+            createdSong,
+            createdSession.name,
+            null,
+            false,
+            null
+        )
+
+        // when
+        val response = client.put()
+            .uri("/sessions")
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(BodyInserters.fromValue(updateSessionPayload))
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange()
+
+        // then
+        response
+            .expectStatus().isEqualTo(OK).expectBody()
+            .jsonPath("$.id").isEqualTo(createdSession.id.toString())
+            .jsonPath("$.name").isEqualTo(createdSession.name)
+            .jsonPath("$.password").doesNotExist()
+            .jsonPath("$.song.id").isEqualTo(createdSong.id.toString())
+            .jsonPath("$.song.title").isEqualTo(createdSong.title)
+            .jsonPath("$.song.author").isEqualTo(createdSong.author)
+            .jsonPath("$.song.lyrics").isEqualTo(createdSong.lyrics)
+            .jsonPath("$.songData").doesNotExist()
+            .jsonPath("$.temporary").isEqualTo(false)
+    }
+
+    @Test
+    fun `should delete session`() {
+        // given
+        val createdSession = createSession(client)
+
+        // when
+        val response = client.delete()
+            .uri("/sessions/${createdSession.id}")
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange()
+
+        // then
+        response
+            .expectStatus().isEqualTo(OK)
+        sessionRepository.existsById(checkNotNull(createdSession.id)) shouldBe false
     }
 }

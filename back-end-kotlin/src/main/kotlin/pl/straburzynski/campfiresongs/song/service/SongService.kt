@@ -1,6 +1,8 @@
 package pl.straburzynski.campfiresongs.song.service
 
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
+import pl.straburzynski.campfiresongs.song.exception.CannotDeleteSongException
 import pl.straburzynski.campfiresongs.song.exception.CannotUpdateSongException
 import pl.straburzynski.campfiresongs.song.exception.SongExistsException
 import pl.straburzynski.campfiresongs.song.exception.SongNotFoundException
@@ -49,5 +51,9 @@ class SongService(
         else throw CannotUpdateSongException(id, songDto)
     }
 
-    fun deleteById(id: UUID) = songRepository.deleteById(id)
+    fun deleteById(id: UUID) = try {
+        songRepository.deleteById(id)
+    } catch (ex: DataIntegrityViolationException) {
+        throw CannotDeleteSongException(id)
+    }
 }

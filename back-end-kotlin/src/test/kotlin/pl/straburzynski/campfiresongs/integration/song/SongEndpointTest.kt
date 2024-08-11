@@ -153,7 +153,7 @@ class SongEndpointTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `should delete song`() {
+    fun `should delete song not used in any session`() {
         // given
         val createdSong = createSong(client, createSongPayload())
         val id = checkNotNull(createdSong.id)

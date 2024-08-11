@@ -9,6 +9,9 @@ import org.springframework.test.web.reactive.server.expectBody
 import org.springframework.web.reactive.function.BodyInserters.fromValue
 import pl.straburzynski.campfiresongs.BaseIntegrationTest
 import pl.straburzynski.campfiresongs.exception.ErrorResponse
+import pl.straburzynski.campfiresongs.utils.SessionFactory.createNewSessionPayload
+import pl.straburzynski.campfiresongs.utils.SessionFactory.createSession
+import pl.straburzynski.campfiresongs.utils.SessionFactory.updateSession
 import pl.straburzynski.campfiresongs.utils.SongFactory.createSong
 import pl.straburzynski.campfiresongs.utils.SongFactory.createSongPayload
 import pl.straburzynski.campfiresongs.utils.SongFactory.createSongPayloadWithId
@@ -90,5 +93,38 @@ class SongEndpointExceptionTest : BaseIntegrationTest() {
                 it.responseBody?.translationKey shouldBe "exception.song_not_found"
                 it.responseBody?.message shouldBe "Song with id $nonExistingId not found"
             }
+    }
+
+    @Test
+    fun `should not delete song used in session`() {
+        // given
+        val createdSong = createSong(client, createSongPayload())
+        val songId = checkNotNull(createdSong.id)
+        val createdSession = createSession(client, createNewSessionPayload())
+        updateSession(
+            client, createdSession.copy(
+                song = createdSong,
+                temporary = false
+            )
+        )
+
+        val s = sessionRepository.findByName(createdSession.name)
+
+        // when
+        val response = client.delete()
+            .uri("/songs/$songId")
+            .exchange()
+
+        // then
+        response
+            .expectStatus().isEqualTo(UNPROCESSABLE_ENTITY)
+            .expectBody<ErrorResponse>()
+            .consumeWith {
+                it.responseBody?.params?.size shouldBe 1
+                it.responseBody?.params?.get("id") shouldBe songId.toString()
+                it.responseBody?.translationKey shouldBe "exception.cannot_delete_song"
+                it.responseBody?.message shouldBe "Cannot delete song with id $songId"
+            }
+        songRepository.existsById(songId) shouldBe true
     }
 }
