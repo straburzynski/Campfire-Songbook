@@ -45,11 +45,11 @@ object SessionFactory {
         lyrics = "song lyrics",
     )
 
-    fun createNewSessionPayload(name: String = "session name", password: String = ""): String =
+    fun createNewSessionPayload(name: String = "session-name", password: String = ""): String =
         "{ \"name\": \"$name\", \"password\": \"$password\" }"
 
     fun createSessionWithSavedSongPayload(
-        name: String = "session name",
+        name: String = "session-name",
         password: String = "",
         songDto: SongDto?
     ): SessionDto = SessionDto(

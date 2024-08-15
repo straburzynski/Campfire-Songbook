@@ -22,6 +22,8 @@ class WebSocketConfig : WebSocketMessageBrokerConfigurer {
             .setAllowedOriginPatterns("*")
             .withSockJS()
         // without sockjs
-        //registry.addEndpoint("/ws-message").setAllowedOriginPatterns("*");
+        registry
+            .addEndpoint("/ws-message")
+            .setAllowedOriginPatterns("*");
     }
 }

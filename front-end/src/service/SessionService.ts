@@ -30,7 +30,7 @@ export function createSession(sessionName: string, password: string): Promise<Se
         return Promise.resolve(session).then((s) => s);
     } else {
         return trackPromise(
-            API.post('sessions/', {
+            API.post('sessions', {
                 name: sessionName,
                 password: password,
             }).then((result: AxiosResponse<SessionModel>) => result.data)
@@ -43,6 +43,6 @@ export function updateSession(session: SessionModel): Promise<SessionModel> {
         saveItemToLocalStorage('session', JSON.stringify(session));
         return Promise.resolve(session).then((s) => s);
     } else {
-        return trackPromise(API.put('sessions/', session).then((result: AxiosResponse<SessionModel>) => result.data));
+        return trackPromise(API.put('sessions', session).then((result: AxiosResponse<SessionModel>) => result.data));
     }
 }

@@ -49,8 +49,7 @@ class SessionService(
     }
 
     fun updateSession(sessionDto: SessionDto): SessionDto {
-        val sessionId = sessionDto.id ?: throw SessionNotFoundException()
-        val foundSession = sessionRepository.findById(sessionId).getOrNull()
+        val foundSession = sessionRepository.findByName(sessionDto.name)
             ?: throw SessionNotFoundException(sessionDto.name)
         foundSession.temporary = sessionDto.temporary
         if (sessionDto.temporary) {
