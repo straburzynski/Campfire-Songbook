@@ -6,6 +6,8 @@ import io.kotest.matchers.shouldBe
 
 class ExampleUnitTest : FunSpec({
 
+    beforeSpec { println("Before") }
+
     test("Test") {
         1 + 2 shouldBe 3
     }
