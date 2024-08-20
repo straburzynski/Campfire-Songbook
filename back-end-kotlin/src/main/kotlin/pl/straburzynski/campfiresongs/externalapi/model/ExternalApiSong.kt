@@ -4,5 +4,5 @@ data class ExternalApiSong(
     val title: String,
     val url: String,
     val artist: String,
-    val source: ExternalApiSource
+    val source: ExternalApiSource?
 )

@@ -1,6 +1,10 @@
 package pl.straburzynski.campfiresongs
 
+import com.github.tomakehurst.wiremock.WireMockServer
+import com.github.tomakehurst.wiremock.client.WireMock.configureFor
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig
 import io.kotest.common.runBlocking
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
@@ -29,10 +33,20 @@ class BaseIntegrationTest {
     @Autowired
     lateinit var sessionRepository: SessionRepository
 
+    val wiremock = WireMockServer(wireMockConfig().port(8099))
+
     @BeforeEach
-    fun cleanUp() {
+    fun prepare() {
         runBlocking { sessionRepository.deleteAll() }
         runBlocking { songRepository.deleteAll() }
+        wiremock.start()
+        configureFor("localhost", wiremock.port())
+    }
+
+    @AfterEach
+    fun cleanUp() {
+        wiremock.resetAll()
+        wiremock.stop()
     }
 
     companion object {

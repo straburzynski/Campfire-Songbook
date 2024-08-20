@@ -11,54 +11,54 @@ import java.util.regex.Pattern
 
 class SpiewnikWywrotaParserService {
 
-    private fun convertDocumentToLines(document: Document): List<String> {
-        val contentElement = document.getElementsByClass(CONTENT).stream().findFirst()
-            .orElseThrow { ExternalApiException("parseDocument") }
-        val lines = contentElement.html().split(NEW_LINE_CHARACTER)
-        return lines.map {
-            it
-                .replace(ANNOTATION_TAG_START, "")
-                .replace(MUTED_TAG_START, "")
-                .replace(ANNOTATION_TAG_END, "")
-                .replace(HTML_BREAK_LINE, "")
-                .replace(HTML_HARD_SPACE, "")
-        }.toList()
-    }
-
-    fun parseLyricsFromDocument(document: Document): String {
-        val lines: List<String> = convertDocumentToLines(document)
-        return lines
-            .map { convertRawLineToChordFormatted(it) }
-            .joinToString(NEW_LINE_CHARACTER)
-    }
-
-    fun parseSearchResults(response: ExternalApiResponse?): List<ExternalApiSong> =
-        if (response?.songs != null) {
-            response.songs.map {
-                ExternalApiSong(
-                    it.title,
-                    it.url,
-                    it.artist,
-                    SPIEWNIK_WYWROTA
-                )
-            }.toList()
-        } else emptyList()
-
-
     companion object {
         private val logger: Logger = Logger.getLogger(this::class.java.name)
 
-        const val DEFAULT_TAG_NAME: String = "code"
-        const val ANNOTATION_CLASS: String = "class=\"an\""
-        const val CONTENT: String = "interpretation-content"
-        const val NEW_LINE_CHARACTER: String = "\n"
-        const val ANNOTATION_TAG_START: String = "<span class=\"annotated-lyrics\">"
-        const val ANNOTATION_TAG_END: String = "</span>"
-        const val MUTED_TAG_START: String = "<span class=\"text-muted\">"
-        const val HTML_BREAK_LINE: String = "<br>"
-        const val HTML_HARD_SPACE: String = "&nbsp;"
+        private const val DEFAULT_TAG_NAME: String = "code"
+        private const val ANNOTATION_CLASS: String = "class=\"an\""
+        private const val CONTENT: String = "interpretation-content"
+        private const val NEW_LINE_CHARACTER: String = "\n"
+        private const val ANNOTATION_TAG_START: String = "<span class=\"annotated-lyrics\">"
+        private const val ANNOTATION_TAG_END: String = "</span>"
+        private const val MUTED_TAG_START: String = "<span class=\"text-muted\">"
+        private const val HTML_BREAK_LINE: String = "<br>"
+        private const val HTML_HARD_SPACE: String = "&nbsp;"
 
         private val REGEX_PATTERN = Pattern.compile("<$DEFAULT_TAG_NAME.*?>(.+?)</$DEFAULT_TAG_NAME>")
+
+        private fun convertDocumentToLines(document: Document): List<String> {
+            val contentElement = document.getElementsByClass(CONTENT).stream().findFirst()
+                .orElseThrow { ExternalApiException("parseDocument") }
+            val lines = contentElement.html().split(NEW_LINE_CHARACTER)
+            return lines.map {
+                it
+                    .replace(ANNOTATION_TAG_START, "")
+                    .replace(MUTED_TAG_START, "")
+                    .replace(ANNOTATION_TAG_END, "")
+                    .replace(HTML_BREAK_LINE, "")
+                    .replace(HTML_HARD_SPACE, "")
+            }.toList()
+        }
+
+        fun parseLyricsFromDocument(document: Document): String {
+            val lines: List<String> = convertDocumentToLines(document)
+            return lines
+                .map { convertRawLineToChordFormatted(it) }
+                .joinToString(NEW_LINE_CHARACTER)
+        }
+
+        fun parseSearchResults(response: ExternalApiResponse?): List<ExternalApiSong> =
+            if (response?.songs != null) {
+                response.songs.map {
+                    ExternalApiSong(
+                        it.title,
+                        it.url,
+                        it.artist,
+                        SPIEWNIK_WYWROTA
+                    )
+                }.toList()
+            } else emptyList()
+
 
         fun convertTagToChord(code: String, isAnnotation: Boolean): String =
             convertTagToChord(DEFAULT_TAG_NAME, code, isAnnotation)
