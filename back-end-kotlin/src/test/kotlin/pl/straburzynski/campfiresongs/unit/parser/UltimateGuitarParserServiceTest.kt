@@ -18,7 +18,7 @@ class UltimateGuitarParserServiceTest : FunSpec({
     context("UltimateGuitarParserService.getJsonDataNode") {
         test("should get json node with data") {
             // given
-            val ultimateGuitarDocumentSearchResultPath = "/testData/UltimateGuitarSearchResults.html"
+            val ultimateGuitarDocumentSearchResultPath = "/testData/sources/ultimateguitar/UltimateGuitarSearchResults.html"
             val document = parse(getResourceAsText(ultimateGuitarDocumentSearchResultPath))
 
             // when
@@ -31,7 +31,7 @@ class UltimateGuitarParserServiceTest : FunSpec({
 
         test("should throw exception when json node with data not found") {
             // given
-            val ultimateGuitarIncorrectDocumentSearchResultPath = "/testData/IncorrectUltimateGuitarSearchResults.html"
+            val ultimateGuitarIncorrectDocumentSearchResultPath = "/testData/sources/ultimateguitar/IncorrectUltimateGuitarSearchResults.html"
             val document = parse(getResourceAsText(ultimateGuitarIncorrectDocumentSearchResultPath))
 
             // when
@@ -53,7 +53,7 @@ class UltimateGuitarParserServiceTest : FunSpec({
     context("UltimateGuitarParserService.parseSearchResults") {
         test("should parse search results from document") {
             // given
-            val ultimateGuitarDocumentSearchResultPath = "/testData/UltimateGuitarSearchResults.html"
+            val ultimateGuitarDocumentSearchResultPath = "/testData/sources/ultimateguitar/UltimateGuitarSearchResults.html"
             val document = parse(getResourceAsText(ultimateGuitarDocumentSearchResultPath))
 
             // when
@@ -74,8 +74,8 @@ class UltimateGuitarParserServiceTest : FunSpec({
     context("UltimateGuitarParserService.parseLyricsFromDocument") {
         test("should parse lyrics from document") {
             // given
-            val ultimateGuitarDocumentSongPagePath = "/testData/UltimateGuitarSongPage.html"
-            val expectedSongLyricsPath = "/testData/expectedSongLyrics.txt"
+            val ultimateGuitarDocumentSongPagePath = "/testData/sources/ultimateguitar/UltimateGuitarSongPage.html"
+            val expectedSongLyricsPath = "/testData/sources/ultimateguitar/ultimateGuitarExpectedSongLyrics.txt"
             val document = parse(getResourceAsText(ultimateGuitarDocumentSongPagePath))
             val expectedSongLyrics = getResourceAsText(expectedSongLyricsPath)
 

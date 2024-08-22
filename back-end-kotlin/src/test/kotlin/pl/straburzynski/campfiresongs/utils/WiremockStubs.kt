@@ -20,8 +20,9 @@ object WiremockStubs {
             source = SPIEWNIK_WYWROTA
         )
     )
-    private const val ultimateGuitarDocumentSearchResultPath = "/testData/UltimateGuitarSearchResults.html"
-    private val defaultUltimateGuitarDocument = getResourceAsText(ultimateGuitarDocumentSearchResultPath)
+    private val defaultUltimateGuitarDocumentSearchResult = getResourceAsText("/testData/sources/ultimateguitar/UltimateGuitarSearchResults.html")
+    private val defaultUltimateGuitarDocumentSongPage = getResourceAsText("/testData/sources/ultimateguitar/UltimateGuitarSongPage.html")
+    private val defaultSpiewnikWywrotaDocumentSongPage = getResourceAsText("/testData/sources/spiewnikwywrota/SpiewnikWywrotaSongPage.html")
 
     fun stubGetUltimateGuitarSearchResults(status: Int = 200, document: String? = null) {
         stubFor(
@@ -31,7 +32,18 @@ object WiremockStubs {
                 .willReturn(
                     aResponse()
                         .withStatus(status)
-                        .withBody(document ?: defaultUltimateGuitarDocument)
+                        .withBody(document ?: defaultUltimateGuitarDocumentSearchResult)
+                )
+        )
+    }
+
+    fun stubGetUltimateGuitarSongPage(status: Int = 200, document: String? = null) {
+        stubFor(
+            get(urlPathMatching(".*/ultimate-guitar.com/tab/.*"))
+                .willReturn(
+                    aResponse()
+                        .withStatus(status)
+                        .withBody(document ?: defaultUltimateGuitarDocumentSongPage)
                 )
         )
     }
@@ -52,6 +64,17 @@ object WiremockStubs {
                                 )
                             )
                         )
+                )
+        )
+    }
+
+    fun stubGetSpiewnikWywrotaSongPage(status: Int = 200, document: String? = null) {
+        stubFor(
+            get(urlPathMatching(".*/spiewnik.wywrota.pl/.*/.*"))
+                .willReturn(
+                    aResponse()
+                        .withStatus(status)
+                        .withBody(document ?: defaultSpiewnikWywrotaDocumentSongPage)
                 )
         )
     }
