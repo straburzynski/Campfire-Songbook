@@ -100,7 +100,7 @@ export const EN = {
         success: 'URL session was copied to clipboard',
     },
     changelog: {
-        '0.15.0': 'Songs history for session',
+        '0.15.0': 'Played songs history in session',
         '0.14.0': 'Tuner for guitar and ukulele.',
         '0.13.0': 'Lyrics autoscroll with different speed options.',
         '0.12.0': '\'Pull to refresh\' available for session participant.',

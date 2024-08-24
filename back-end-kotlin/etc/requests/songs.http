@@ -21,18 +21,7 @@ Content-Type: application/json
 POST {{baseUrl}}/api/songs/batch
 Content-Type: application/json
 
-[
-  {
-    "author": "value1",
-    "title": "value1",
-    "lyrics": "value1"
-  },
-  {
-    "author": "value2",
-    "title": "value2",
-    "lyrics": "value2"
-  }
-]
+< ./sampleData/songs.json
 
 ### Update
 PUT {{baseUrl}}/api/songs/8a09d388-3504-4476-8fe9-9e9efe1b12ca

@@ -23,6 +23,7 @@ Host can choose and select a song which will be updated immediately on screen of
 - Configurable columns count
 - Pull to refresh session
 - Auto scroll with speed options
+- Played songs history
 
 ### Screenshots
 
@@ -60,6 +61,7 @@ Song editor screen - creating, updating and deleting songs
 
 ### Changelog:
 
+- 0.15.0 - Played songs history in session.
 - 0.14.0 - Tuner for guitar and ukulele.
 - 0.13.0 - Lyrics autoscroll with different speed options.
 - 0.12.0 - 'Pull to refresh' available for session participant.
@@ -95,7 +97,7 @@ Song editor screen - creating, updating and deleting songs
 - Axios - https://github.com/axios/axios
 - Formik - https://github.com/formium/formik
 - React i18next - https://github.com/i18next/react-i18next
-- React Stomp - https://github.com/lahsivjar/react-stomp
+- React stomp hooks - https://github.com/SvenKirschbaum/react-stomp-hooks
 - React Chords with json db - https://github.com/tombatossals/react-chords https://github.com/tombatossals/chords-db
 - React Player - https://github.com/cookpete/react-player
 - Prettier - https://github.com/prettier/prettier
