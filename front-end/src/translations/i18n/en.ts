@@ -57,6 +57,7 @@ export const EN = {
         default: 'Default',
         home: 'Home',
         hide_chords: 'Hide chords',
+        hide_songs_history: 'Hide history',
         hide_options: 'Hide options',
         lyrics: 'Lyrics',
         no: 'No',
@@ -68,6 +69,7 @@ export const EN = {
         select: 'Select',
         select_song: 'Select song',
         show_chords: 'Show chords',
+        show_songs_history: 'Show history',
         show_options: 'Show options',
         source: 'Source',
         search: 'Search',
@@ -98,6 +100,7 @@ export const EN = {
         success: 'URL session was copied to clipboard',
     },
     changelog: {
+        '0.15.0': 'Songs history for session',
         '0.14.0': 'Tuner for guitar and ukulele.',
         '0.13.0': 'Lyrics autoscroll with different speed options.',
         '0.12.0': '\'Pull to refresh\' available for session participant.',

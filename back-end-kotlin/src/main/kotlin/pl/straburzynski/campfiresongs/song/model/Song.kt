@@ -22,6 +22,6 @@ data class Song(
     @Column(name = "TITLE")
     val title: String,
 
-    @Column(name = "LYRICS")
+    @Column(name = "LYRICS", length = Int.MAX_VALUE)
     val lyrics: String
 )

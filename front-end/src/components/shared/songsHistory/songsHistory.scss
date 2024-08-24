@@ -1,0 +1,23 @@
+.songs-history-inplace {
+  text-align: left;
+
+  &.p-inplace .p-inplace-display, &.p-inplace .p-inplace-content {
+    padding: 0;
+
+    .p-button.p-component.button-text {
+      color: var(--app-primary);
+      padding: 0.5rem 0.5em;
+    }
+  }
+
+  &.p-inplace .p-inplace-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &.p-inplace .p-inplace-display:not(.p-disabled):hover {
+    background: transparent;
+  }
+
+}

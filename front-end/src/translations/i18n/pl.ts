@@ -57,6 +57,7 @@ export const PL = {
         delete: 'Usuń',
         home: 'Strona główna',
         hide_chords: 'Ukryj chwyty',
+        hide_songs_history: 'Ukryj historię',
         hide_options: 'Ukryj opcje',
         lyrics: 'Tekst',
         no: 'Nie',
@@ -68,6 +69,7 @@ export const PL = {
         select: 'Wybierz',
         select_song: 'Wybierz piosenkę',
         show_chords: 'Pokaż chwyty',
+        show_songs_history: 'Pokaż historię',
         show_options: 'Pokaż opcje',
         source: 'Źródło',
         search: 'Szukaj',
@@ -98,6 +100,7 @@ export const PL = {
         success: 'URL sesji został skopiowany do schowka',
     },
     changelog: {
+        '0.15.0': 'Historia piosenek w sesji',
         '0.14.0': 'Stroik do gitary i ukulele.',
         '0.13.0': 'Auto przewijanie tekstu piosenki z wyborem prędkości.',
         '0.12.0': '\'Pociągnij, aby odświeżyć\' dostępne dla ekranu uczestnika sesji.',

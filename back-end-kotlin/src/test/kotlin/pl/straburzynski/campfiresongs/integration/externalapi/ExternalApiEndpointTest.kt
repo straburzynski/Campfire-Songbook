@@ -1,10 +1,14 @@
 package pl.straburzynski.campfiresongs.integration.externalapi
 
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus.OK
+import org.springframework.http.HttpStatus.SERVICE_UNAVAILABLE
 import org.springframework.http.MediaType.APPLICATION_JSON
+import org.springframework.test.web.reactive.server.expectBody
 import org.springframework.web.reactive.function.BodyInserters
 import pl.straburzynski.campfiresongs.BaseIntegrationTest
+import pl.straburzynski.campfiresongs.exception.ErrorResponse
 import pl.straburzynski.campfiresongs.externalapi.model.ExternalApiSong
 import pl.straburzynski.campfiresongs.externalapi.model.ExternalApiSource.SPIEWNIK_WYWROTA
 import pl.straburzynski.campfiresongs.externalapi.model.ExternalApiSource.ULTIMATE_GUITAR
@@ -94,7 +98,8 @@ class ExternalApiEndpointTest : BaseIntegrationTest() {
             "Kansas",
             ULTIMATE_GUITAR
         )
-        val expectedSongLyrics = getResourceAsText("/testData/sources/ultimateguitar/ultimateGuitarExpectedSongLyrics.txt")
+        val expectedSongLyrics =
+            getResourceAsText("/testData/sources/ultimateguitar/ultimateGuitarExpectedSongLyrics.txt")
 
         // when
         val response = client.post()
@@ -123,7 +128,8 @@ class ExternalApiEndpointTest : BaseIntegrationTest() {
             "4 Non Blondes",
             SPIEWNIK_WYWROTA
         )
-        val expectedSongLyrics = getResourceAsText("/testData/sources/spiewnikwywrota/spiewnikWywrotaExpectedSongLyrics.txt")
+        val expectedSongLyrics =
+            getResourceAsText("/testData/sources/spiewnikwywrota/spiewnikWywrotaExpectedSongLyrics.txt")
 
         // when
         val response = client.post()
@@ -141,6 +147,37 @@ class ExternalApiEndpointTest : BaseIntegrationTest() {
             .jsonPath("$.author").isEqualTo(song.artist)
             .jsonPath("$.title").isEqualTo(song.title)
             .jsonPath("$.lyrics").isEqualTo(expectedSongLyrics)
+    }
+
+    @Test
+    fun `should throw exception when parsing song from url failed`() {
+        // given
+        stubGetSpiewnikWywrotaSongPage(status = 500)
+        val song = ExternalApiSong(
+            "What's Up",
+            "http://localhost:8099/spiewnik.wywrota.pl/4-non-blondes/what-s-up",
+            "4 Non Blondes",
+            SPIEWNIK_WYWROTA
+        )
+
+        // when
+        val response = client.post()
+            .uri("/external/parse")
+            .contentType(APPLICATION_JSON)
+            .body(BodyInserters.fromValue(song))
+            .accept(APPLICATION_JSON)
+            .exchange()
+
+        // then
+        response
+            .expectStatus().isEqualTo(SERVICE_UNAVAILABLE)
+            .expectBody<ErrorResponse>()
+            .consumeWith {
+                it.responseBody?.params?.size shouldBe 1
+                it.responseBody?.params?.get("message") shouldBe "getDocumentByUrl"
+                it.responseBody?.translationKey shouldBe "exception.external_api_exception"
+                it.responseBody?.message shouldBe "External Api Exception: getDocumentByUrl"
+            }
     }
 
 }

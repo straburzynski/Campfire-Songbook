@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Lyrics from '../shared/lyrics/Lyrics';
 import { useNavigate, useParams } from 'react-router-dom';
-import { DEBUG, SOCKET_URL, TOPIC } from '../../config/WebSocketConfig';
-import SockJsClient from 'react-stomp';
+import { SOCKET_URL } from '../../config/WebSocketConfig';
 import AppContext from '../../context/AppContext';
 import { getSession } from '../../service/SessionService';
 import { SongModel } from '../../model/SongModel';
@@ -14,10 +13,11 @@ import { CustomExceptionModel } from '../../model/CustomExceptionModel';
 import { handleError } from '../../service/ExceptionService';
 import PullToRefresh from 'pulltorefreshjs';
 import ReactDOMServer from 'react-dom/server';
+import Subscribe from '../shared/websockets/subscribe/Subscribe';
+import { StompSessionProvider } from 'react-stomp-hooks';
 
 export default function Join() {
     let { sessionName: sessionNameFromUrl } = useParams();
-    const [topics, setTopics] = useState<string[]>([]);
     let navigate = useNavigate();
     const { t } = useTranslation();
     const { offlineMode, host, setHost, sessionName, setSessionName, song, setSong } = useContext(AppContext);
@@ -55,7 +55,7 @@ export default function Join() {
                 window.location.reload();
             },
             iconArrow: ReactDOMServer.renderToString(
-                <i className='pi pi-arrow-down genericon' style={{ fontSize: '2rem' }}></i>,
+                <i className="pi pi-arrow-down genericon" style={{ fontSize: '2rem' }}></i>,
             ),
             instructionsPullToRefresh: t('common.pull_to_refresh'),
             instructionsReleaseToRefresh: t('common.release_to_refresh'),
@@ -65,15 +65,6 @@ export default function Join() {
             PullToRefresh.destroyAll();
         };
     });
-
-    let onConnected = () => {
-        console.log('Connected!!');
-        setTopics([TOPIC + sessionName]);
-    };
-
-    let onDisconnected = () => {
-        console.log('Disconnected!!');
-    };
 
     let onMessageReceived = (msg: SongModel) => {
         setSong(msg);
@@ -88,19 +79,14 @@ export default function Join() {
     };
 
     return (
-        <div className='p-2 lyrics'>
+        <div className="p-2 lyrics">
             <Lyrics song={song} />
-            {sessionName && !offlineMode && (
-                <SockJsClient
-                    url={SOCKET_URL}
-                    topics={topics}
-                    onConnect={onConnected}
-                    onDisconnect={onDisconnected}
-                    onMessage={(msg) => onMessageReceived(msg)}
-                    debug={DEBUG}
-                />
-            )}
             {loadingFinished && <SelectSong song={song} host={host} />}
+            {sessionName && !offlineMode && (
+                <StompSessionProvider url={SOCKET_URL}>
+                    <Subscribe sessionName={sessionName} onMessageReceived={onMessageReceived} />
+                </StompSessionProvider>
+            )}
         </div>
     );
 }

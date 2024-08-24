@@ -10,7 +10,7 @@ class SongScrapperService {
     fun getDocumentByUrl(url: String): Document {
         return try {
             Jsoup.connect(url).get()
-        } catch (ex: RuntimeException) {
+        } catch (ex: Exception) {
             throw ExternalApiException("getDocumentByUrl")
         }
     }

@@ -65,7 +65,7 @@ class SessionService(
                     "songId: ${if (updatedSession.temporary) "---" else updatedSession.song?.id}"
         )
         updatedSession.song?.let {
-            template.convertAndSend("/topic/message/" + updatedSession.name, it)
+            template.convertAndSend("/topic/message/${updatedSession.name}", it)
         }
         return sessionConverter.convertFromSession(updatedSession)
     }
