@@ -15,6 +15,8 @@ import PullToRefresh from 'pulltorefreshjs';
 import ReactDOMServer from 'react-dom/server';
 import Subscribe from '../shared/websockets/subscribe/Subscribe';
 import { StompSessionProvider } from 'react-stomp-hooks';
+import { SongHistoryModel } from '../../model/SongHistoryModel';
+import SongsHistory from '../shared/songsHistory/SongsHistory';
 
 export default function Join() {
     let { sessionName: sessionNameFromUrl } = useParams();
@@ -22,6 +24,7 @@ export default function Join() {
     const { t } = useTranslation();
     const { offlineMode, host, setHost, sessionName, setSessionName, song, setSong } = useContext(AppContext);
     const [loadingFinished, setLoadingFinished] = useState<boolean>(false);
+    const [songsHistory, setSongsHistory] = useState<SongHistoryModel[]>([]);
 
     useEffect(() => {
         if (sessionName || sessionNameFromUrl === undefined) {
@@ -66,8 +69,13 @@ export default function Join() {
         };
     });
 
-    let onMessageReceived = (msg: SongModel) => {
-        setSong(msg);
+    let onMessageReceived = (receivedSong: SongModel) => {
+        const songWithTimestamp = {
+            ...receivedSong,
+            timestamp: new Date()
+        }
+        setSongsHistory([songWithTimestamp, ...songsHistory]);
+        setSong(receivedSong);
         scrollToTop();
     };
 
@@ -85,6 +93,7 @@ export default function Join() {
             {sessionName && !offlineMode && (
                 <StompSessionProvider url={SOCKET_URL}>
                     <Subscribe sessionName={sessionName} onMessageReceived={onMessageReceived} />
+                    <SongsHistory songHistoryList={songsHistory} />
                 </StompSessionProvider>
             )}
         </div>
